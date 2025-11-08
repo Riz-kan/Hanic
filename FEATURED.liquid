@@ -1,0 +1,462 @@
+{% assign collection = collections['kimonoooo'] %}
+
+<section class="x-petco x-petco--h" data-petco-h aria-label="{{ collection.title | default: 'Pet-Co Collection' }}">
+  <h2 class="x-petco__heading">{{ collection.title | default: 'Pet-Co Collection' }}</h2>
+
+  {% if collection and collection.products_count > 0 %}
+    <div class="xpet__viewport">
+      <button class="xpet__nav-button xpet__nav-button--prev" type="button" aria-label="Scroll left" aria-hidden="true">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10.53 3.47a.75.75 0 0 0-1.06 0L5.94 6.99a1.25 1.25 0 0 0 0 2.02l3.53 3.52a.75.75 0 1 0 1.06-1.06L7 8l3.53-3.47a.75.75 0 0 0 0-1.06Z"/></svg>
+      </button>
+
+      <div class="xpet__mask">
+        <div class="xpet__track" role="list" tabindex="0" aria-label="{{ collection.title | default: 'Collection' }} products">
+          {% for product in collection.products %}
+            {% assign default_var = product.selected_or_first_available_variant | default: product.variants.first %}
+            {% assign start_img = default_var.image | default: product.featured_image %}
+            {% assign color_opt = product.options_by_name['Color'] | default: product.options_by_name['Colour'] %}
+            {% assign color_index = color_opt.position | default: 0 %}
+            {% assign default_color = '' %}
+            {% if color_opt %}
+              {% if color_index == 1 %}
+                {% assign default_color = default_var.option1 %}
+              {% elsif color_index == 2 %}
+                {% assign default_color = default_var.option2 %}
+              {% elsif color_index == 3 %}
+                {% assign default_color = default_var.option3 %}
+              {% endif %}
+            {% endif %}
+
+            <article class="x-card xpet__card" role="listitem" data-product-card>
+              <div class="x-card__media" data-media tabindex="-1">
+                <img
+                  data-product-image
+                  src="{{ start_img | image_url: width: 900 }}"
+                  srcset="{{ start_img | image_url: width: 600 }} 600w, {{ start_img | image_url: width: 900 }} 900w, {{ start_img | image_url: width: 1200 }} 1200w"
+                  sizes="(max-width: 599px) 80vw, (max-width: 899px) 50vw, (max-width: 1199px) 33vw, 22vw"
+                  data-featured-src="{{ product.featured_image | image_url: width: 900 }}"
+                  data-featured-srcset="{{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 900 }} 900w, {{ product.featured_image | image_url: width: 1200 }} 1200w"
+                  alt="{{ product.title | escape }}{% if default_color != blank %} — {{ default_color | escape }}{% endif %}"
+                  {% if forloop.index0 < 4 %}loading="eager" fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                >
+
+                <div class="x-card__actions">
+                  <product-form-component
+                    data-section-id="{{ section.id }}"
+                    data-product-id="{{ product.id }}"
+                    data-quantity-default="1"
+                    on:submit="/handleSubmit"
+                  >
+                    <div class="visually-hidden" ref="liveRegion" aria-live="off"></div>
+
+                    <form method="post" action="/cart/add" data-type="add-to-cart-form">
+                      <input type="hidden" name="id" value="{{ default_var.id }}" ref="variantId">
+                      <input type="hidden" name="quantity" value="1">
+
+                      <span class="product-form-text__error hidden" ref="addToCartTextError">
+                        <span class="svg-wrapper product-form-icon--error">
+                          {{- 'icon-error.svg' | inline_asset_content -}}
+                        </span>
+                      </span>
+
+                      <add-to-cart-component
+                        ref="addToCartButtonContainer"
+                        data-add-to-cart-animation="true"
+                        data-product-variant-media="{{ start_img | image_url: width: 600 }}"
+                        on:click="/handleClick"
+                      >
+                        <button type="submit" class="button x-card__add-button" ref="addToCartButton" name="add" {% unless default_var.available %}disabled{% endunless %}>
+                          <span class="x-card__add-icon" aria-hidden="true">+</span>
+                          <span class="visually-hidden add-to-cart-text--default">{{ 'products.product.add_to_cart' | t }}</span>
+                          <span class="visually-hidden add-to-cart-text--added" aria-hidden="true">{{ 'products.product.added' | t }}</span>
+                        </button>
+                      </add-to-cart-component>
+
+                      <div ref="acceleratedCheckoutButtonContainer" hidden></div>
+                    </form>
+                  </product-form-component>
+                </div>
+              </div>
+
+              <div class="x-card__info">
+                <h3 class="x-card__title">
+                  <a class="x-card__title-link" href="{{ product.url }}">{{ product.title }}</a>
+                </h3>
+                <p class="x-card__price">{{ product.price | money }}</p>
+              </div>
+
+              {% if color_opt and color_opt.values.size > 0 %}
+                <div class="x-swatches" role="radiogroup" aria-label="Choose color">
+                  {% for color_val in color_opt.values %}
+                    {%- liquid
+                      assign repr = blank
+                      if color_index == 1
+                        assign repr = product.variants | where: 'option1', color_val | where: 'available', true | first
+                        if repr == blank
+                          assign repr = product.variants | where: 'option1', color_val | first
+                        endif
+                      elsif color_index == 2
+                        assign repr = product.variants | where: 'option2', color_val | where: 'available', true | first
+                        if repr == blank
+                          assign repr = product.variants | where: 'option2', color_val | first
+                        endif
+                      elsif color_index == 3
+                        assign repr = product.variants | where: 'option3', color_val | where: 'available', true | first
+                        if repr == blank
+                          assign repr = product.variants | where: 'option3', color_val | first
+                        endif
+                      endif
+
+                      assign img_obj = repr.image | default: product.featured_image
+
+                      comment
+                        Prefer native swatch (Products 2.0) if present, else metafield, else tiny map, else css name.
+                      endcomment
+                      assign s = color_val.swatch
+                      assign swatch_hex = ''
+                      if s and s.color
+                        assign swatch_hex = s.color
+                      elsif repr.metafields.custom.swatch_hex
+                        assign swatch_hex = repr.metafields.custom.swatch_hex
+                      endif
+
+                      assign css_name = color_val | downcase | replace: ' ', ''
+                      assign mapped_hex = ''
+                      case css_name
+                        when 'rosegold' then assign mapped_hex = '#b76e79'
+                        when 'navy' then assign mapped_hex = '#001f3f'
+                        when 'beige' then assign mapped_hex = '#d9c9a6'
+                        when 'cream' then assign mapped_hex = '#f5f1e6'
+                        when 'olive' then assign mapped_hex = '#556b2f'
+                        when 'charcoal' then assign mapped_hex = '#36454f'
+                      endcase
+
+                      assign fill = swatch_hex | default: mapped_hex | default: css_name
+                    -%}
+
+                    <button
+                      type="button"
+                      class="x-swatch"
+                      role="radio"
+                      aria-label="{{ color_val }}"
+                      aria-checked="{% if color_val == default_color %}true{% else %}false{% endif %}"
+                      {% if color_val == default_color %}tabindex="0"{% else %}tabindex="-1"{% endif %}
+                      title="{{ color_val }}"
+                      {% if repr and repr.available == false %}aria-disabled="true" disabled{% endif %}
+                      data-variant-id="{{ repr.id }}"
+                      data-variant-url="{{ repr.url }}"
+                      data-image-src="{{ img_obj | image_url: width: 900 }}"
+                      data-image-srcset="{{ img_obj | image_url: width: 600 }} 600w, {{ img_obj | image_url: width: 900 }} 900w, {{ img_obj | image_url: width: 1200 }} 1200w"
+                      data-color-name="{{ color_val | escape }}"
+                      style="--swatch-bg: {{ fill }};{% if s and s.image %} --swatch-img: url({{ s.image | image_url: width: 60 }});{% endif %}"
+                      data-swatch-image="{% if s and s.image %}true{% else %}false{% endif %}"
+                    >
+                      <span class="x-swatch__box" aria-hidden="true"></span>
+                    </button>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+
+      <button class="xpet__nav-button xpet__nav-button--next" type="button" aria-label="Scroll right" aria-hidden="true">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.47 12.53a.75.75 0 0 0 1.06 0L10.06 9a1.25 1.25 0 0 0 0-2.02L6.53 3.47a.75.75 0 1 0-1.06 1.06L9 8l-3.53 3.47a.75.75 0 0 0 0 1.06Z"/></svg>
+      </button>
+    </div>
+  {% else %}
+    <p>No products found.</p>
+  {% endif %}
+</section>
+
+<style>
+  .x-petco{width:100%;padding:32px 50px;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+  .x-petco__heading{margin:0 0 20px;font-weight:600;font-size:1.6rem}
+
+  .xpet__viewport{position:relative}
+  .xpet__nav-button{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:40px;height:40px;margin:0;padding:0;display:flex;align-items:center;justify-content:center;
+    border:none;background:rgba(255,255,255,0.95);color:#000;box-shadow:0 4px 12px rgba(0,0,0,0.12);
+    cursor:pointer;opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .2s ease,visibility .2s ease,background-color .2s ease,box-shadow .2s ease;z-index:1}
+  .xpet__nav-button svg{width:30px;height:30px;display:block;fill:currentColor}
+  .xpet__nav-button--prev{left:8px}
+  .xpet__nav-button--next{right:8px}
+  .xpet__viewport[data-can-scroll="true"]:hover .xpet__nav-button:not([disabled]),
+  .xpet__viewport[data-can-scroll="true"]:focus-within .xpet__nav-button:not([disabled]),
+  .xpet__viewport[data-can-scroll="true"] .xpet__nav-button:focus-visible{opacity:1;visibility:visible;pointer-events:auto}
+  .xpet__nav-button:focus-visible{outline:2px solid #000;outline-offset:2px}
+  .xpet__nav-button[disabled]{opacity:0;visibility:hidden;pointer-events:none}
+
+  .xpet__mask{overflow:hidden}
+
+  .xpet__track{
+    display:flex;gap:16px;padding-block:4px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-behavior:smooth;outline:none}
+  .xpet__track:focus-visible{outline:2px solid #000;outline-offset:4px}
+  .xpet__track{scrollbar-width:none;-ms-overflow-style:none}
+  .xpet__track::-webkit-scrollbar{display:none}
+
+  .xpet__card{flex:0 0 calc((100% - 3*16px)/4);scroll-snap-align:start}
+  @media (max-width:1199px){.xpet__card{flex-basis:calc((100% - 2*16px)/3)}}
+  @media (max-width:899px){.xpet__card{flex-basis:calc((100% - 1*16px)/2)}}
+  @media (max-width:599px){.xpet__card{flex-basis:80%}}
+
+  .x-card{border:none;border-radius:0;overflow:hidden;background:#fff}
+  .x-card__media{position:relative}
+  .x-card__media img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+  .x-card__info{padding:12px 0}
+  .x-card__title{font-size:15px;line-height:1.25;margin:6px 0}
+  .x-card__title-link{color:inherit;text-decoration:none}
+  .x-card__title-link:hover{text-decoration:underline}
+  .x-card__title-link:focus-visible{outline:2px solid #000;outline-offset:2px}
+  .x-card__price{font-size:14px;margin:0 0 8px}
+
+  .visually-hidden{position:absolute!important;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap;border:0;padding:0;margin:-1px}
+
+  .product-form-text__error,[ref="addToCartTextError"]{display:none!important;}
+  .add-to-cart-text--default{display:inline!important;}
+  .add-to-cart-text--added{display:none!important;}
+
+  .x-card__actions{position:absolute;right:12px;bottom:12px;z-index:2;pointer-events:none;display:flex;justify-content:flex-end}
+  .x-card__actions product-form-component,.x-card__actions form,.x-card__actions add-to-cart-component{pointer-events:auto;display:block}
+  .x-card__add-button{width:32px;height:32px;border:1px solid rgba(0,0,0,.08);background:#fff;padding:0;display:grid;place-items:center;font-size:0;line-height:0;transition:background-color .18s ease,box-shadow .18s ease,border-color .18s ease}
+  .x-card__add-button:focus-visible{outline:2px solid #000;outline-offset:2px}
+  .x-card__add-button:hover,.x-card__add-button:focus-visible{background:#f7f7f7;border-color:rgba(0,0,0,.12);box-shadow:0 4px 12px rgba(0,0,0,.16)}
+  .x-card__add-button:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+  .x-card__add-icon{font-size:28px;line-height:1;color:#000}
+  .x-card__actions{opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}
+  .x-card__media:hover .x-card__actions,.x-card__media:focus-within .x-card__actions{opacity:1;transform:none}
+  @media (hover:none){.x-card__media .x-card__actions{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.x-card__actions{transition:none}}
+
+  .x-swatches{display:flex;gap:8px;flex-wrap:wrap;padding:0 0 12px}
+  .x-swatch{--size:22px;width:var(--size);height:var(--size);border:none;border-radius:0;background:#fff;padding:0;box-sizing:border-box;display:inline-grid;place-items:center;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+  .x-swatch[aria-checked="true"]{border:2px solid #000}
+  .x-swatch:focus-visible{outline:2px solid #000;outline-offset:2px}
+  .x-swatch[disabled]{opacity:.5;cursor:not-allowed}
+  .x-swatch__box{
+    width:100%;height:100%;border-radius:0;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);
+    background:var(--swatch-bg, #e5e5e5);
+    /* If an image swatch is present (native), paint it */
+    background-image:var(--swatch-img, none);background-size:cover;background-position:center center;
+  }
+
+  @media (prefers-reduced-motion:reduce){.xpet__track{scroll-behavior:auto}}
+</style>
+
+<script>
+(function(){
+  var root=document.querySelector('[data-petco-h]'); if(!root) return;
+
+  function setImage(imgEl,src,srcset){
+    if(!imgEl||!src) return;
+    imgEl.src=src; if(srcset) imgEl.srcset=srcset;
+    if(imgEl.hasAttribute('data-src')) imgEl.setAttribute('data-src',src);
+    if(imgEl.hasAttribute('data-srcset')&&srcset) imgEl.setAttribute('data-srcset',srcset);
+    var pic=imgEl.closest('picture');
+    if(pic){
+      pic.querySelectorAll('source[srcset]').forEach(function(s){ s.setAttribute('srcset',srcset||src); });
+      pic.querySelectorAll('source[data-srcset]').forEach(function(s){ s.setAttribute('data-srcset',srcset||src); });
+    }
+  }
+  function updateAltWithColor(imgEl,color){
+    var base=(imgEl.getAttribute('alt')||'').split(' — ')[0];
+    imgEl.setAttribute('alt', color ? (base+' — '+color) : base);
+  }
+  function preload(url){ if(!url) return; var i=new Image(); i.decoding='async'; i.loading='eager'; i.src=url; }
+  function isInner(container,next){ return !!(next && container && container.contains(next)); }
+
+  // Initialize per card: remember current "selected" variant image to restore after featured hover
+  root.querySelectorAll('[data-product-card]').forEach(function(card){
+    var imgEl=card.querySelector('[data-product-image]'); if(!imgEl) return;
+    var start = imgEl.currentSrc || imgEl.src || imgEl.getAttribute('data-featured-src') || '';
+    card.dataset.selectedSrc = start;
+    card.dataset.selectedSrcset = imgEl.getAttribute('srcset') || imgEl.getAttribute('data-featured-srcset') || '';
+  });
+
+  var canHover=window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if(canHover){
+    // Featured image on media hover
+    root.addEventListener('mouseover',function(e){
+      var media=e.target.closest('[data-media]'); if(!media) return;
+      if(isInner(media,e.relatedTarget)) return;
+      var imgEl=media.querySelector('[data-product-image]'); if(!imgEl) return;
+      var fsrc=imgEl.getAttribute('data-featured-src');
+      var fset=imgEl.getAttribute('data-featured-srcset');
+      if(!fsrc) return;
+      preload(fsrc); setImage(imgEl,fsrc,fset);
+    },true);
+
+    root.addEventListener('mouseout',function(e){
+      var media=e.target.closest('[data-media]'); if(!media) return;
+      if(isInner(media,e.relatedTarget)) return;
+      var card=media.closest('[data-product-card]');
+      var imgEl=media.querySelector('[data-product-image]');
+      if(!card||!imgEl) return;
+      setImage(imgEl,card.dataset.selectedSrc,card.dataset.selectedSrcset);
+    },true);
+
+    // Keyboard parity for media focus
+    root.addEventListener('focusin',function(e){
+      var media=e.target.closest('[data-media]'); if(!media) return;
+      var imgEl=media.querySelector('[data-product-image]'); if(!imgEl) return;
+      var fsrc=imgEl.getAttribute('data-featured-src');
+      var fset=imgEl.getAttribute('data-featured-srcset');
+      if(!fsrc) return;
+      preload(fsrc); setImage(imgEl,fsrc,fset);
+    });
+    root.addEventListener('focusout',function(e){
+      var media=e.target.closest('[data-media]'); if(!media) return;
+      var card=media.closest('[data-product-card]');
+      var imgEl=media.querySelector('[data-product-image]');
+      if(!card||!imgEl) return;
+      setImage(imgEl,card.dataset.selectedSrc,card.dataset.selectedSrcset);
+    });
+
+    // Ensure ATC interaction restores variant image (avoid “sticky featured”)
+    root.addEventListener('mouseover',function(e){
+      var btn=e.target.closest('[ref="addToCartButton"]'); if(!btn) return;
+      var card=btn.closest('[data-product-card]'); if(!card) return;
+      var media=card.querySelector('[data-media]');
+      var imgEl=media && media.querySelector('[data-product-image]'); if(!imgEl) return;
+      setImage(imgEl,card.dataset.selectedSrc,card.dataset.selectedSrcset);
+    });
+    root.addEventListener('focusin',function(e){
+      var btn=e.target.closest('[ref="addToCartButton"]'); if(!btn) return;
+      var card=btn.closest('[data-product-card]'); if(!card) return;
+      var media=card.querySelector('[data-media]');
+      var imgEl=media && media.querySelector('[data-product-image]'); if(!imgEl) return;
+      setImage(imgEl,card.dataset.selectedSrc,card.dataset.selectedSrcset);
+    });
+  }
+
+  // Click handling: ATC focus fix + swatches
+  root.addEventListener('click',function(e){
+    // When ATC submits, blur to clear :focus-within so overlays don’t stick
+    var addBtn=e.target.closest('[data-product-card] [ref="addToCartButton"]');
+    if(addBtn && !addBtn.disabled){
+      var card=addBtn.closest('[data-product-card]');
+      var media=card && card.querySelector('[data-media]');
+      var titleLink=card && card.querySelector('.x-card__title-link');
+      var blurFn=function(){
+        addBtn.blur();
+        if(media && typeof media.blur==='function'){ media.blur(); }
+        if(titleLink && typeof titleLink.focus==='function'){ titleLink.focus(); }
+      };
+      if(window.requestAnimationFrame){
+        requestAnimationFrame(function(){ requestAnimationFrame(blurFn); });
+      }else{
+        setTimeout(blurFn,0);
+      }
+    }
+
+    // Swatch selection
+    var sw=e.target.closest('.x-swatch'); if(!sw || sw.disabled) return;
+    var card=sw.closest('[data-product-card]'); if(!card) return;
+
+    var group=sw.closest('[role="radiogroup"]');
+    if(group){
+      group.querySelectorAll('.x-swatch[aria-checked="true"]').forEach(function(el){ el.setAttribute('aria-checked','false'); });
+      group.querySelectorAll('.x-swatch').forEach(function(el){ el.tabIndex=-1; });
+      sw.setAttribute('aria-checked','true'); sw.tabIndex=0;
+    }
+
+    var newSrc=sw.getAttribute('data-image-src');
+    var newSet=sw.getAttribute('data-image-srcset');
+    card.dataset.selectedSrc=newSrc||'';
+    card.dataset.selectedSrcset=newSet||'';
+
+    var imgEl=card.querySelector('[data-product-image]');
+    setImage(imgEl,newSrc,newSet);
+    updateAltWithColor(imgEl,sw.getAttribute('data-color-name')||'');
+
+    var formComp=card.querySelector('product-form-component');
+    var variantInput=formComp && formComp.querySelector('input[name="id"][ref="variantId"]');
+    if(variantInput){ variantInput.value = sw.getAttribute('data-variant-id') || ''; }
+
+    var atcComp=formComp && formComp.querySelector('add-to-cart-component');
+    if(atcComp && newSrc){ atcComp.setAttribute('data-product-variant-media',newSrc); }
+
+    var btn=formComp && formComp.querySelector('[ref="addToCartButton"]');
+    if(btn){ btn.disabled = sw.hasAttribute('aria-disabled'); }
+
+    sw.focus();
+  });
+
+  // Keyboard: track scroll + swatch roving
+  var track=root.querySelector('.xpet__track');
+  var viewport=root.querySelector('.xpet__viewport');
+  var prevButton=root.querySelector('.xpet__nav-button--prev');
+  var nextButton=root.querySelector('.xpet__nav-button--next');
+
+  function getStep(){
+    if(!track) return 0;
+    var first=track.querySelector('.xpet__card');
+    var cardWidth=first ? first.getBoundingClientRect().width : track.clientWidth;
+    var styles=getComputedStyle(track);
+    var gap=parseFloat(styles.columnGap||styles.gap||0)||0;
+    var step=Math.round(cardWidth+gap);
+    return step>0 ? step : track.clientWidth;
+  }
+  function setNavAvailability(button,available){
+    if(!button) return;
+    button.disabled=!available;
+    if(available){ button.removeAttribute('aria-hidden'); }
+    else{ button.setAttribute('aria-hidden','true'); }
+  }
+  function updateNavButtons(){
+    if(!track||!viewport) return;
+    var maxScroll=Math.max(track.scrollWidth-track.clientWidth,0);
+    var canScroll=maxScroll>1;
+    if(canScroll){ viewport.dataset.canScroll='true'; } else { delete viewport.dataset.canScroll; }
+    var atStart=track.scrollLeft<=1;
+    var atEnd=track.scrollLeft>=maxScroll-1;
+    setNavAvailability(prevButton, canScroll && !atStart);
+    setNavAvailability(nextButton, canScroll && !atEnd);
+  }
+
+  if(prevButton){ prevButton.addEventListener('click',function(){ if(!track) return; track.scrollBy({left:-getStep(),behavior:'smooth'}); }); }
+  if(nextButton){ nextButton.addEventListener('click',function(){ if(!track) return; track.scrollBy({left:getStep(),behavior:'smooth'}); }); }
+  if(track){ track.addEventListener('scroll',updateNavButtons,{passive:true}); }
+  window.addEventListener('resize',updateNavButtons);
+  window.addEventListener('load',updateNavButtons);
+  updateNavButtons();
+
+  root.addEventListener('keydown',function(e){
+    // Scroll keys on track
+    if(e.target===track){
+      var step=getStep();
+      if(e.key==='ArrowRight'){ e.preventDefault(); track.scrollBy({left:step,behavior:'smooth'}); }
+      else if(e.key==='ArrowLeft'){ e.preventDefault(); track.scrollBy({left:-step,behavior:'smooth'}); }
+      else if(e.key==='PageDown'){ e.preventDefault(); track.scrollBy({left:track.clientWidth,behavior:'smooth'}); }
+      else if(e.key==='PageUp'){ e.preventDefault(); track.scrollBy({left:-track.clientWidth,behavior:'smooth'}); }
+      else if(e.key==='Home'){ e.preventDefault(); track.scrollTo({left:0,behavior:'smooth'}); }
+      else if(e.key==='End'){ e.preventDefault(); track.scrollTo({left:track.scrollWidth,behavior:'smooth'}); }
+    }
+
+    // Roving tabindex for swatches
+    var current=e.target.closest('.x-swatch'); if(!current) return;
+    var group=current.closest('[role="radiogroup"]'); if(!group) return;
+    var radios=Array.from(group.querySelectorAll('.x-swatch:not([disabled])'));
+    var i=radios.indexOf(current); if(i<0) return;
+    var nextIndex=i;
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){ nextIndex=(i+1)%radios.length; }
+    else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){ nextIndex=(i-1+radios.length)%radios.length; }
+    else if(e.key==='Home'){ nextIndex=0; }
+    else if(e.key==='End'){ nextIndex=radios.length-1; }
+    else { return; }
+    e.preventDefault();
+    radios[nextIndex].click();
+  });
+
+  // Guard: prevent submit without valid variant / or when disabled
+  root.addEventListener('submit',function(e){
+    var f=e.target.closest('form[data-type="add-to-cart-form"]'); if(!f) return;
+    var id=(f.querySelector('input[name="id"][ref="variantId"]')||{}).value||'';
+    var btn=f.querySelector('[ref="addToCartButton"]');
+    if(!id || (btn && btn.disabled)){ e.preventDefault(); e.stopPropagation(); }
+  },true);
+})();
+</script>
