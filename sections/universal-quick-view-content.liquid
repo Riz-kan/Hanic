@@ -1,0 +1,364 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign primary_media = current_variant.featured_media | default: product.featured_media -%}
+{%- assign image_alt = primary_media.alt | default: product.title -%}
+{%- assign available_text = 'products.product.in_stock' | t | default: 'In stock' -%}
+{%- assign sold_out_text = 'products.product.sold_out' | t | default: 'Sold out' -%}
+{%- assign view_full_text = 'products.product.view_full_details' | t | default: 'View full details' -%}
+{%- assign add_to_cart_text = 'products.product.add_to_cart' | t | default: 'Add to cart' -%}
+{%- assign added_to_cart_text = 'products.product.added' | t | default: 'Added to cart' -%}
+{%- assign error_text = 'cart.general.error' | t | default: 'Something went wrong' -%}
+{%- assign unavailable_text = 'products.product.unavailable' | t | default: 'Unavailable' -%}
+
+<section
+  class="uqv-content"
+  data-universal-quick-view-content
+  data-product-handle="{{ product.handle }}"
+  data-section-id="{{ section.id }}"
+>
+  <div class="uqv-content__layout">
+    <div class="uqv-content__media">
+      {% if primary_media %}
+        <div class="uqv-media__primary">
+          {{ primary_media | image_url: width: 960 | image_tag: class: 'uqv-media__image', loading: 'lazy', alt: image_alt, data-quick-view-primary-image: '', data-media-id: primary_media.id }}
+        </div>
+      {% else %}
+        <div class="uqv-media__placeholder" data-quick-view-primary-placeholder>
+          <div class="uqv-media__placeholder-inner">{{ 'image' | placeholder_svg_tag }}</div>
+        </div>
+      {% endif %}
+
+      {%- assign gallery_media = product.media | where: 'media_type', 'image' -%}
+      {% if gallery_media.size > 1 %}
+        <div class="uqv-media__thumbs" data-quick-view-thumbs>
+          {% for media in gallery_media limit: 6 %}
+            <button
+              type="button"
+              class="uqv-media__thumb"
+              data-quick-view-thumb
+              data-media-id="{{ media.id }}"
+              data-media-alt="{{ media.alt | escape }}"
+              data-media-src="{{ media | image_url: width: 960 }}"
+              data-media-srcset="{{ media | image_url: width: 480 }} 480w, {{ media | image_url: width: 720 }} 720w, {{ media | image_url: width: 960 }} 960w"
+            >
+              {{ media | image_url: width: 160 | image_tag: class: 'uqv-media__thumb-image', loading: 'lazy', alt: media.alt | default: product.title }}
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="uqv-content__summary">
+      <h2 class="uqv-content__title" id="uqv-title-{{ section.id }}" data-quick-view-heading>{{ product.title | escape }}</h2>
+      {% if product.vendor %}
+        <p class="uqv-content__vendor">{{ product.vendor | escape }}</p>
+      {% endif %}
+
+      <div class="uqv-content__price" data-quick-view-price>
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <span class="uqv-price__current">{{ current_variant.price | money }}</span>
+          <span class="uqv-price__compare">{{ current_variant.compare_at_price | money }}</span>
+        {% else %}
+          <span class="uqv-price__current">{{ current_variant.price | money }}</span>
+        {% endif %}
+      </div>
+
+      <p
+        class="uqv-content__availability"
+        data-quick-view-availability
+        data-availability-available="{{ available_text | escape }}"
+        data-availability-unavailable="{{ sold_out_text | escape }}"
+      >
+        {% if current_variant.available %}
+          {{ available_text }}
+        {% else %}
+          {{ sold_out_text }}
+        {% endif %}
+      </p>
+
+      {% form 'product', product, id: 'quick-view-product-form-' | append: section.id, class: 'uqv-form', data-quick-view-form: '', novalidate: 'novalidate',
+        data-quick-view-success: added_to_cart_text | escape,
+        data-quick-view-error: error_text | escape,
+        data-quick-view-unavailable: unavailable_text | escape
+      %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-quick-view-variant-id>
+
+        {% unless product.has_only_default_variant %}
+          {% for option in product.options_with_values %}
+            <fieldset class="uqv-form__option" data-quick-view-option-group>
+              <legend class="uqv-form__option-label">{{ option.name | escape }}</legend>
+              <div class="uqv-form__option-values">
+                {% for value in option.values %}
+                  {%- assign input_id = 'uqv-' | append: section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                  <label class="uqv-form__option-value" for="{{ input_id }}">
+                    <input
+                      type="radio"
+                      class="uqv-form__option-input"
+                      id="{{ input_id }}"
+                      name="option{{ option.position }}"
+                      value="{{ value | escape }}"
+                      {% if option.selected_value == value %}checked{% endif %}
+                      data-quick-view-option
+                    >
+                    <span class="uqv-form__option-text">{{ value | escape }}</span>
+                  </label>
+                {% endfor %}
+              </div>
+            </fieldset>
+          {% endfor %}
+        {% endunless %}
+
+        <div class="uqv-form__actions">
+          <button
+            type="submit"
+            class="uqv-form__add"
+            data-quick-view-add
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            {{ add_to_cart_text }}
+          </button>
+          <a class="uqv-form__link" href="{{ product.url }}">{{ view_full_text }}</a>
+        </div>
+
+        <p class="uqv-form__status" role="status" aria-live="polite" data-quick-view-form-status></p>
+      {% endform %}
+
+      {% if product.description != blank %}
+        <div class="uqv-content__description" data-quick-view-description>
+          {{ product.description | strip_html | truncatewords: 60 }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<script type="application/json" data-universal-quick-view-product>
+  {{ product | json }}
+</script>
+
+<style>
+  .uqv-content {
+    color: #222;
+    font-family: inherit;
+  }
+
+  .uqv-content__layout {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .uqv-content__media {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .uqv-media__primary,
+  .uqv-media__placeholder {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f6f6f6;
+    min-height: 240px;
+  }
+
+  .uqv-media__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .uqv-media__placeholder-inner {
+    display: grid;
+    place-items: center;
+    min-height: 240px;
+  }
+
+  .uqv-media__thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .uqv-media__thumb {
+    border: none;
+    padding: 0;
+    background: transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: outline 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .uqv-media__thumb:focus-visible,
+  .uqv-media__thumb:hover,
+  .uqv-media__thumb[data-selected='true'] {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+  }
+
+  .uqv-media__thumb-image {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .uqv-content__summary {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .uqv-content__title {
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  .uqv-content__vendor {
+    margin: -0.5rem 0 0;
+    font-size: 0.9375rem;
+    color: #666;
+  }
+
+  .uqv-content__price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  .uqv-price__current {
+    color: #111;
+  }
+
+  .uqv-price__compare {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .uqv-content__availability {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #2d7a2d;
+  }
+
+  .uqv-content__availability--soldout {
+    color: #a33;
+  }
+
+  .uqv-content__description {
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  .uqv-form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .uqv-form__option {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .uqv-form__option-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .uqv-form__option-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .uqv-form__option-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .uqv-form__option-input {
+    accent-color: #111;
+  }
+
+  .uqv-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .uqv-form__add {
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .uqv-form__add:hover,
+  .uqv-form__add:focus-visible {
+    background: #333;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .uqv-form__add[disabled] {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .uqv-form__link {
+    font-size: 0.95rem;
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .uqv-form__status {
+    margin: 0;
+    font-size: 0.9rem;
+    min-height: 1.2rem;
+  }
+
+  @media (max-width: 900px) {
+    .uqv-content__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .uqv-media__image,
+    .uqv-media__placeholder-inner {
+      min-height: 200px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Universal quick view content",
+  "tag": "section",
+  "class": "universal-quick-view-content",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Universal quick view"
+    }
+  ]
+}
+{% endschema %}

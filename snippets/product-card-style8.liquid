@@ -130,11 +130,14 @@
 
         <div class='xo-product-card__actions xo-product-card__actions--style8'> 
         {% if show_quick_view %}
+          {% capture quick_view_attrs %}
+            data-quick-view-trigger
+            aria-haspopup='dialog'
+            data-quick-view-url='{{ product.url }}?section_id=universal-quick-view-content'
+          {% endcapture %}
           <xo-tooltip xo-title="{{ 'products.product.quickview' | t }}" class="xo-product-card__icon xo-product-card__icon--style8">
-          <xo-product-quick-view-trigger xo-modal-name='quick-view' xo-product-url='{{ shop.url }}/products/{{ product.handle }}/?section_id=quick-view-content'>
-          {% render 'button', class:'noborder', style: 'secondary', mode: 'light', icon: 'search', size: 'xs' %}
-          </xo-product-quick-view-trigger>
-        </xo-tooltip>
+            {% render 'button', class:'noborder', style: 'secondary', mode: 'light', icon: 'search', size: 'xs', type: 'button', attrs: quick_view_attrs | strip %}
+          </xo-tooltip>
         {% endif %}
 
         {% if show_quick_add %}
