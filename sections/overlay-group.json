@@ -7,7 +7,7 @@
       "settings": {}
     },
     "quick-view": {
-      "type": "quick-view",
+      "type": "universal-quick-view",
       "settings": {}
     }
   },

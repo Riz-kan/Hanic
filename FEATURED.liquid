@@ -41,6 +41,20 @@
                 >
 
                 <div class="x-card__actions">
+                  <button
+                    type="button"
+                    class="button x-card__quick-view-button"
+                    data-universal-quick-view
+                    data-product-handle="{{ product.handle }}"
+                    data-variant-id="{{ default_var.id }}"
+                    aria-haspopup="dialog"
+                  >
+                    <span class="visually-hidden">{{ 'products.product.quickview' | t }}</span>
+                    <svg aria-hidden="true" viewBox="0 0 20 20" class="x-card__quick-view-icon">
+                      <path d="M13.8 12.4a6 6 0 1 0-1.4 1.4l3.48 3.48a1 1 0 0 0 1.42-1.42L13.8 12.4Zm-3.8.6a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" />
+                    </svg>
+                  </button>
+
                   <product-form-component
                     data-section-id="{{ section.id }}"
                     data-product-id="{{ product.id }}"
@@ -219,12 +233,22 @@
   .add-to-cart-text--default{display:inline!important;}
   .add-to-cart-text--added{display:none!important;}
 
-  .x-card__actions{position:absolute;right:12px;bottom:12px;z-index:2;pointer-events:none;display:flex;justify-content:flex-end}
-  .x-card__actions product-form-component,.x-card__actions form,.x-card__actions add-to-cart-component{pointer-events:auto;display:block}
+  .x-card__actions{position:absolute;right:12px;bottom:12px;z-index:2;pointer-events:none;display:flex;justify-content:flex-end;gap:8px}
+  .x-card__actions product-form-component,
+  .x-card__actions form,
+  .x-card__actions add-to-cart-component,
+  .x-card__actions xo-product-quick-view-trigger{pointer-events:auto;display:block}
+  .x-card__quick-view-button,
   .x-card__add-button{width:32px;height:32px;border:1px solid rgba(0,0,0,.08);background:#fff;padding:0;display:grid;place-items:center;font-size:0;line-height:0;transition:background-color .18s ease,box-shadow .18s ease,border-color .18s ease}
+  .x-card__quick-view-button:focus-visible,
   .x-card__add-button:focus-visible{outline:2px solid #000;outline-offset:2px}
-  .x-card__add-button:hover,.x-card__add-button:focus-visible{background:#f7f7f7;border-color:rgba(0,0,0,.12);box-shadow:0 4px 12px rgba(0,0,0,.16)}
+  .x-card__quick-view-button:hover,
+  .x-card__quick-view-button:focus-visible,
+  .x-card__add-button:hover,
+  .x-card__add-button:focus-visible{background:#f7f7f7;border-color:rgba(0,0,0,.12);box-shadow:0 4px 12px rgba(0,0,0,.16)}
+  .x-card__quick-view-button:disabled,
   .x-card__add-button:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+  .x-card__quick-view-icon{width:18px;height:18px;display:block;fill:currentColor}
   .x-card__add-icon{font-size:28px;line-height:1;color:#000}
   .x-card__actions{opacity:0;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}
   .x-card__media:hover .x-card__actions,.x-card__media:focus-within .x-card__actions{opacity:1;transform:none}
@@ -460,3 +484,5 @@
   },true);
 })();
 </script>
+
+{% render 'universal-quick-view' %}

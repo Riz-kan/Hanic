@@ -8533,7 +8533,7 @@ input[type=search]::-webkit-search-results-decoration {
   width: 100%;
   box-shadow: 0 15px 25px 0 rgba(0, 0, 0, 0.08);
 }
-.xo-product-card__actions--style8 xo-product-quick-view-trigger {
+.xo-product-card__actions--style8 [data-quick-view-trigger] {
   display: flex;
   justify-content: center;
   align-items: center;
