@@ -1,0 +1,23 @@
+{% case filter.type %}
+  {% when 'boolean', 'list' %}
+    {%- for value in filter.values -%}
+      {% assign count_id = value.param_name | append: '-' | append: value.value %}
+      <xo-filters-field>
+        {% assign filter_type = value.param_name | split: '.' | last %}
+        {% case filter_type %}
+          {% when 'size', 'tag' %}
+            {% render 'field-checkbox-block', name: value.param_name, value: value.value, label: value.label, filter_type: filter_type %}
+          {% when 'color', 'color-pattern' %}
+            {% render 'field-checkbox-color', name: value.param_name, value: value, label: value.label, filter_type: filter_type %}
+          {% when 'vendor', 'product_type' %}
+            {% render 'field-checkbox-text', name: value.param_name, value: value.value, label: value.label %}
+          {% else %}
+            {% render 'field-checkbox', name: value.param_name, value: value.value, label: value.label, count_id: count_id, count_value: value.count %}
+        {% endcase %}
+      </xo-filters-field>
+    {%- endfor -%}
+  {% when 'price_range' %}
+    {% render 'field-price', filter: filter %}
+  {% else %}
+
+{% endcase %}

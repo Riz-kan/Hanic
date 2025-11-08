@@ -1,0 +1,91 @@
+{% comment %}
+  Renders a form to add or update an address.
+
+  Accepts:
+  - type: {String} 'add' or 'update'
+  - form: {Object} The form object from the controller
+  - aria_labelledby: {String} The aria-labelledby attribute for address form
+
+  Usage:
+  {% render 'address-form',
+    type: 'add',
+    form: form,
+    aria_labelledby: 'AddressNewHeading'
+  %}
+{% endcomment %}
+
+{% liquid
+  if type == 'add'
+    assign button_text = 'customer.addresses.add' | t
+  elsif type == 'update'
+    assign button_text = 'customer.addresses.update' | t
+  endif
+%}
+
+{%- form 'customer_address', address, aria-labelledby: aria_labelledby -%}
+  <xo-address-form>
+    <xo-grid class='address-form'>
+      <div style='--lg: 6'>
+        {% assign first_name = 'customer.addresses.first_name' | t %}
+        {% render 'field-input', type: 'text', name: 'address[first_name]', value: form.first_name, label: first_name, autocomplete: 'given-name' %}
+      </div>
+      <div style='--lg: 6'>
+        {% assign last_name = 'customer.addresses.last_name' | t %}
+        {% render 'field-input', type: 'text', name: 'address[last_name]', value: form.last_name, label: last_name, autocomplete: 'family-name' %}
+      </div>
+      <div style='--lg: 12'>
+        {% assign company = 'customer.addresses.company' | t %}
+        {% render 'field-input', type: 'text', name: 'address[company]', value: form.company, label: company, autocomplete: 'organization' %}
+      </div>
+      <div style='--lg: 12'>
+        {% assign address1 = 'customer.addresses.address1' | t %}
+        {% render 'field-input', type: 'text', name: 'address[address1]', value: form.address1, label: address1, autocomplete: 'address-line1' %}
+      </div>
+      <div style='--lg: 12'>
+        {% assign address2 = 'customer.addresses.address2' | t %}
+        {% render 'field-input', type: 'text', name: 'address[address2]', value: form.address2, label: address2, autocomplete: 'address-line2' %}
+      </div>
+      <div style='--lg: 12'>
+        {% assign city = 'customer.addresses.city' | t %}
+        {% render 'field-input', type: 'text', name: 'address[city]', value: form.city, label: city, autocomplete: 'address-level2' %}
+      </div>
+      <div style='--lg: 12'>
+        <label>
+          {% capture select_attrs %}
+            autocomplete='country'
+            data-default='{{ form.country }}'
+            data-country-id='{{ form.id }}'
+          {% endcapture %}
+          <span>{{ 'customer.addresses.country' | t }}</span>
+          {% render 'field-select', name: 'address[country]', attrs: select_attrs, options: all_country_option_tags, autocomplete: 'country' %}
+        </label>
+      </div>
+      <div style='--lg: 12'>
+        <label class='js-address-province hide'>
+          {% capture select_attrs %}
+            data-province-id='{{ form.id }}'
+            data-default='{{ form.province }}'
+            autocomplete='address-level1'
+          {% endcapture %}
+          <span>{{ 'customer.addresses.province' | t }}</span>
+          {% render 'field-select', name: 'address[province]', attrs: select_attrs, autocomplete: 'address-level1' %}
+        </label>
+      </div>
+      <div style='--lg: 12'>
+        {% assign zip = 'customer.addresses.zip' | t %}
+        {% render 'field-input', type: 'text', name: 'address[zip]', value: form.zip, label: zip, autocapitalize: 'characters', autocomplete: 'postal-code' %}
+      </div>
+      <div style='--lg: 12'>
+        {% assign phone = 'customer.addresses.phone' | t %}
+        {% render 'field-input', type: 'text', name: 'address[phone]', value: form.phone, label: phone, autocomplete: 'tel' %}
+      </div>
+      <div style='--lg: 12'>
+        {% assign label = 'customer.addresses.set_default' | t %}
+        {% render 'field-checkbox', name: 'address[default]', value: '1', label: label %}
+      </div>
+      <div style='--lg: 12'>
+        {% render 'button', text: button_text, block: true, mode: 'dark' %}
+      </div>
+    </xo-grid>
+  </xo-address-form>
+{%- endform -%}

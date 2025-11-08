@@ -1,0 +1,10 @@
+{% assign title_empty = 'sections.cart.empty' | t %}
+{% assign subtitle_empty = 'sections.cart.empty_sub' | t %}
+{% assign button_text = 'sections.cart.continue_shoping' | t %}
+{% capture content_empty %}
+  {% render 'button', link: '/collections/all', text: button_text, size: 'md', style:'secondary', mode: 'dark' %}
+{% endcapture %}
+
+<xo-animate xo-cascade class='xo-cart-empty'>
+  {% render 'empty', title: title_empty, subtitle: subtitle_empty, content: content_empty %}
+</xo-animate>

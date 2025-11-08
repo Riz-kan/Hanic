@@ -1,0 +1,37 @@
+{% comment %}
+  Renders a section attribute
+
+  Usage:
+  {% render 'section-attr' %}
+{% endcomment %}
+
+{% liquid
+  assign class_name = 'xo-section xo-section--' | append: section.id
+
+  if section.settings.background_color != blank
+    assign background_color = '--bg-color: ' | append: section.settings.background_color | append: ';'
+  endif
+  if section.settings.background_gradient != blank
+    assign background_gradient = '--bg-gradient: ' | append: section.settings.background_gradient | append: ';'
+  endif
+  if section.settings.background_margin != null
+    assign background_margin = '--margin: ' | append: section.settings.background_margin | append: ';'
+  endif
+  if section.settings.padding_top != null
+    assign padding_top = '--pt: ' | append: section.settings.padding_top | append: ';'
+  endif
+  if section.settings.padding_bottom != null
+    assign padding_bottom = '--pb: ' | append: section.settings.padding_bottom | append: ';'
+  endif
+  unless style
+    assign style = ''
+  endunless
+%}
+
+class="{{ class_name -}}
+{%- if section.settings.color_scheme %} color-{{ section.settings.color_scheme }}{% endif %}" style="{{ background_color -}}
+{{- background_gradient -}}
+{{- background_margin -}}
+{{- padding_top -}}
+{{- padding_bottom }}
+{{- style }}"

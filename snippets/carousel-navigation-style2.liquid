@@ -1,0 +1,30 @@
+{% comment %}
+  Renders a carousel navigation.
+  Accepts:
+   - display_navigation_desktop: {string} Disable/enable the carousel navigation on desktop (optional)
+   - display_navigation_mobile: {string} Disable/enable the carousel navigation on mobile (optional)
+  Usage:
+  {% render 'carousel-navigation-style2',
+    display_navigation_desktop: display_navigation_desktop,
+    display_navigation_mobile: display_navigation_mobile,
+  %}
+{% endcomment %}
+
+<div
+  class='
+    carousel-navigation-style2__wrap {% if collapse_style %}
+      carousel-navigation-style2__wrap--collapse
+    {% endif %}
+  '
+  style='--display-desktop: {{ display_navigation_desktop }}; --display-mobile: {{ display_navigation_mobile }}'
+>
+  <xo-carousel-prev class='carousel-navigation-style2__arrow'
+    ><button aria-label='{{ 'general.slider.previous_slide' | t }}'>{% render 'icon', name: 'arrow-left', icon_size: '14' %}</button></xo-carousel-prev
+  >
+  <xo-carousel-next class='carousel-navigation-style2__arrow'
+    ><button aria-label='{{ 'general.slider.next_slide' | t }}'>{% render 'icon', name: 'arrow-right', icon_size: '14' %}</button></xo-carousel-next
+  >
+</div>
+{% if collapse_style %}
+  <div class='carousel-navigation-style2__line' style='--display-desktop: {{ display_navigation_desktop }}; --display-mobile: {{ display_navigation_mobile }}'></div>
+{% endif %}

@@ -1,0 +1,48 @@
+{% comment %}
+  Renders a radio button
+
+  Accepts:
+  - name: {String} Name of the radio button
+  - value: {String} Value of the radio button
+  - label: {String} Label of the radio button (optional)
+  - icon_size: {String} Size of the radio button. Default: 1.6rem (optional)
+  - count_id: {String} Unique ID for the count element (optional, support filters)
+  - count_value: {String} Value of the count element (optional, support filters)
+  - checked: {Boolean} If the radio button is checked (optional)
+  - style: {String} Style class to add to the radio button (optional)
+  - image: {string} Variant's image link
+
+  Usage:
+  {% render 'field-radio',
+    name: 'radio',
+    value: 'radio',
+    label: 'Radio',
+    icon_size: '10px'
+  %}
+{% endcomment %}
+
+<label class='xo-field-radio{% if style %} xo-field-radio--{{ style }}{% endif %}' style='--icon-size: {{ icon_size | default: '1.6rem' }}'>
+  <input
+    class='xo-field-radio__input'
+    type='radio'
+    name='{{ name }}'
+    value='{{ value | escape }}'
+    xo-label='{{ label | escape }}'
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+  {% if style != 'boxed' and style != 'boxed2' and style != 'boxed3' %}
+    <span class='xo-field-radio__item'>
+      <span class='xo-field-radio__icon'></span>
+    </span>
+  {% endif %}
+  {% if label != null %}
+    <span class='xo-field-radio__label'>
+      <span>{{ label | escape }}</span>
+      {% if count_value %}
+        <xo-filters-count xo-unique-id='{{ count_id }}'>({{ count_value }})</xo-filters-count>
+      {% endif %}
+    </span>
+  {% endif %}
+</label>

@@ -1,0 +1,37 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "blocks": {
+        "f4122f25-674e-430e-9a5d-df56b6837300": {
+          "type": "title",
+          "settings": {
+            "title": "Oops! That page can’t be found.",
+            "subtitle": "It looks like nothing was found at this location. Maybe try a search?"
+          }
+        },
+        "538ed5e7-181a-4aff-b395-f5b666f71f6d": {
+          "type": "button",
+          "settings": {
+            "button_text": "GO TO SHOPPING",
+            "button_link": "shopify:\/\/collections\/all",
+            "button_mode": "dark",
+            "button_style": "secondary",
+            "button_radius": 0.8
+          }
+        }
+      },
+      "block_order": [
+        "f4122f25-674e-430e-9a5d-df56b6837300",
+        "538ed5e7-181a-4aff-b395-f5b666f71f6d"
+      ],
+      "settings": {
+        "padding_top": 150,
+        "padding_bottom": 150
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

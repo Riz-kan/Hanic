@@ -1,0 +1,31 @@
+{% comment %}
+  Renders a sort by field for a collection or search object
+
+  Accepts:
+  - name: {String} Name of the field (optional)
+  - value: {String} Value of the field (optional)
+  - placement: {String} Placement of the popover (optional)
+
+  Usage:
+  {% render 'field-select-custom-filter' %}
+{% endcomment %}
+
+<div class='xo-field-select-custom-filter'>
+  <xo-popover-trigger
+    class='xo-field-select-custom-filter__trigger'
+    xo-name='filter-select-custom-{{ name | escape }}'
+  >
+    <xo-filters-sort-by-selected class='xo-field-select-custom-filter__name'>
+      {{ value | escape }}
+    </xo-filters-sort-by-selected>
+    {% render 'icon', name: 'chevron-down', icon_size: '20' %}
+  </xo-popover-trigger>
+  <xo-popover
+    class='xo-field-select-custom-filter__popover xo-scrollbar'
+    xo-name='filter-select-custom-{{ name | escape }}'
+    xo-placement='{{ placement | default: 'bottom-right' }}'
+    xo-modal-scroll-selector='.xo-scrollbar'
+  >
+    {{ options | replace: '<label', '<xo-filters-field><label' | replace: '</label>', '</label></xo-filters-field>' }}
+  </xo-popover>
+</div>

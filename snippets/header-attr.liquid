@@ -1,0 +1,29 @@
+{% comment %}
+  Renders a header attribute
+
+  Usage:
+  {% render 'header-attr' %}
+{% endcomment %}
+
+{% liquid
+  assign class_name = 'xo-header ' | append: class_name
+
+  if section.settings.background_color != blank
+    assign background_color = '--bg-color: ' | append: section.settings.background_color | append: ';'
+  endif
+  if section.settings.background_gradient != blank
+    assign background_gradient = '--bg-gradient: ' | append: section.settings.background_gradient | append: ';'
+  endif
+  if section.settings.background_margin != null
+    assign background_margin = '--margin: ' | append: section.settings.background_margin | append: ';'
+  endif
+  unless style
+    assign style = ''
+  endunless
+%}
+
+class="{{ class_name -}}
+{%- if section.settings.color_scheme %} color-{{ section.settings.color_scheme }}{% endif %}" style="{{ background_color -}}
+{{- background_gradient -}}
+{{- background_margin }}
+{{- style }}"

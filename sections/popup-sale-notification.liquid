@@ -1,0 +1,218 @@
+
+
+{% liquid
+  assign show = true
+  if section.settings.where_to_show == 'target_pages'
+    assign pages = section.settings.target_pages | split: ' '
+    assign show = false
+    for item in pages
+      assign text = item | strip
+      if text == request.page_type
+        assign show = true
+      elsif request.page_type == 'product' and request.path contains text
+        assign show = true
+      endif
+    endfor
+  endif
+
+  assign customers = section.settings.customers_list | split: '/'
+  assign customer_first = customers | first
+  if section.settings.product_list != blank
+    assign product_first = section.settings.product_list | first
+  endif
+
+  assign media_aspect_ratio = settings.product_card_aspect_ratio
+%}
+
+<xo-popup-sale-notification
+  xo-show='{{ show }}'
+  xo-duration='{{ section.settings.duration | times: 1000 }}'
+  xo-delay='{{ section.settings.delay | times: 1000 }}'
+  xo-customer='{{ customers | join: '/' }}'
+>
+  <script type='application/json' class='xo-popup-sale-notification__product-list'>
+    [
+      {% for item in section.settings.product_list %}
+        {{ item | json }}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  </script>
+  <xo-toast
+    xo-name='xo-popup-{{ section.id }}'
+    xo-placement='{{ section.settings.position }}'
+    xo-close-button-class-name='xo-popup-sale-notification__close'
+    xo-class-name='xo-popup-sale-notification color-{{ section.settings.color_scheme }}'
+    xo-duration='800'
+    {% if request.design_mode %}
+      xo-delay='9999999999'
+    {% else %}
+      xo-delay='{{ section.settings.duration | times: 1000 }}'
+    {% endif %}
+  >
+    <div class='xo-popup-sale-notification__container'>
+      <div class='xo-popup-sale-notification__image'>
+        {% render 'image', image: product_first.featured_image, media_aspect_ratio: media_aspect_ratio %}
+      </div>
+      <div class='xo-popup-sale-notification__content'>
+        <div class='xo-popup-sale-notification__heading-container'>
+          <xo-animate xo-type='fade-up' xo-delay='300' xo-cascade>
+            <div class='xo-popup-sale-notification__customer-name'>{{ customer_first }}</div>
+          </xo-animate>
+          <xo-animate xo-type='fade-up' xo-delay='300' xo-cascade>
+            <div class='xo-popup-sale-notification__product-title'>{{ product_first.title | default: 'Product title' }}</div>
+          </xo-animate>
+        </div>
+        <div class='xo-popup-sale-notification__text'>
+          <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'>
+            <g opacity="0.7" clip-path="url(#clip0_7262_93011)">
+              <path d="M8 0C3.58888 0 0 3.58888 0 8C0 12.4111 3.58888 16 8 16C12.4111 16 16 12.4111 16 8C16 3.58888 12.4111 0 8 0ZM8 15C4.14013 15 1 11.8599 1 8C1 4.14013 4.14013 1 8 1C11.8599 1 15 4.14013 15 8C15 11.8599 11.8599 15 8 15Z" fill="currentColor"/>
+              <path d="M8.5 3H7.5V8.20702L10.6465 11.3535L11.3535 10.6465L8.5 7.79295V3Z" fill="currentColor"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_7262_93011">
+                <rect width="16" height="16" fill="white"/>
+              </clipPath>
+            </defs>
+          </svg>
+          <div class='xo-popup-sale-notification__time-content'>
+            <div class='xo-popup-sale-notification__time'>{{ 'general.popups.notification_minute_html' | t: minute: 3 }}</div>
+            {% if section.settings.content != blank %}
+              <svg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4' fill='none'>
+                <circle opacity="0.6" cx="2" cy="2" r="2" fill="currentColor"/>
+              </svg>
+              <span class='xo-popup-sale-notification__text-content'>{{ section.settings.content }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class='xo-popup-sale-notification__progress'
+      {% if request.design_mode %}
+        style='width: 80% !important;'
+      {% endif %}
+    ></div>
+  </xo-toast>
+</xo-popup-sale-notification>
+
+{% schema %}
+{
+  "name": "t:sections.popup_sale_notification.name",
+  "enabled_on": {
+    "groups": [
+      "custom.popups"
+    ]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.popup_sale_notification.settings.color_scheme"
+    },
+    {
+      "type": "range",
+      "id": "content_width",
+      "min": 320,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "t:sections.popup_sale_notification.settings.content_width",
+      "default": 500
+    },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "t:sections.popup_sale_notification.settings.product_list",
+      "limit": 12
+    },
+    {
+      "type": "textarea",
+      "id": "customers_list",
+      "info": "t:sections.popup_sale_notification.settings.customers_list.info",
+      "default": "Someone In California, USA just bought/\nSomeone In Kyoto, Japan just bought/\nSomeone In Paris, France just bought/\nSomeone In Berlin, Germany just bought/\nSomeone In Toronto, Canada just bought/",
+      "label": "t:sections.popup_sale_notification.settings.customers_list.label"
+    },
+    {
+      "type": "select",
+      "id": "position",
+      "options": [
+        {
+          "value": "bottom-left",
+          "label": "t:sections.popup_sale_notification.settings.position.options.bottom_left"
+        },
+        {
+          "value": "bottom-right",
+          "label": "t:sections.popup_sale_notification.settings.position.options.bottom_right"
+        }
+      ],
+      "default": "bottom-left",
+      "label": "t:sections.popup_sale_notification.settings.position.label"
+    },
+    {
+      "type": "range",
+      "id": "duration",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "unit": "s",
+      "label": "t:sections.popup_sale_notification.settings.duration",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "delay",
+      "min": 2,
+      "max": 100,
+      "step": 1,
+      "unit": "s",
+      "label": "t:sections.popup_sale_notification.settings.delay",
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "t:sections.popup_sale_notification.settings.conditions"
+    },
+    {
+      "type": "select",
+      "id": "where_to_show",
+      "options": [
+        {
+          "value": "all_pages",
+          "label": "t:sections.popup_sale_notification.settings.where_to_show.options.all_pages"
+        },
+        {
+          "value": "target_pages",
+          "label": "t:sections.popup_sale_notification.settings.where_to_show.options.target_pages"
+        }
+      ],
+      "default": "all_pages",
+      "label": "t:sections.popup_sale_notification.settings.where_to_show.label"
+    },
+    {
+      "type": "textarea",
+      "id": "target_pages",
+      "info": "t:sections.popup_sale_notification.settings.target_pages.info",
+      "placeholder": "index \nproduct",
+      "label": "t:sections.popup_sale_notification.settings.target_pages.label"
+    },
+    {
+      "type": "text",
+      "id": "content",
+      "default": "Verify",
+      "label": "t:sections.popup_sale_notification.settings.content"
+    }
+  ],
+  "blocks": [
+
+  ],
+  "presets": [
+    {
+      "name": "t:sections.popup_sale_notification.name",
+      "settings": {},
+      "blocks": [
+
+  ]
+    }
+  ]
+}
+{% endschema %}

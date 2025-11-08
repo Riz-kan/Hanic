@@ -1,0 +1,15 @@
+{
+  "name": "Overlay",
+  "type": "custom.overlay",
+  "sections": {
+    "cart": {
+      "type": "xo-cart-mini",
+      "settings": {}
+    },
+    "quick-view": {
+      "type": "quick-view",
+      "settings": {}
+    }
+  },
+  "order": ["cart", "quick-view"]
+}

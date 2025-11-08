@@ -1,0 +1,49 @@
+{% comment %}
+  Renders a countdown expired time
+
+  Accepts:
+  - title: {String} Title of countdown offer
+  - subtitle: {String} Subtitle of countdown offer
+  - time: {String} Expired offer time
+  - show_days: {Boolean} Show countdown days
+  - show_hours: {Boolean} Show countdown hours
+  - show_minutes: {Boolean} Show countdown minutes
+  - show_seconds: {Boolean} Show countdown seconds
+{% endcomment %}
+
+<xo-animate xo-cascade>
+  {% assign timestamp = time | date: '%s' | append: '000' %}
+  <xo-countdown xo-timestamp='{{timestamp}}' class='countdown'>
+    <div class='countdown__text'>
+      <h3>{{ title }}</h3>
+      <label>{{ subtitle }}</label>
+    </div>
+    <div class='countdown__time'>
+      {% if show_days %}
+        <div class='countdown__circle'>
+          <xo-countdown-day></xo-countdown-day>
+          <span>d</span>
+        </div>
+      {% endif %}
+      {% if show_hours %}
+        <div class='countdown__circle'>
+          <xo-countdown-hour></xo-countdown-hour>
+          <span>h</span>
+        </div>
+      {% endif %}
+      {% if show_minutes %}
+        <div class='countdown__circle'>
+          <xo-countdown-minute></xo-countdown-minute>
+          <span>m</span>
+        </div>
+      {% endif %}
+      {% if show_seconds %}
+        <div class='countdown__circle'>
+          <xo-countdown-second></xo-countdown-second>
+          <span>s</span>
+        </div>
+      {% endif %}
+    </div>
+    <div class='countdown__expired'>Expired</div>
+  </xo-countdown>
+</xo-animate>

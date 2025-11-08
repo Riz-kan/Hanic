@@ -1,0 +1,179 @@
+{% comment %}
+  Renders a product card
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - media_aspect_ratio:  {String} The setting changes the aspect ratio of the article image, if shown
+  - show_image: {Boolean} The setting either show the article image or not. If it's not included it will show the image by default
+  - product_card_media_type: {String} The product media type show when hover(optional)
+  - variant_modal_placement: {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'default'} Render placement variant for modal add cart. Default: 'center' (optional)
+  - show_vendor: {Boolean} Show the product vendor. Default: false (optional)
+  - show_description: {Boolean} Show the description. Default: false (optional)
+  - show_quick_add: {Boolean} Show the quick add button. Default: true (optional)
+  - show_quick_view: {Boolean} Show the quick view button. Default: true (optional)
+  - show_wishlist: {Boolean} Show the wishlist button. Default: true (optional)
+  - show_price: {Boolean} Show the product price. Default: true (optional)
+  - show_badge: {Boolean} Show the product badge. Default: true (optional)
+  - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-1' (optional)
+  - color_scheme: {String} The color scheme to use (optional)
+  - animate_enabled: {Boolean} Enable animation. Default: true (optional)
+
+  Usage:
+  {% render 'product-card-list', show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+
+{% liquid
+  assign animate_enabled = animate_enabled | default: true, allow_false: true
+  if animate_enabled
+    assign tag_name = 'xo-animate'
+  else
+    assign tag_name = 'div'
+  endif
+%}
+
+{% comment %} Create navigate icon used in product card media type carousel {% endcomment %}
+{% capture prev_icon %}
+  <span class='xo-product-card__carousel-prev'>
+    {% render 'icon', name: 'chevron-left', size: '20' %}
+  </span>
+{% endcapture %}
+{% capture next_icon %}
+  <span class='xo-product-card__carousel-next'>
+    {% render 'icon', name: 'chevron-right', size: '20' %}
+  </span>
+{% endcapture %}
+
+{% comment %} Create attr for xo-product-media {% endcomment %}
+{% case product_card_media_type %}
+  {% when 'auto' %}
+    {% capture product_media_attr %}
+  xo-type="auto" xo-carousel-autoplay="1000" xo-carousel-pagination-enabled xo-carousel-bullet-content="<span class='xo-product-card__bullet'></span>"
+  style="--xo-auto-play: 1000ms"
+{% endcapture %}
+  {% when 'carousel' %}
+    {% capture product_media_attr %}
+  xo-type="carousel" xo-carousel-autoplay="0" xo-carousel-prev-content="{{ prev_icon | escape }}" xo-carousel-next-content="{{ next_icon | escape }}"
+{% endcapture %}
+  {% when 'video_autoplay' %}
+    {% capture product_media_attr %}
+  xo-type="video"
+{% endcapture %}
+  {% else %}
+    {% capture product_media_attr %}
+  xo-type="carousel" xo-carousel-autoplay="1000" xo-carousel-pagination-enabled xo-carousel-bullet-content="<span class='xo-product-card__bullet'></span>"
+  style="--xo-auto-play: 1000ms"
+{% endcapture %}
+{% endcase %}
+
+{% if product %}
+  <xo-product xo-product-id='{{ product.id }}' xo-section-id='{{section.id}}'>
+    {% capture render_main %}
+    <xo-grid>
+      <div style="--xs: 12; --md: 4">
+        <div class="xo-product-card__header xo-product-card-list__header">
+          {% if show_image %}
+            <a href='{{ product.url }}'>
+              <xo-product-media {{ product_media_attr }} xo-binding="img" xo-carousel-active-index="0">
+                {% render 'product-image', product: product, media_aspect_ratio: media_aspect_ratio %}
+              </xo-product-media>
+            </a>
+          {% endif %}
+
+          {% if show_badge %}
+            <div class='xo-product-card__badge'>
+              {% render 'badge-sale', product: product, use_variant: true %}
+            </div>
+            {% render 'badge-sold-out', product: product, use_variant: true %}
+          {% endif %}
+
+          {% if product.variants.size > 1 %}
+            {% for option in product.options_with_values
+            %}
+              {% if option.name == 'Color' %}
+                <div class='xo-product-card-list__variants'>
+                  {% render 'product-variant', option: option, product: product, style: 'color' %}
+                </div>
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            {% render 'product-variant-modal', product: product, variant_modal_placement: variant_modal_placement %}
+          {% endif %}
+
+        </div>
+      </div>
+      <div style="--xs: 12; --md: 8">
+        <div class='xo-product-card-list__information'>
+          {% if show_vendor %}
+            <div class='xo-product-card-list__vendor'>
+              {{ product.vendor }}
+            </div>
+          {% endif %}
+  
+          <h2 class='xo-product-card-list__title'>
+            <a href='{{ product.url }}'>
+              {{ product.title | escape }}
+            </a>
+          </h2>
+
+          {% if show_price %}
+            <div class='xo-product-card__price'>
+              <div class='xo-product-card__price-inner' xo-binding="price">
+                {% render 'price', product: product, use_variant: true, reverse: false %}
+              </div>
+            </div>
+          {% endif %}
+  
+          {% if show_description%}
+            <div class='xo-product-card-list__description {% if section.settings.collection_style == 'fullwidth' %}
+              xo-product-card-list__description--fullwidth
+            {% endif %}'>
+              {{ product.description | strip_html }}
+            </div>
+          {% endif %}
+  
+          <div class='xo-product-card-list__actions '>
+            {% if show_quick_add %}
+              {% render 'action-cart-add', product: product, variant_modal_placement: variant_modal_placement, style: 'list' %}
+            {% endif %}
+    
+            {% if show_quick_view %}
+              <xo-tooltip xo-title='{{ 'products.product.quickview' | t }}' class="xo-product-card__icon">
+              <xo-product-quick-view-trigger xo-modal-name='quick-view' xo-product-url='{{ shop.url }}/products/{{ product.handle }}/?section_id=quick-view-content'>
+                {% render 'button', class:'square', style: 'primary', mode: 'light', icon: 'search', size: 'sm' %}
+              </xo-product-quick-view-trigger>
+            </xo-tooltip>
+            {% endif %}
+    
+            {% if show_wishlist %}
+              <div>
+              {% comment %} add to wishlist {% endcomment %}
+                <xo-products-fetcher-add xo-type="wishlist" class="xo-product-card__wishlist">
+                  <xo-tooltip xo-title='{{ 'products.product.add_to_wishlist' | t }}' class="xo-product-card__icon xo-product-card__icon-wishlist" xo-added>
+                    {% render 'button', class:'square', style: 'primary', mode: 'light', icon: 'heart', size: 'sm' %}
+                  </xo-tooltip>
+                </xo-products-fetcher-add>
+              {% comment %} remove wishlist {% endcomment %}
+                <xo-products-fetcher-add xo-type="wishlist" class="xo-product-card__wishlist">
+                  <xo-tooltip xo-title='{{ 'products.product.remove_from_wishlist' | t }}' class="xo-product-card__icon xo-product-card__icon-wishlist" xo-removed>
+                    {% render 'button', class:'square', style: 'primary', mode: 'light', icon: 'heart', size: 'sm' %}
+                  </xo-tooltip>
+                </xo-products-fetcher-add>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </xo-grid>
+    {% endcapture %}
+    <{{ tag_name }}
+      xo-cascade
+      class='xo-product-card-list{% if color_scheme %} color-{{ color_scheme }}{% endif %}'
+    >
+      {{ render_main }}
+      {% render 'product-data', product: product %}
+      {% render 'product-static-data', product: product, media_aspect_ratio: media_aspect_ratio %}
+    </{{ tag_name }}>
+  </xo-product>
+{% else %}
+  {% render 'product-card-placeholder', placeholder_image: placeholder_image %}
+{% endif %}

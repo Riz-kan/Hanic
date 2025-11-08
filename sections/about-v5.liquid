@@ -1,0 +1,315 @@
+
+
+<section {% render 'section-attr' %}>
+  {% render 'section-bg-image' %}
+  <xo-container {% render 'section-layout' %}>
+    <div class='about-v5'>
+      <xo-animate xo-cascade class='about-v5__icon'>
+        {% if section.settings.svg != empty %}
+          {{ section.settings.svg }}
+        {% else %}
+          {% render 'image', image: section.settings.image_icon %}
+        {% endif %}
+      </xo-animate>
+      <xo-animate xo-cascade>
+        <h2 class='about-v5__title'>
+          {{ section.settings.title }}
+        </h2>
+      </xo-animate>
+    </div>
+  </xo-container>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.about_v5.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:sections.all.width.label",
+      "default": "box",
+      "options": [
+        {
+          "value": "box",
+          "label": "t:sections.all.width.options__1.label"
+        },
+        {
+          "value": "wide",
+          "label": "t:sections.all.width.options__2.label"
+        },
+        {
+          "value": "fullwidth",
+          "label": "t:sections.all.width.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "fullwidth_margin",
+      "label": "t:sections.all.fullwidth_margin.label",
+      "default": 0,
+      "visible_if": "{{ section.settings.width == 'fullwidth' }}"
+    },
+    {
+      "type": "html",
+      "id": "svg",
+      "label": "t:sections.about_v5.settings.svg.label",
+      "default": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Layer_1\" x=\"0px\" y=\"0px\" viewBox=\"0 0 512 512\" style=\"enable-background:new 0 0 512 512;\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xml:space=\"preserve\"> <g> <g> <path d=\"M506.135,221.963l-87.197-98.667c-1.898-2.148-4.627-3.378-7.493-3.378H100.556c-2.866,0-5.595,1.23-7.493,3.378    L5.865,221.963c-2.604,2.947-3.239,7.146-1.623,10.732c0.609,1.352,1.497,2.52,2.577,3.453c0.021,0.023,0.037,0.049,0.058,0.073    l241.642,272.415c1.898,2.14,4.621,3.364,7.481,3.364c2.86,0,5.583-1.225,7.481-3.364l241.642-272.415    c0.021-0.023,0.038-0.049,0.058-0.073c1.079-0.933,1.967-2.102,2.577-3.453C509.374,229.109,508.739,224.91,506.135,221.963z     M393.713,139.917l-44.441,71.644l-71.22-71.644H393.713z M328.054,218.585H183.946L256,146.102L328.054,218.585z     M233.948,139.918l-71.22,71.644l-44.441-71.644H233.948z M99.004,146.774l44.545,71.811H35.541L99.004,146.774z M35.709,238.585    h118.178l81.636,225.261L35.709,238.585z M276.848,463.428l57.038-154.372c1.914-5.181-0.734-10.932-5.914-12.846    c-5.183-1.916-10.933,0.733-12.846,5.914l-59.035,159.777L175.16,238.585h301.131L276.848,463.428z M368.451,218.585    l44.545-71.811l63.463,71.811H368.451z\"></path> </g> </g> <g> <g> <path d=\"M256,0c-5.522,0-10,4.477-10,10v51.513c0,5.523,4.478,10,10,10c5.522,0,10-4.477,10-10V10C266,4.477,261.522,0,256,0z\"></path> </g> </g> <g> <g> <path d=\"M347.062,39.524c-3.905-3.905-10.235-3.905-14.143,0l-36.426,36.425c-3.905,3.905-3.905,10.237,0,14.142    c1.954,1.953,4.513,2.929,7.072,2.929c2.559,0,5.118-0.977,7.071-2.929l36.426-36.425    C350.967,49.761,350.967,43.429,347.062,39.524z\"></path> </g> </g> <g> <g> <path d=\"M213.558,75.949l-36.425-36.425c-3.904-3.905-10.234-3.905-14.143,0c-3.905,3.905-3.905,10.237,0,14.142l36.426,36.425    c1.953,1.953,4.512,2.929,7.071,2.929s5.118-0.977,7.071-2.929C217.463,86.186,217.463,79.854,213.558,75.949z\"></path> </g> </g> <g> <g> <circle cx=\"337.43\" cy=\"268.36\" r=\"10\"></circle> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_icon",
+      "label": "t:sections.about_v5.settings.image_icon.label"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.about_v5.settings.title.label",
+      "info": "t:sections.about_v5.settings.title.info",
+      "default": "We’re committing to create the change we want to see in the world"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_desktop",
+      "label": "t:sections.all.background_image_desktop.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "t:sections.all.background_image_mobile.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_parallax",
+      "label": "t:sections.all.use_parallax.label",
+      "default": true,
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_image_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "textarea",
+      "id": "background_video_url",
+      "label": "t:sections.all.background_video_url.label",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_video_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "color",
+      "id": "background_overlay",
+      "label": "t:sections.all.background_overlay.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'image' or section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.about_v5.presets.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,44 @@
+<div class='xo-article-comments-form'>
+  {% form 'new_comment', article %}
+    {%- liquid
+      assign post_message = 'blogs.article.success' | t
+      if blog.moderated? and comment.status == 'unapproved'
+        assign post_message = 'blogs.article.success_moderated' | t
+      endif
+    -%}
+    {% render 'form-error', form: form %}
+    {% render 'form-success', form: form, message: post_message %}
+
+    <xo-animate xo-cascade>
+      <h2 class='xo-article-comments-form__title'>{{ 'blogs.article.comment_form_title' | t }}</h2>
+    </xo-animate>
+    <xo-grid class='xo-article-comments-form__inputs' style='--xo-grid-col-gap: 20px; --xo-grid-row-gap: 20px;'>
+      <xo-animate xo-cascade style='--xs:12; --md:6'>
+        {% assign commentNameLabel = 'blogs.article.name' | t %}
+        {% render 'field-input', type: 'text', name: 'comment[author]', label: commentNameLabel, value: form.author %}
+      </xo-animate>
+      <xo-animate xo-cascade style='--xs:12; --md:6'>
+        {% assign commentEmailLabel = 'blogs.article.email' | t %}
+        {% render 'field-input', type: 'text', name: 'comment[email]', label: commentEmailLabel, value: form.email %}
+      </xo-animate>
+      <xo-animate xo-cascade style='--xs:12' class='xo-article-comments-form__text-area'>
+        {% capture attrs %}
+          onkeyup='countCharacterMessage()'
+          maxlength='200'
+          rows='5'
+          aria-required='true'
+          required
+        {% endcapture %}
+        {% assign label = 'blogs.article.message' | t %}
+        {% render 'field-textarea', name: 'comment[body]', value: form.body, label: label, attrs: attrs %}
+      </xo-animate>
+    </xo-grid>
+    {%- if blog.moderated? -%}
+      <p>{{ 'blogs.article.moderated' | t }}</p>
+    {%- endif -%}
+    <xo-animate xo-cascade class='xo-article-comments-form__submit'>
+      {% assign button_label = 'blogs.article.post' | t %}
+      {% render 'button', text: button_label, type: 'submit', style: 'secondary', mode: 'dark' %}
+    </xo-animate>
+  {% endform %}
+</div>

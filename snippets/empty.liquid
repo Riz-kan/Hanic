@@ -1,0 +1,42 @@
+{% comment %}
+  Renders an empty.
+
+  Accepts:
+  - title: {String} The title of the empty
+  - subtitle: {String} The subtitle of the empty
+  - content: {String} The content of the empty (optional)
+  - icon_name: {String} The icon to display. Default: 'empty' (optional)
+  - icon_size: {String} The size of the icon. Default: '5rem' (optional)
+  - align: {String} The alignment of the empty. Default: 'center' (optional)
+
+  Usage:
+  {% render 'empty',
+    title: 'No results',
+    content: 'There are no results to display'
+  %}
+{% endcomment %}
+
+{% liquid
+  if icon_name == null
+    assign icon_name = 'empty'
+  endif
+  if icon_size == null
+    assign icon_size = '8rem'
+  endif
+  if align == null
+    assign align = 'center'
+  endif
+%}
+
+<div class='xo-empty' style='--align: {{ align }}'>
+  <div class='xo-empty__icon'>{% render 'icon', name: icon_name, icon_size: icon_size %}</div>
+  <h2 class='xo-empty__title'>
+    {{ title }}
+  </h2>
+  <p class='xo-empty__subtitle'>{{ subtitle }}</p>
+  {% if content %}
+    <div class='xo-empty__content'>
+      {{ content }}
+    </div>
+  {% endif %}
+</div>

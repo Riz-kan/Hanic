@@ -1,0 +1,193 @@
+{
+  "sections": {
+    "breadcrumb-v2": {
+      "type": "breadcrumb-v2",
+      "settings": {
+        "color_scheme": "inverse",
+        "background_type": "image",
+        "background_color": "#f3f3f3",
+        "background_gradient": "",
+        "background_image_desktop": "shopify://shop_images/breadcrumb.jpg",
+        "background_image_mobile": "shopify://shop_images/breadcrumb.jpg",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 110,
+        "padding_bottom": 110
+      }
+    },
+    "about_v5_3hTDnh": {
+      "type": "about-v3",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "title": "Unique & Perfect We  Are An Awesome Agency.",
+        "description": "Sum valde dispositus et motivatus professionalis Fashion Designer cum divitiis experientiae in range of photographic styles et officia. Modo percurre tuam Fashion Store, quae imago tui erit parum pudici et confidentis mulieris quae singulari suo stilo fulget. Propositum est facillime facillime efficere. Optima tibi glam et lasciva vestes afferimus, mente habita quae qualitates altae semper nimis pretiosae sunt. Propositum est ut quam facillime efficiamus, propterea fructus selectos cottidie addimus, et hoc nobis necessarium est. Sic cum temporibus stilo assequeris! Nos navem terrarum & spatium!",
+        "image": "shopify://shop_images/bl11_a9810df6-c0f9-4a09-b157-1f74fdd10c63.webp",
+        "video_url": "https://youtu.be/J-4G6ZuXbbQ?si=8j5zxHHWpy1Xms8p",
+        "button_text": "EXPLORE MORE",
+        "button_link": "shopify://collections/all",
+        "button_mode": "dark",
+        "button_style": "link",
+        "button_size": "sm",
+        "button_radius": 0,
+        "button_padding": 0,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 100,
+        "padding_bottom": 30
+      }
+    },
+    "about_v6_XmqqTF": {
+      "type": "our-team-v2",
+      "blocks": {
+        "a10f6248-75b5-4814-9fbb-d0de19909daa": {
+          "type": "member",
+          "settings": {
+            "image": "shopify://shop_images/avatar_01.jpg",
+            "name": "Adrian Stone",
+            "position": "CEO"
+          }
+        },
+        "e8c3139b-e392-450f-b991-ea7b8290d268": {
+          "type": "member",
+          "settings": {
+            "image": "shopify://shop_images/avatar_02.jpg",
+            "name": "Karen Ryan",
+            "position": "Designer"
+          }
+        },
+        "6aed875e-9329-4e26-bd16-c15cd61741b2": {
+          "type": "member",
+          "settings": {
+            "image": "shopify://shop_images/avatar_03.jpg",
+            "name": "Saga Norén",
+            "position": "Developer"
+          }
+        },
+        "281a5784-4e52-4179-9a41-10bd8927f8cd": {
+          "type": "member",
+          "settings": {
+            "image": "shopify://shop_images/avatar_04.jpg",
+            "name": "Karen David",
+            "position": "Developer"
+          }
+        }
+      },
+      "block_order": [
+        "a10f6248-75b5-4814-9fbb-d0de19909daa",
+        "e8c3139b-e392-450f-b991-ea7b8290d268",
+        "6aed875e-9329-4e26-bd16-c15cd61741b2",
+        "281a5784-4e52-4179-9a41-10bd8927f8cd"
+      ],
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "title": "Meet Our Teams",
+        "description": "Donec sed odio dui. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,  ut fermentum massa justo. condimentum nibh.",
+        "columns_limit": 3,
+        "gap": 30,
+        "auto_play": false,
+        "hover": "scale_up",
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 30,
+        "padding_bottom": 30
+      }
+    },
+    "about_v7_AP3Tgd": {
+      "type": "our-store-v1",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "title": "Store In The World",
+        "description": "Quisque vitae nibh iaculis neque blandit hendrerit euismod.Maecenas sit amet purus eget ipsum elementum venenatis. Aenean maximus urna magna, quis rutrum mi semper non. Cras rhoncus elit non arcu hendrerit rhoncus sit amet purus eget ipsum.",
+        "gap": 30,
+        "hover": "scale_up",
+        "image1": "shopify://shop_images/bl10.webp",
+        "link1": "",
+        "image2": "shopify://shop_images/bl9_a44dac29-0054-47a7-b7f6-45286101c1b6.webp",
+        "link2": "",
+        "image3": "shopify://shop_images/bl8_1aec45d0-2d5e-417e-bbf5-ad07591199a3.webp",
+        "link3": "",
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 40,
+        "padding_bottom": 50
+      }
+    },
+    "about_v8_7PTVne": {
+      "type": "our-store-v2",
+      "blocks": {
+        "items_box_wqFGJF": {
+          "type": "store",
+          "settings": {
+            "title": "NEWYORK STORE",
+            "content": "<ul><li>Brooklyn Law School. 250 Joralemon</li><li>Monday to Friday : 9am to 8pm</li><li>Hello@domain.com</li></ul>"
+          }
+        },
+        "items_box_qAVge4": {
+          "type": "store",
+          "settings": {
+            "title": "AMSTERDAM STORE",
+            "content": "<ul><li>Roeterseiland Campus Building E, 10th Amsterdam</li><li>Monday to Friday : 8am to 5pm</li><li>Hello@domain.com</li></ul>"
+          }
+        },
+        "items_box_ycy4Gk": {
+          "type": "store",
+          "settings": {
+            "title": "LONDON STORE",
+            "content": "<ul><li>15-17 Charlotte Street, London</li><li>Monday to Friday : 9am to 8pm</li><li>Hello@domain.com</li></ul>"
+          }
+        }
+      },
+      "block_order": ["items_box_wqFGJF", "items_box_qAVge4", "items_box_ycy4Gk"],
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "gap": 30,
+        "columns_limit": 3,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 50,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": ["breadcrumb-v2", "about_v5_3hTDnh", "about_v6_XmqqTF", "about_v7_AP3Tgd", "about_v8_7PTVne"]
+}

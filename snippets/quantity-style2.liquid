@@ -1,0 +1,40 @@
+{% comment %}
+  Renders a quantity selector for a product
+
+  Accepts:
+  - value: {number} value of input number
+  - form_id: {string} id of form to submit
+  - width: {string} value of width
+  - height: {string} value of height
+  - modify: {string} modify class to edit width of xo-quantity__number
+  - aria_label: {string} aria label of input number
+
+  Usage:
+  {% render 'quantity' %}
+{% endcomment %}
+
+<xo-cart-quantity
+  class='xo-quantity-style2'
+  style='--width: {{ width | default: '10rem' }}; --height: {{ height | default: '4rem'}}'
+  aria-labelledby='quantity-{{ section.id }}'
+>
+  <xo-cart-quantity-minus class='xo-quantity-style2__button'>
+    {% render 'icon', name: 'minus', icon_size: '12' %}
+  </xo-cart-quantity-minus>
+  <input
+    class='xo-quantity-style2__number {% if modify %}xo-quantity-style2__number--{{ modify }}{% endif %}'
+    type='number'
+    name='quantity'
+    value='{{ value | default: 1 }}'
+    {% if form_id %}
+      form='{{ form_id }}'
+    {% endif %}
+    {% if aria_label %}
+      aria-label='{{ aria_label }}'
+    {% endif %}
+    id='quantity-{{ section.id }}'
+  >
+  <xo-cart-quantity-plus class='xo-quantity-style2__button'>
+    {% render 'icon', name: 'plus', icon_size: '12' %}
+  </xo-cart-quantity-plus>
+</xo-cart-quantity>

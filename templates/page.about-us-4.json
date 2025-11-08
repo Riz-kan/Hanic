@@ -1,0 +1,283 @@
+{
+  "sections": {
+    "banner-v1": {
+      "type": "banner-v1",
+      "settings": {
+        "title": "Our Story",
+        "subtitle": "Cenean imperdiet. Fusce vel dui Praesent adipiscing.",
+        "color_scheme": "",
+        "background_type": "image",
+        "background_color": "",
+        "background_gradient": "",
+        "background_image_desktop": "shopify://shop_images/breadcrumb.jpg",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 235,
+        "padding_bottom": 345
+      }
+    },
+    "about_v12_HDxCay": {
+      "type": "about-v6",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "reverse": false,
+        "title": "Perfect SimpleLove From Our Passion",
+        "description": "Suspendisse non nisl sit amet velit hendrerit rutrum. Nulla porta dolor. Nunc interdum lacus sit amet orci. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Etiam sit amet orci eget eros faucibus tincidunt. Maecenas egestas arcu quis ligula mattis placerat. Quisque id mi. Sed a libero. Vestibulum ullamcorper mauris at ligula. Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc, eu sollicitudin urna dolor sagittis lacus.",
+        "image": "shopify://shop_images/bl12_b412d646-2718-4a51-bb24-8ea49b59ec01.webp",
+        "hover": "scale_down",
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 50,
+        "padding_bottom": 70
+      }
+    },
+    "about_v13_LjaR3z": {
+      "type": "about-v7",
+      "blocks": {
+        "about_box_tPEi3i": {
+          "type": "about",
+          "settings": {
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Capa_1\" height=\"512\" viewbox=\"0 0 511.523 511.523\" width=\"512\"><path id=\"XMLID_822_\" d=\"m468.536 384.914c-26.555-26.555-26.555-69.763 0-96.318 13.979-13.979 21.678-32.565 21.678-52.334s-7.698-38.355-21.678-52.334l-6.835-6.835c5.958-4.491 9.229-7.026 9.792-7.589 30.108-30.109 30.108-79.1 0-109.208-14.586-14.585-33.978-22.618-54.604-22.618s-40.019 8.033-54.604 22.618c-.719.719-4.658 5.86-11.783 15.377l-10.416-10.416c-12.688-12.688-29.558-19.676-47.501-19.676-17.944 0-34.813 6.987-47.502 19.676l-69.008 69.008c-12.698 12.697-33.357 12.696-46.054 0-11.816-11.817-27.528-18.325-44.239-18.325-16.712 0-32.424 6.508-44.24 18.325l-41.542 41.541 21.213 21.213 41.542-41.542c6.15-6.15 14.328-9.538 23.027-9.538 8.698 0 16.876 3.387 23.026 9.538 24.394 24.395 64.084 24.396 88.479 0l69.008-69.007c7.022-7.022 16.358-10.889 26.289-10.889s19.267 3.867 26.288 10.889l13.531 13.531c-37.515 50.635-110.094 149.432-217.074 295.492l-57.39 78.354 78.354-57.39c151.667-111.087 252.372-185.08 301.108-221.238l9.92 9.92c8.313 8.313 12.891 19.366 12.891 31.122s-4.578 22.809-12.891 31.122c-18.53 18.53-28.735 43.167-28.735 69.372s10.205 50.842 28.735 69.372l42.987 42.987 21.213-21.213zm-271.485-50.177c85.094-116.044 179.012-243.829 186.864-253.641 8.869-8.658 20.556-13.419 32.974-13.419 12.613 0 24.473 4.912 33.392 13.831 18.273 18.273 18.41 47.921.411 66.365-1.345 1.076-4.919 3.779-10.364 7.846l-21.523-21.523 13.322-13.322-21.213-21.213-47.857 47.857 21.213 21.213 13.322-13.322 18.384 18.384c-47.7 35.277-136.283 100.343-218.925 160.944z\"></path></svg>",
+            "title": "Product Design"
+          }
+        },
+        "about_box_eC8kjW": {
+          "type": "about",
+          "settings": {
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Capa_1\" height=\"512\" viewbox=\"0 0 512 512\" width=\"512\"><g id=\"XMLID_366_\"><path id=\"XMLID_388_\" d=\"m414.333 453.314v-16.33c0-18.195 14.803-32.997 32.997-32.997h14.266v-30h-14.266c-12.473 0-24.108 3.642-33.903 9.921-4.397-22.535-24.291-39.594-48.094-39.594h-22.333v30h22.333c10.477 0 19 8.523 19 19v60h-216.353v-49.327h25.5c33.469 0 60.697-27.229 60.697-60.697v-37.976h-55.5c-18.211 0-34.562 8.073-45.697 20.815-11.135-12.742-27.486-20.815-45.696-20.815h-55.5v37.976c0 33.469 27.229 60.697 60.696 60.697h25.5v49.327h-137.98v30h512v-30zm-215.655-118h25.5v7.976c0 16.927-13.771 30.697-30.697 30.697h-25.5v-7.976c-.001-16.926 13.77-30.697 30.697-30.697zm-86.198 38.673c-16.926 0-30.696-13.771-30.696-30.697v-7.976h25.5c16.926 0 30.696 13.771 30.696 30.697v7.976z\"></path><path id=\"XMLID_397_\" d=\"m381.083 270.235 110.726-110.726-36.122-36.122 2.494-2.494c21.06-21.06 21.06-55.327 0-76.387-10.202-10.202-23.767-15.82-38.193-15.82-14.428 0-27.992 5.618-38.193 15.82l-2.495 2.494-18.084-18.084-110.726 110.726 35.984 35.984h-64.142v30h94.141zm21.924-204.516c4.536-4.536 10.565-7.033 16.98-7.033 6.414 0 12.444 2.498 16.98 7.033 9.362 9.363 9.362 24.598 0 33.961l-2.494 2.494-33.961-33.96zm-41.791 5.624 88.167 88.166-68.3 68.299-88.167-88.167z\"></path><path id=\"XMLID_399_\" d=\"m167.98 279.667c0-19.31 15.71-35.019 35.02-35.019v-30c-35.852 0-65.02 29.167-65.02 65.019v13.314h30z\"></path></g></svg>",
+            "title": "Quality Assurance"
+          }
+        },
+        "about_box_MUf6wk": {
+          "type": "about",
+          "settings": {
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" id=\"Capa_1\" height=\"512\" viewbox=\"0 0 510.481 510.481\" width=\"512\"><path id=\"XMLID_288_\" d=\"m412.545 227.748 1.846-96.695 96.091-17.442-110.854-110.853-106.037 106.037-87.134-87.134-206.457 16.026 185.122 185.122-20.96 284.914 264.179-264.179zm2.083-127.228v-40.336l34.139 34.139zm-30-40.336-1.526 138.121-68.297-68.297zm-171.486 190.645 82.744 82.744-95.886 95.885zm103.956 61.531-249.805-249.806 127.717-9.914 190.904 190.904z\"></path></svg>",
+            "title": "Photography"
+          }
+        }
+      },
+      "block_order": ["about_box_tPEi3i", "about_box_eC8kjW", "about_box_MUf6wk"],
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "columns_limit": 3,
+        "gap": 30,
+        "auto_play": false,
+        "color_scheme": "background-1",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "about-v8": {
+      "type": "about-v8",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "title": "Revolutionary Inclusivity",
+        "description": "Suspendisse non nisl sit amet velit hendrerit rutrum. Nulla porta dolor. Nunc interdum lacus sit amet orci. Donec orci lectus, aliquam ut faucibus non, euismod id, nulla. Etiam sit amet orci eget eros faucibus tincidunt.Maecenas egestas arcu quis ligula mattis placerat. Quisque id mi. Sed a libero. Vestibulum ullamcorper mauris at ligula. Aenean posuere, tortor sed cursus feugiat,",
+        "button_text": "EXPLORE OUR PRODUCT",
+        "button_link": "shopify://collections/all",
+        "button_mode": "light",
+        "button_style": "primary",
+        "button_size": "sm",
+        "button_radius": 0.8,
+        "button_padding": 1.4,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "#fdf5f5",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 240,
+        "padding_bottom": 110
+      }
+    },
+    "about_v15_TNJYtP": {
+      "type": "testimonial-v1",
+      "blocks": {
+        "about_box_JYcaHH": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "testimonial": "Blood bank canine teeth larynx occupational therapist oncologist optician plaque spinal tap stat strep screen violence joints symptoms x-ray...",
+            "avatar": "shopify://shop_images/instagram7_68x68_crop_center_673a16bd-7f16-4a8f-a0b8-5bd8c25f32dc.jpg",
+            "name": "Ann Smith",
+            "position": "Photographer"
+          }
+        },
+        "about_box_7dKJgx": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "testimonial": "Blood bank canine teeth larynx occupational therapist oncologist optician plaque spinal tap stat strep screen violence joints symptoms x-ray...",
+            "avatar": "shopify://shop_images/instagram5_68x68_crop_center_454adfe1-0a80-4d99-bdd9-643196afcdf3.jpg",
+            "name": "Saitama One",
+            "position": "Photographer"
+          }
+        },
+        "about_box_HjVdzd": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "testimonial": "Blood bank canine teeth larynx occupational therapist oncologist optician plaque spinal tap stat strep screen violence joints symptoms x-ray...",
+            "avatar": "shopify://shop_images/instagram8_68x68_crop_center_3b3de2d5-f5ab-41c1-a273-14e2f1635e4f.jpg",
+            "name": "Sara Colinton",
+            "position": "Nutricionist"
+          }
+        },
+        "about_box_Q9ic8p": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "testimonial": "Blood bank canine teeth larynx occupational therapist oncologist optician plaque spinal tap stat strep screen violence joints symptoms x-ray...",
+            "avatar": "shopify://shop_images/divided_68x68_crop_center_0a9579a4-bb98-40a3-9185-9d4ca3c3dfc3.jpg",
+            "name": "Sara Colinton",
+            "position": "Ann Smith"
+          }
+        }
+      },
+      "block_order": ["about_box_JYcaHH", "about_box_7dKJgx", "about_box_HjVdzd", "about_box_Q9ic8p"],
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "title": "Happy Clients",
+        "columns_carousel": 3,
+        "auto_play": true,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 50,
+        "padding_bottom": 20
+      }
+    },
+    "brand_v1_w7CHHB": {
+      "type": "brand-v1",
+      "blocks": {
+        "brand_v1_pGM8iV": {
+          "type": "brand-v1",
+          "settings": {
+            "image": "shopify://shop_images/client-1-1_250x250_a943e087-61ae.jpg",
+            "brand_link": "shopify://collections/all",
+            "brand_svg": ""
+          }
+        },
+        "brand_v1_T7FXCH": {
+          "type": "brand-v1",
+          "settings": {
+            "image": "shopify://shop_images/client-2-1_250x250_b11141ff-a1cd.jpg",
+            "brand_link": "shopify://collections/all",
+            "brand_svg": ""
+          }
+        },
+        "brand_v1_GgHp4g": {
+          "type": "brand-v1",
+          "settings": {
+            "image": "shopify://shop_images/client-6-1_250x250_ea593392-495b.jpg",
+            "brand_link": "shopify://collections/all",
+            "brand_svg": ""
+          }
+        },
+        "brand_v1_zrNmR7": {
+          "type": "brand-v1",
+          "settings": {
+            "image": "shopify://shop_images/client-7-1_250x250_cde0733c-9731.jpg",
+            "brand_link": "shopify://collections/all",
+            "brand_svg": ""
+          }
+        },
+        "brand_v1_NGiAkn": {
+          "type": "brand-v1",
+          "settings": {
+            "image": "shopify://shop_images/client-3-1_250x250_8748ae47-ff81.jpg",
+            "brand_link": "shopify://collections/all",
+            "brand_svg": ""
+          }
+        },
+        "brand_v1_qPTXjA": {
+          "type": "brand-v1",
+          "settings": {
+            "image": "shopify://shop_images/client-4-1_250x250_1025b31e-8f91.jpg",
+            "brand_link": "shopify://collections/all",
+            "brand_svg": ""
+          }
+        }
+      },
+      "block_order": ["brand_v1_pGM8iV", "brand_v1_T7FXCH", "brand_v1_GgHp4g", "brand_v1_zrNmR7", "brand_v1_NGiAkn", "brand_v1_qPTXjA"],
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "columns_carousel": 5,
+        "autoplay": false,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 50,
+        "padding_bottom": 65
+      }
+    },
+    "newsletter_v4": {
+      "type": "newsletter-v3",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" style=\"fill:#fff\" id=\"Capa_1\" enable-background=\"new 0 0 512 512\" height=\"512\" viewbox=\"0 0 512 512\" width=\"512\" class=\"mdl-js\"><path d=\"m512 203.06v-.045c0-.427-.024-.85-.059-1.271-.01-.115-.025-.229-.037-.344-.036-.33-.082-.657-.139-.981-.021-.122-.042-.244-.066-.365-.08-.395-.171-.787-.282-1.172-.011-.038-.02-.077-.031-.115-.117-.394-.253-.781-.401-1.163-.056-.146-.118-.289-.179-.434-.109-.258-.226-.513-.35-.764-.072-.146-.141-.293-.217-.437-.187-.351-.386-.695-.6-1.031-.08-.125-.168-.245-.252-.368-.167-.245-.34-.485-.521-.719-.097-.125-.194-.249-.295-.372-.263-.319-.535-.631-.825-.928-.023-.023-.045-.047-.068-.07-.31-.315-.64-.612-.979-.9-.042-.036-.078-.076-.121-.111l-25.578-21.225v-65.229c0-19.299-15.701-35-35-35h-85.776l-69.1-57.345c-20.354-16.888-49.896-16.888-70.248 0l-69.1 57.344h-85.776c-19.299 0-35 15.701-35 35v65.229l-25.579 21.228c-.042.035-.079.075-.121.111-.339.288-.669.585-.979.9-.023.023-.045.047-.068.07-.289.297-.562.609-.825.928-.101.122-.198.247-.295.372-.181.235-.354.475-.521.719-.084.123-.172.243-.252.368-.214.335-.413.679-.6 1.031-.077.144-.146.291-.217.437-.124.251-.24.506-.35.764-.061.144-.123.288-.179.434-.148.382-.285.768-.401 1.163-.011.038-.02.076-.031.115-.111.385-.202.777-.282 1.172-.024.122-.045.243-.066.365-.057.324-.103.651-.139.981-.012.115-.027.229-.037.344-.034.419-.058.842-.058 1.269v.045.008 253.927c0 15.718 6.638 29.906 17.246 39.939.301.301.603.599.925.87 9.757 8.814 22.676 14.19 36.829 14.19h402c14.154 0 27.074-5.377 36.832-14.193.319-.27.619-.565.918-.864 10.61-10.033 17.25-24.223 17.25-39.943v-253.926c0-.002 0-.005 0-.008zm-446-103.045h380c2.757 0 5 2.243 5 5v116.682l-8.488 7.044-170.546 141.533c-9.251 7.677-22.681 7.676-31.932 0l-170.546-141.532-8.488-7.045v-116.682c0-2.757 2.243-5 5-5zm-36 356.98v-222.04l6.452 5.355c.004.003.008.007.012.01l146.469 121.551-151.397 103.752c-.993-2.69-1.536-5.597-1.536-8.628zm176.937-75.204 13.939 11.568c20.352 16.89 49.896 16.889 70.248 0l13.939-11.568 146.22 100.204h-390.567zm122.13-19.919 146.468-121.552c.004-.003.008-.007.012-.01l6.452-5.355v222.04c0 3.031-.543 5.938-1.536 8.628zm-89.033-326.114c9.251-7.677 22.681-7.677 31.932 0l41.281 34.258h-114.494z\"></path><path d=\"m131.5 164.995c0 8.284 6.716 15 15 15h142c8.284 0 15-6.716 15-15s-6.716-15-15-15h-142c-8.284 0-15 6.716-15 15z\"></path><path d=\"m146.5 239.995h219c6.988 0 12.843-4.786 14.509-11.254.309-1.2.491-2.45.491-3.746 0-8.284-6.716-15-15-15h-219c-8.284 0-15 6.716-15 15 0 1.296.182 2.547.491 3.746 1.666 6.469 7.521 11.254 14.509 11.254z\"></path></svg>",
+        "title": "SIGN UP<br>FOR NEWSLETTER",
+        "subtitle": "Subscribe to the weekly newsletter for all the latest updates",
+        "button_mode": "dark",
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": true,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": ["banner-v1", "about_v12_HDxCay", "about_v13_LjaR3z", "about-v8", "about_v15_TNJYtP", "brand_v1_w7CHHB", "newsletter_v4"]
+}

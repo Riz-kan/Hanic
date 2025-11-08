@@ -1,0 +1,12 @@
+{% comment %}
+  Renders a section attribute
+
+  Usage:
+  {% render 'section-layout' %}
+{% endcomment %}
+
+{% liquid
+  assign class_name = 'xo-container--' | append: section.settings.width
+%}
+
+class="{{ class_name }}" {% if section.settings.width == 'fullwidth' %}style="--padding: {{ section.settings.fullwidth_margin }}"{% endif %}

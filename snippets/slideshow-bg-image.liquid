@@ -1,0 +1,63 @@
+{% comment %}
+  Renders a slideshow-bg-image
+
+  Accepts:
+  - block: {Object} Block Liquid object (required)
+
+  Usage:
+  {% render 'slideshow-bg-image', block: block %}
+{% endcomment %}
+
+{% liquid
+  assign video_url = block.settings.background_video_url
+  assign background_overlay = block.settings.background_overlay
+  assign background_video_animation = block.settings.background_video_animation
+
+  assign use_parallax = block.settings.use_parallax
+  assign img_desktop = block.settings.background_image_desktop | image_url
+  assign img_mobile = block.settings.background_image_mobile | image_url
+  assign background_image_animation = block.settings.background_image_animation
+
+  assign duration = 1000
+%}
+
+{%- if video_url != blank -%}
+  {%- assign type = background_video_animation -%}
+
+  {%- capture style -%}
+    {% if background_overlay != blank %}--bg-overlay: {{ background_overlay }};{% endif %}
+  {%- endcapture -%}
+
+  {%- capture content -%}
+    <xo-video-cover xo-src='{{ video_url }}'></xo-video-cover>
+  {%- endcapture -%}
+
+  {%- else -%}
+    {%- assign type = background_image_animation -%}
+
+    {%- capture style -%}
+      {% if background_overlay != blank %}--bg-overlay: {{ background_overlay }};{% endif %}
+      {% if img_desktop != blank %}--img-desktop: url("{{ img_desktop | image_url: width: 100 }}");{% endif %}
+      {% if img_mobile != blank %}--img-mobile: url("{{ img_mobile | image_url: width: 100 }}");{% endif %}
+    {%- endcapture -%}
+
+    {%- capture content -%}
+      {% if use_parallax %}
+        <xo-parallax xo-lerp-ease='0.4' class='slideshow-bg-image__item'>
+          <xo-parallax-scroll
+            xo-keyframes="
+              {
+                '0%': { backgroundPositionY: '200px' },
+                '100%': { backgroundPositionY: '-200px' },
+              }
+            "
+            class='slideshow-bg-image__url xo-background-lazyload'
+          ></xo-parallax-scroll>
+        </xo-parallax>
+      {% else %}
+        <div class='slideshow-bg-image__item'><div class='slideshow-bg-image__url xo-background-lazyload'></div></div>
+      {% endif %}
+    {%- endcapture -%}
+{%- endif -%}
+
+{% render 'animation', content: content, type: type, duration: duration, class: 'slideshow-bg', style: style %}

@@ -1,0 +1,48 @@
+{% comment %}
+  Renders a product-360.
+
+  Accepts:
+    - name: {String} name of modal for trigger and style (required)
+
+  Usage:
+  {% render 'product_360' %}
+{% endcomment %}
+{% liquid
+  assign image_arr = '' | split: ''
+  for image_item in product.metafields.custom.product_360.value
+    assign image_src = image_item.src | image_url: width: 1000 | split: ','
+    assign image_arr = image_arr | concat: image_src
+  endfor
+%}
+
+<xo-modal-trigger xo-name='product-360-{{ name }}' class='product-360__trigger product-360__trigger--{{ name }}'>
+  <xo-tooltip xo-title='{{ 'products.product.media.play_360' | t }}' xo-placement='right-center' xo-animate='fade-left' xo-easing='spring'>
+    <button>{% render 'icon', name: '360', icon_size: '38' %}</button>
+  </xo-tooltip>
+</xo-modal-trigger>
+<xo-modal xo-name='product-360-{{ name }}' xo-animate='fade-up' xo-portal='true' class='product-360__modal'>
+  <xo-modal-trigger class='product-360__close'>
+    <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+  </xo-modal-trigger>
+  <div class='product-360__wrap'>
+    <div class='product-360__inner'>
+      <xo-360-viewer xo-images='{{ image_arr | json }}'>
+        <div class='product-360__loading'>Loading...</div>
+        <div class='product-360__buttons'>
+          <xo-360-viewer-prev class='product-360__arrow'
+            ><button>{% render 'icon', name: 'arrow-left', icon_size: '14' %}</button></xo-360-viewer-prev
+          >
+          <xo-360-viewer-play class='product-360__action product-360__action--play'
+            ><button>{% render 'icon', name: 'play', icon_size: '14' %}</button></xo-360-viewer-play
+          >
+          <xo-360-viewer-pause class='product-360__action'
+            ><button>{% render 'icon', name: 'pause', icon_size: '10' %}</button></xo-360-viewer-pause
+          >
+          <xo-360-viewer-next class='product-360__arrow'
+            ><button>{% render 'icon', name: 'arrow-right', icon_size: '14' %}</button></xo-360-viewer-next
+          >
+        </div>
+      </xo-360-viewer>
+    </div>
+  </div>
+</xo-modal>

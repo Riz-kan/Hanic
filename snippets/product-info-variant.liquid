@@ -1,0 +1,124 @@
+{% comment %}
+  Renders a product variant option as a set of radio buttons.
+
+  Accepts:
+  - option: {Object} The product variant option to render.
+  - product: {Object} The product object.
+  - style: {String} The style of the radio buttons. Accepts 'radio' | 'boxed' | 'select' | 'color'
+  - color_use_image: {Boolean} Whether to use the variant's featured image as the color swatch.
+  - media_aspect_ratio: {String} aspect ratio of image when use image variants (optional)
+
+  Usage:
+  {% render 'product-info-variant', option: option %}
+{% endcomment %}
+
+<div class='xo-product-info-variant'>
+  {% capture header %}
+    <div class='xo-product-info-variant__header'>
+      <span style='font-weight:500'>{{ option.name | escape }}:</span>
+      <xo-product-will-change xo-unique-id='product-variant-{{ option.name }}-{{ product.id }}' class='xo-product-info-variant__name'>
+        {{ option.selected_value }}
+      </xo-product-will-change>
+    </div>
+  {% endcapture %}
+
+  {% if style == 'select' %}
+    {% capture options %}
+      <xo-product-variant>
+        {% liquid
+        for value in option.values
+        assign checked = false
+        if option.selected_value == value
+        assign checked = true
+        endif
+        render 'field-select-custom-option-variant', label: value, name: option.name, value: value, checked: checked
+        endfor
+        %}
+      </xo-product-variant>
+  {% endcapture %}
+    {{ header }}
+    {% render 'field-select-custom-variant', name: option.name, value: option.values[0].name, options: options, placement: 'bottom-left' %}
+  {% elsif style == 'color' or style == 'image' %}
+    {{ header }}
+    <xo-product-variant
+      class='
+        xo-product-info-variant__inner {%- if modified -%}
+          xo-product-info-variant__inner--{{modified}}
+        {%- endif -%}
+      '
+      {% if modified == 'style1' %}
+        {% case settings.product_card_text_alignment %}
+          {% when 'left' %}
+            {% assign justify_variant = 'flex-start' %}
+          {% when 'center' %}
+            {% assign justify_variant = 'center' %}
+          {% else %}
+            {% assign justify_variant = 'right' %}
+        {% endcase %}
+        style='--justify_variant:{{justify_variant}}'
+      {% endif %}
+    >
+      {% liquid
+        if style == 'image'
+          assign color_use_image = true
+        endif
+        for value in option.values
+          assign value_check = ''
+          for variant in product.variants
+            assign value = value | escape
+            assign checked = false
+            if option.selected_value == value
+              assign checked = true
+            endif
+            if variant.options contains value and value != value_check
+              assign value_check = value
+              render 'field-color-style2', style: style, name: option.name, value: value, checked: checked, image: variant.featured_image, use_image: color_use_image, size: '4rem', media_aspect_ratio: media_aspect_ratio
+            endif
+          endfor
+        endfor
+      %}
+    </xo-product-variant>
+  {% elsif style == 'boxed' %}
+    {{ header }}
+    <xo-product-variant class='xo-product-info-variant__inner'>
+      {% liquid
+        for value in option.values
+          assign value = value | escape
+          assign checked = false
+          if option.selected_value == value
+            assign checked = true
+          endif
+
+          render 'field-radio', style: 'boxed', name: option.name, value: value, checked: checked, label: value
+        endfor
+      %}
+    </xo-product-variant>
+  {% elsif style == 'boxed2' %}
+    {{ header }}
+    <xo-product-variant class='xo-product-info-variant__inner'>
+      {% liquid
+        for value in option.values
+          assign value = value | escape
+          assign checked = false
+          if option.selected_value == value
+            assign checked = true
+          endif
+          render 'field-radio', style: 'boxed2', name: option.name, value: value, checked: checked, label: value
+        endfor
+      %}
+    </xo-product-variant>
+  {% else %}
+    <xo-product-variant class='xo-product-info-variant__inner xo-product-info-variant__inner--radio'>
+      {% liquid
+        for value in option.values
+          assign value = value | escape
+          assign checked = false
+          if option.selected_value == value
+            assign checked = true
+          endif
+          render 'field-radio', style: style, name: option.name, value: value, checked: checked, label: value, icon_size: '3rem'
+        endfor
+      %}
+    </xo-product-variant>
+  {% endif %}
+</div>

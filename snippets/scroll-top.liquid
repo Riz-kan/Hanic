@@ -1,0 +1,38 @@
+{% comment %}
+  Renders a button scroll to top at every pages
+
+  Usage:
+  {% render 'scroll-top %}
+{% endcomment %}
+
+{% liquid
+  if settings.scrolltop_position == 'left'
+    assign left_desktop = '3rem'
+    assign left_mobile = '2rem'
+    assign right_desktop = ''
+    assign right_mobile = ''
+  else
+    assign left_desktop = ''
+    assign left_mobile = ''
+    assign right_desktop = '3rem'
+    assign right_mobile = '2rem'
+  endif
+  assign background_color = '--bg-color: ' | append: settings.scrolltop_background_color | append: ';'
+  assign background_gradient = '--bg-gradient: ' | append: settings.scrolltop_background_gradient | append: ';'
+  assign icon_color = '--icon-color: ' | append: settings.scrolltop_color | append: ';'
+%}
+
+<a
+  xo-scroll-to
+  href='#top'
+  id='xo-scroll-top'
+  class='scroll-top'
+  style='--left-desktop: {{ left_desktop }}; --left-mobile: {{ left_mobile }}; --right-desktop: {{ right_desktop }}; --right-mobile: {{ right_mobile }}; {{ background_color }}; {{ background_gradient }}; {{ icon_color }}'
+>
+  <div class='scroll-top__icon-before'>
+    {% render 'icon', name: 'chevron-up' %}
+  </div>
+  <div class='scroll-top__icon-after'>
+    {% render 'icon', name: 'chevron-up' %}
+  </div>
+</a>

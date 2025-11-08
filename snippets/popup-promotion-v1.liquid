@@ -1,0 +1,150 @@
+{% comment %}
+  Renders a popup-promotion-v1
+
+  Accepts:
+  - color_text: {String} Color code for the popup-promotion (Optional)
+  - title: {String} title of the popup-promotion
+  - subtitle: {String} Subtitle of the popup-promotion (Optional)
+  - gift_code: {String} gift code for the popup-promotion
+  - description: {String} Description of the popup-promotion (Optional)
+  - button_text: {String} Label for the button
+  - image: {String} Background image for the popup-promotion
+
+  Usage:
+  {% render 'popup-promotion-v1'%}
+{% endcomment %}
+
+{% liquid
+  assign title = settings.popup_promotion_title
+  assign subtitle = settings.popup_promotion_subtitle
+  assign gift_code = settings.popup_promotion_gift_code
+  assign description = settings.popup_promotion_description
+  assign image = settings.popup_promotion_background_image
+  assign media_aspect_ratio = settings.product_card_aspect_ratio
+  assign product_card_media_type = settings.product_card_media_type
+%}
+
+{% comment %} Create navigate icon used in product card media type carousel {% endcomment %}
+{% capture prev_icon %}
+  <span class='xo-product-card__carousel-prev'>
+    {% render 'icon', name: 'chevron-left', size: '20' %}
+  </span>
+{% endcapture %}
+{% capture next_icon %}
+  <span class='xo-product-card__carousel-next'>
+    {% render 'icon', name: 'chevron-right', size: '20' %}
+  </span>
+{% endcapture %}
+
+{% comment %} Create attr for xo-product-media {% endcomment %}
+{% case product_card_media_type %}
+  {% when 'auto' %}
+    {% capture product_media_attr %}
+      xo-type="auto"
+    {% endcapture %}
+  {% when 'carousel' %}
+    {% capture product_media_attr %}
+      xo-type="carousel" xo-carousel-autoplay="0" xo-carousel-prev-content="{{ prev_icon | escape }}" xo-carousel-next-content="{{ next_icon | escape }}"
+    {% endcapture %}
+  {% when 'video_autoplay' %}
+    {% capture product_media_attr %}
+      xo-type="video"
+    {% endcapture %}
+  {% else %}
+    {% capture product_media_attr %}
+      xo-type="carousel"
+    {% endcapture %}
+{% endcase %}
+
+<div class='popup-promotion-v1 xo-scrollbar' style='--width: 0.4rem; color: {{ color_text }} !important '>
+  <xo-grid class='popup-promotion-v1__grid' style='--xs: 1; --md: 2;  --xo-grid-col-gap: 0'>
+    <div class='popup-promotion-v1__left'>
+      <div class='popup-promotion-v1__recommend'>{{ 'products.product.recommended' | t }}</div>
+      {% if settings.popup_promotion_collection.products %}
+        <div class='xo-scrollbar' style='max-width: 100%; max-height: 41.5rem;'>
+          {% for product in settings.popup_promotion_collection.products limit: 10 %}
+            <xo-product xo-product-id='{{ product.id }}' xo-section-id='{{section.id}}'>
+              <div class='popup-promotion-v1__item'>
+                <div class='popup-promotion-v1__product'>
+                  <div class='popup-promotion-v1__product-image'>
+                    <a href='{{ product.url }}'>
+                      <xo-product-media {{ product_media_attr }} xo-binding='img'>
+                        {% render 'product-image', product: product, media_aspect_ratio: media_aspect_ratio %}
+                      </xo-product-media>
+                    </a>
+                  </div>
+                </div>
+                <div class='popup-promotion-v1__product-content'>
+                  <a class='popup-promotion-v1__product-title' href='{{ product.url }}'>
+                    {{ product.title | escape }}
+                  </a>
+                  <div class='xo-product-card__price'>
+                    <div class='xo-product-card__price-inner' xo-binding='price'>
+                      {% render 'price', product: product, use_variant: true, reverse: false %}
+                    </div>
+                  </div>
+                  {% if product.variants.size > 1 %}
+                    {% for option in product.options_with_values %}
+                      {% if option.name == 'Color' %}
+                        <div class='popup-promotion-v1__variants'>
+                          {% render 'product-variant', option: option, product: product, style: 'color' %}
+                        </div>
+                        {% break %}
+                      {% endif %}
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              {% render 'product-data', product: product %}
+              {% render 'product-static-data', product: product, media_aspect_ratio: media_aspect_ratio %}
+            </xo-product>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class='popup-promotion-v1__empty-product'>There's no product available! Please choose a product collection.</div>
+      {% endif %}
+    </div>
+
+    <div class='popup-promotion-v1__right' style='color: {{ color_text }} !important '>
+      <div class='popup-promotion-v1__close'>
+        <xo-modal-trigger class='xo-modal-content-style1__close{% if close_class %} {{ close_class }}{% endif %}' aria-label='{{ 'accessibility.close' | t }}'>
+          {% render 'icon', name: 'close2', icon_size: '15' %}
+        </xo-modal-trigger>
+      </div>
+      <div class='popup-promotion-v1__background'>
+        {%- render 'image', image: image -%}
+      </div>
+      <div class='popup-promotion-v1__content'>
+        {%- if title -%}
+          <div class='popup-promotion-v1__title'>
+            {{ title }}
+          </div>
+        {%- endif -%}
+        {%- if subtitle -%}
+          <div class='popup-promotion-v1__subtitle'>
+            {{ subtitle }}
+          </div>
+        {%- endif -%}
+        {%- if gift_code -%}
+          <div class='popup-promotion-v1__copy'>
+            {% render 'share-style2', copy_title: 'title', url: {{gift_code}} %}
+          </div>
+        {%- endif -%}
+        {%- if description -%}
+          <div class='popup-promotion-v1__description'>
+            {{ description }}
+          </div>
+        {%- endif -%}
+
+        {% render 'button',
+          link: settings.popup_promotion_button_link,
+          text: settings.popup_promotion_button_text,
+          style: 'secondary',
+          mode: settings.popup_promotion_button_mode,
+          size: 'md',
+          padding: 3
+        %}
+      </div>
+    </div>
+  </xo-grid>
+</div>

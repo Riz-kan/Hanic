@@ -1,0 +1,86 @@
+{% comment %}
+  Renders a page heading.
+
+  Accepts:
+  - title: {String} Title of the page (optional)
+  - title_tag: {String} HTML tag to use for the title (optional)
+  - description: {String} Description of the page (optional)
+  - show_breadcrumb: {Boolean} Whether to show breadcrumbs (optional)
+  - align: {String} Alignment of the page heading (optional)
+
+  Usage:
+  {% render 'page-heading' %}
+{% endcomment %}
+
+{% if title_tag == blank %}
+  {% assign title_tag = 'h1' %}
+{% endif %}
+
+<div class='xo-page-heading{% if align != blank %} xo-page-heading--{{ align }}{% endif %}'>
+  <{{ title_tag }} class='xo-page-heading__title'>
+    {% if title != blank %}
+      {{ title | escape }}
+    {% else %}
+      {% if template.name == 'product' %}
+        {% liquid
+          assign product_title = ''
+          assign current_collection = null
+          assign collectionsSize = product.collections | size
+          if collection
+            assign current_collection = collection
+          elsif product and collectionsSize > 0
+            assign current_collection = product.collections.first
+          endif
+          if current_collection and current_collection.handle
+            assign product_title = current_collection.title
+          else
+            assign product_title = product.title
+          endif
+        %}
+        {{ product_title | escape }}
+      {% elsif template.name == 'collection' and collection.handle %}
+        {% if current_tags %}
+          {{ current_tags | join: ' + ' | escape }}
+        {% else %}
+          {{ collection.title | escape }}
+        {% endif %}
+      {% elsif template.name == 'blog' %}
+        {% if current_tags %}
+          {{ current_tags | join: ' + ' | escape }}
+        {% else %}
+          {{ blog.title | escape }}
+        {% endif %}
+      {% elsif template == 'article' %}
+        {{ blog.title | escape }}
+      {% elsif template == 'customers/login' %}
+        {{ 'customer.login_page.sign_in' | t }}
+      {% elsif template == 'customers/addresses' %}
+        {{ page_title | escape }}
+      {% elsif template contains 'page' %}
+        {% if page.title != blank %}
+          {{ page.title | escape }}
+        {% else %}
+          {{ page_title | escape }}
+        {% endif %}
+      {% elsif template contains 'search' %}
+        {%- if search.performed -%}
+          {{ 'templates.search.title' | t }}
+        {%- else -%}
+          {{ 'general.search.search' | t }}
+        {%- endif -%}
+      {% else %}
+        {{ page_title | escape }}
+      {% endif %}
+    {% endif %}
+  </{{ title_tag }}>
+
+  {% if description != null %}
+    <div class='xo-page-heading__description'>{{ description }}</div>
+  {% endif %}
+
+  {% if show_breadcrumb %}
+    <div class='xo-page-heading__breadcrumb'>
+      {% render 'breadcrumb' %}
+    </div>
+  {% endif %}
+</div>

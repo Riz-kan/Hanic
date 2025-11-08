@@ -1,0 +1,109 @@
+{% comment %}
+  Renders an article card for a given blog with settings to either show the image or not.
+
+  Accepts:
+  - item: {Object} The cart item to render
+  - for_notification: {Boolean} Whether the item is being rendered for a notification or not. Default: false (optional)
+  - animate_enabled: {Boolean} Whether to animate the item or not. Default: false (optional)
+  - forloop_index: {Number} The index of the item in the loop (required)
+
+  Usage:
+  {% render 'cart-mini-item', item: item, forloop_index: forloop_index %}
+{% endcomment %}
+
+{% capture content %}
+  {% if item.image != blank %}
+    <a href='{{ item.url }}' class='xo-cart-mini-item__image' tabindex='-1' aria-hidden='true'>
+      {% render 'image', image: item.image, width: '140', lazyload: false, media_aspect_ratio: settings.product_card_aspect_ratio %}
+    </a>
+  {% endif %}
+
+  <div class='xo-cart-mini-item__content'>
+    {%- if settings.show_vendor -%}
+      <span class='xo-cart-mini-item__vendor'>{{ item.product.vendor }}</span>
+    {%- endif -%}
+
+    <a
+      href='{{ item.url }}'
+      class='xo-cart-mini-item__title'
+    >
+      {{ item.product.title | escape }}
+    </a>
+
+    {% render 'cart-unit-price', item: item %}
+
+    {%- if item.product.has_only_default_variant == false or item.properties.size != 0 -%}
+    {%- endif -%}
+    <div class='xo-cart-mini-item__price'>
+      {% liquid
+        assign original_price = item.original_price | money
+        if settings.currency_code_enabled
+          assign original_price = item.original_price | money_with_currency
+        endif
+        assign final_price = item.final_price | money
+        if settings.currency_code_enabled
+          assign final_price = item.final_price | money_with_currency
+        endif
+      %}
+      {%- if item.original_price != item.final_price -%}
+        <div class='xo-cart-mini-item__discounted-prices'>
+          <span class='xo-visually-hidden'>
+            {{ 'products.product.price.sale_price' | t }}
+          </span>
+          <span class='xo-cart-mini-item__final-price'>
+            {{ final_price }}
+          </span>
+          <span class='xo-visually-hidden'>
+            {{ 'products.product.price.regular_price' | t }}
+          </span>
+          <s class='xo-cart-mini-item__original-price xo-cart-mini-item__original-price--old'>
+            {{- original_price -}}
+          </s>  
+        </div>
+      {%- else -%}
+        <div class='xo-cart-mini-item__original-price'>
+          {{ original_price }}
+        </div>
+      {%- endif -%}
+    </div>
+    <ul role='list' class='xo-cart-mini-item__discounts'>
+      {%- for discount in item.discounts -%}
+        <li class='xo-cart-mini-item__discount'>
+          {%- render 'icon', name: 'discount' -%}
+          {{ discount.title | escape }}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {% unless for_notification %}
+      <div class="xo-cart-mini-item__quatity-remove">
+        {% assign aria_label = 'products.product.quantity.input_label' | t: product: item.product.title | escape %}
+        {% render 'quantity-style2', size: 'md', value: item.quantity, aria_label: aria_label %}
+        <div class='xo-cart-mini-item__remove'>
+          <xo-cart-change-fallback class='xo-cart-mini-item__loading'>
+            {% render 'loader-2' %}
+          </xo-cart-change-fallback>
+          <xo-cart-remove class='xo-cart-mini-item__remove-action'>
+            <span>Remove</span>
+          </xo-cart-remove>
+        </div>
+      </div>
+    {% endunless %}
+  </div>
+{% endcapture %}
+<xo-product
+  class='xo-cart-mini-item'
+  xo-section-id='mini-cart'
+  xo-product-id='{{ item.id }}'
+  xo-line='{{ forloop_index }}'
+>
+  {% if animate_enabled %}
+    <xo-animate class='xo-cart-mini-item__inner' xo-cascade>
+      {{ content }}
+    </xo-animate>
+  {% else %}
+    <div class='xo-cart-mini-item__inner'>
+      {{ content }}
+    </div>
+  {% endif %}
+</xo-product>

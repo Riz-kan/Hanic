@@ -1,0 +1,124 @@
+{% comment %}
+  Renders a group of buttons: size guide, compare color, ask a quetion, share.
+
+  Accepts:
+  - block: {Object} Block type addon_buttons to render sizeguide, compare color, ask a question, share(required)
+
+  Usage:
+  {% render 'addon-buttons', sizeguide_type: sizeguide_type %}
+{% endcomment %}
+
+<div class='addon-buttons'>
+  {% comment %} Size Guide {% endcomment %}
+  {% if block.settings.sizeguide %}
+    <xo-modal-trigger xo-name='show-sizeguide' class='addon-buttons__trigger'>
+      {% render 'icon', name: 'ruler', icon_size: '18' %}
+      <span>{{ 'products.addon_buttons.size_guide' | t }}</span>
+    </xo-modal-trigger>
+    <xo-modal xo-portal xo-name='show-sizeguide' xo-animate='fade-up' class='addon-buttons__modal'>
+      <div class='addon-buttons__modal-content addon-buttons__modal-content--guide'>
+        <div class='addon-buttons__modal-header'>
+          <div class='addon-buttons__modal-title'>{{ 'products.addon_buttons.size_guide' | t }}</div>
+          <xo-modal-trigger class='addon-buttons__modal-close'>
+            <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+          </xo-modal-trigger>
+        </div>
+        <div class='addon-buttons__modal-body'>
+          {% case block.settings.sizeguide_type %}
+            {% when 'page' %}
+              <div class='addon-buttons__sizeguide-table'>
+                {{ block.settings.sizeguide_page.content }}
+              </div>
+            {% when 'image' %}
+              {% render 'image', image: block.settings.sizeguide_image %}
+            {% else %}
+              {{ block.settings.sizeguide_content }}
+          {% endcase %}
+        </div>
+      </div>
+    </xo-modal>
+  {% endif %}
+
+  {% comment %} Compare color {% endcomment %}
+  {% if block.settings.compare %}
+    <xo-modal-trigger xo-name='show-compare' class='addon-buttons__trigger'>
+      {% render 'icon', name: 'color-circle', icon_size: '20' %}
+      <span>{{ 'products.addon_buttons.compare_color' | t }}</span>
+    </xo-modal-trigger>
+    {% render 'compare', product: product %}
+  {% endif %}
+
+  {% comment %} Ask a question {% endcomment %}
+  {% if block.settings.ask %}
+    <xo-modal-trigger xo-name='show-ask' class='addon-buttons__trigger'>
+      {% render 'icon', name: 'ask', icon_size: '18' %}
+      <span>{{ 'products.addon_buttons.ask_a_question' | t }}</span>
+    </xo-modal-trigger>
+    <xo-modal xo-portal xo-name='show-ask' xo-animate='fade-up' class='addon-buttons__modal'>
+      <div class='addon-buttons__modal-content addon-buttons__modal-content--ask'>
+        <div class='addon-buttons__modal-header'>
+          <div class='addon-buttons__modal-title'>{{ 'products.addon_buttons.ask_a_question' | t }}</div>
+          <xo-modal-trigger class='addon-buttons__modal-close'>
+            <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+          </xo-modal-trigger>
+        </div>
+        <div class='addon-buttons__modal-body'>
+          {%- form 'contact', id: 'ContactForm', class: 'isolate' -%}
+            {% if form.posted_successfully? %}
+              {% assign message = 'templates.contact.form.post_success' | t %}
+              {% render 'form-success', form: form, message: message %}
+            {% else %}
+              {% assign message = 'templates.contact.form.error_heading' | t %}
+              {% render 'form-error', form: form, message: message %}
+            {% endif %}
+            <xo-grid
+              style='
+                --xo-grid-col-gap: 10px;
+                --xo-grid-row-gap: 20px;
+              '
+            >
+              <xo-animate xo-cascade style='--xs:12; --md:12; --lg:6' class='addon-buttons__inputs'>
+                {% assign nameLabel = 'templates.contact.form.name' | t %}
+                {% render 'field-input', type: 'text', name: 'contact[name]', value: form.name, label: nameLabel %}
+              </xo-animate>
+              <xo-animate xo-cascade style='--xs:12; --md:12; --lg:6' class='addon-buttons__inputs'>
+                {% assign emailLabel = 'templates.contact.form.email' | t %}
+                {% render 'field-input', type: 'email', name: 'contact[email]', value: form.email, label: emailLabel %}
+              </xo-animate>
+              <xo-animate xo-cascade style='--xs:12' class='addon-buttons__inputs'>
+                {% assign phoneLabel = 'templates.contact.form.phone' | t %}
+                {% render 'field-input', type: 'tel', name: 'contact[phone]', value: form.phone, label: phoneLabel %}
+              </xo-animate>
+              <xo-animate xo-cascade style='--xs:12' class='addon-buttons__inputs'>
+                {% assign commentLabel = 'templates.contact.form.question' | t %}
+                {% render 'field-textarea', name: 'contact[comment]', value: form.body, label: commentLabel %}
+              </xo-animate>
+            </xo-grid>
+            {% render 'space', value: '3rem' %}
+            {% assign btnLabel = 'templates.contact.form.submit' | t %}
+            {% render 'button', type: 'submit', text: btnLabel, size: 'md', block: true, effect: 'fade', mode: 'dark', style: 'secondary' %}
+          {%- endform -%}
+        </div>
+      </div>
+    </xo-modal>
+  {% endif %}
+
+  {% comment %} Share {% endcomment %}
+  {% if block.settings.share %}
+    <xo-modal-trigger xo-name='show-share' class='addon-buttons__trigger'>
+      {% render 'icon', name: 'share', icon_size: '18' %}
+      <span>{{ 'products.addon_buttons.share' | t }}</span>
+    </xo-modal-trigger>
+    <xo-modal xo-portal xo-name='show-share' xo-animate='fade-up' class='addon-buttons__modal'>
+      <div class='addon-buttons__modal-content addon-buttons__modal-content--share'>
+        <xo-modal-trigger class='addon-buttons__modal-close'>
+          <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+        </xo-modal-trigger>
+        <div class='addon-buttons__modal-body'>
+          {% assign url_full = request.origin | append: product.url %}
+          {% render 'share-style2', url: url_full, list: 'facebook, twitter, pinterest, instagram' %}
+        </div>
+      </div>
+    </xo-modal>
+  {% endif %}
+</div>

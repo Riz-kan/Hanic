@@ -1,0 +1,136 @@
+{% comment %}
+  Renders a product recommendations section.
+
+  Accepts:
+  - intent: {'related' | 'complementary'} Recommendation intent (optional)
+  - collapse_style: {Boolean} Style carousel navigation when complemetary has collapsible style
+
+  Usage:
+  {% render 'product-recommendations', intent: 'related' %}
+{% endcomment %}
+{% liquid
+  if show_navigation
+    assign display_navigation_desktop = 'flex'
+  else
+    assign display_navigation_desktop = 'none'
+  endif
+  if show_navigation_mobile
+    assign display_navigation_mobile = 'flex'
+  else
+    assign display_navigation_mobile = 'none'
+  endif
+  if show_pagination
+    assign display_pagination_desktop = 'block'
+  else
+    assign display_pagination_desktop = 'none'
+  endif
+  if show_pagination_mobile
+    assign display_pagination_mobile = 'block'
+  else
+    assign display_pagination_mobile = 'none'
+  endif
+%}
+
+<xo-product-recommendations
+  xo-url='{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ products_to_show }}&intent={{ intent }}'
+>
+  {% if recommendations.performed? and recommendations.products_count > 0 %}
+    {% if layout == 'grid' %}
+      <xo-grid
+        style='
+          --xs:{{  columns_mobile }};--md:{{ columns_desktop | minus: 1 }}; --lg:{{ columns_desktop }}; --xo-grid-col-gap: 20px;
+          --xo-grid-row-gap: 20px;
+        '
+      >
+        {% for product in recommendations.products %}
+          {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+          {%- assign placeholder_image = 'product-apparel-' | append: placeholder_image_index -%}
+          <div>
+            {% render 'product-card-styles',
+              product_card_style: settings.product_card_style_layout,
+              product: product,
+              variant_modal_placement: settings.variant_modal_placement,
+              show_image: settings.product_card_show_image,
+              product_card_media_type: settings.product_card_media_type,
+              show_vendor: settings.product_card_show_vendor,
+              show_description: settings.product_card_show_description,
+              show_quick_add: settings.product_card_show_quick_add,
+              show_quick_view: settings.product_card_show_quick_view,
+              show_wishlist: settings.product_card_show_wishlist,
+              show_price: settings.product_card_show_price,
+              show_badge: settings.product_card_show_badge,
+              media_aspect_ratio: settings.product_card_aspect_ratio,
+              color_scheme: color_scheme_chosen,
+              placeholder_image: placeholder_image
+            %}
+          </div>
+        {% endfor %}
+      </xo-grid>
+    {% else %}
+      <xo-carousel
+        xo-per-view='{{ columns_desktop }}'
+        xo-overflow='{{ overflow }}'
+        xo-render-bullet='<span></span>'
+        xo-breakpoints='
+          {
+            768: {
+              perView: {{ columns_mobile }}
+            },
+            992: {
+              perView: {{ columns_desktop | minus: 1 }}
+            }
+          }
+        '
+      >
+        <xo-carousel-inner>
+          <xo-carousel-list role='list' aria-label='{{ 'general.slider.name' | t }}'>
+            {% for product in recommendations.products %}
+              {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+              {%- assign placeholder_image = 'product-apparel-' | append: placeholder_image_index -%}
+              <xo-carousel-slide aria-roledescription='{{ 'sections.slideshow.slide' | t }}' aria-label='{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}'>
+                {% render 'product-card-styles',
+                  product_card_style: settings.product_card_style_layout,
+                  product: product,
+                  variant_modal_placement: settings.variant_modal_placement,
+                  show_image: settings.product_card_show_image,
+                  product_card_media_type: settings.product_card_media_type,
+                  show_vendor: settings.product_card_show_vendor,
+                  show_description: settings.product_card_show_description,
+                  show_quick_add: settings.product_card_show_quick_add,
+                  show_quick_view: settings.product_card_show_quick_view,
+                  show_wishlist: settings.product_card_show_wishlist,
+                  show_price: settings.product_card_show_price,
+                  show_badge: settings.product_card_show_badge,
+                  media_aspect_ratio: settings.product_card_aspect_ratio,
+                  color_scheme: color_scheme_chosen,
+                  placeholder_image: placeholder_image
+                %}
+              </xo-carousel-slide>
+            {% endfor %}
+          </xo-carousel-list>
+        </xo-carousel-inner>
+        {% if intent == 'related' %}
+          {% render 'carousel-navigation-style1', display_navigation_desktop: display_navigation_desktop, display_navigation_mobile: display_navigation_mobile %}
+          <div
+            class='product-recommendations__pagination product-recommendations__pagination--related'
+            style='--display-desktop: {{ display_pagination_desktop }}; --display-mobile: {{ display_pagination_mobile }}'
+          >
+            {% render 'carousel-pagination-style3' %}
+          </div>
+        {% else %}
+          {% render 'carousel-navigation-style2',
+            display_navigation_desktop: display_navigation_desktop,
+            display_navigation_mobile: display_navigation_mobile,
+            collapse_style: collapse_style
+          %}
+          <div
+            class='product-recommendations__pagination'
+            style='--display-desktop: {{ display_pagination_desktop }}; --display-mobile: {{ display_pagination_mobile }}'
+          >
+            {% render 'carousel-pagination-style3' %}
+          </div>
+        {% endif %}
+      </xo-carousel>
+    {% endif %}
+  {% endif %}
+</xo-product-recommendations>

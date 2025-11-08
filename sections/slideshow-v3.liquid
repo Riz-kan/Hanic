@@ -1,0 +1,352 @@
+
+
+<div {%- render 'section-attr' -%}>
+  <section class='slideshow-v3__desktop'>
+    <div class='slider-container'>
+      <div class='slideshow-v3__grid'>
+        <xo-carousel
+          class='embla embla--image'
+          xo-sync-id='carousel-sync-slsv3'
+          xo-easing='easeOutCubic'
+          xo-speed='500'
+          xo-vertical
+          xo-gap='0'
+          xo-name='slsv3-carousel'
+          xo-loop
+        >
+          <xo-carousel-inner class='embla__viewport'>
+            <xo-carousel-list class='embla__container'>
+              {%- for block in section.blocks -%}
+                <xo-carousel-slide class='embla__slide'>
+                  <div class='embla__slide__large__img'>
+                    {%- render 'image', image: block.settings.image -%}
+                  </div>
+                </xo-carousel-slide>
+              {%- endfor -%}
+            </xo-carousel-list>
+          </xo-carousel-inner>
+        </xo-carousel>
+
+        <xo-carousel
+          class='embla embla--content'
+          xo-vertical
+          xo-gap='0'
+          xo-sync-id='carousel-sync-slsv3'
+          xo-easing='easeOutCubic'
+          xo-speed='500'
+          xo-name='slsv3-carousel'
+          xo-loop
+        >
+          <xo-carousel-inner class='embla__viewport'>
+            <xo-carousel-list class='embla__container'>
+              {%- for block in section.blocks -%}
+                <xo-carousel-slide style='--ct-bg-color: {{ block.settings.body_text }}' class='embla__slide'>
+                  <div class='embla__content'>
+                    <div class='embla__slide__content__sm__img'>
+                      {%- render 'image', image: block.settings.sm_image -%}
+                    </div>
+                    <div class='embla__content--btn'>
+                      {% render 'button',
+                        text: block.settings.button_text,
+                        link: block.settings.button_link,
+                        mode: block.settings.button_mode,
+                        style: block.settings.button_style,
+                        size: block.settings.button_size,
+                        radius: block.settings.button_radius,
+                        padding: block.settings.button_padding
+                      %}
+                    </div>
+                  </div>
+                </xo-carousel-slide>
+              {%- endfor -%}
+            </xo-carousel-list>
+          </xo-carousel-inner>
+        </xo-carousel>
+      </div>
+    </div>
+    <div class='embla__controls'>
+      <div class='embla__buttons'>
+        <div onclick="xoCarousel.prev('slsv3-carousel', 1)" class='slideshow-v3__xo-btn'>
+          <button class='embla__button embla__button--prev' type='button'>
+            <svg class='embla__button__svg' viewBox='0 0 532 532'>
+              <path
+                fill="currentColor"
+                d="M11.354 176.34c-13.805-13.793-13.805-36.208 0-50.001 13.804-13.785 36.238-13.785 50.034 0L266 330.78l204.61-204.442c13.805-13.785 36.239-13.785 50.044 0 13.796 13.793 13.796 36.208 0 50.002a5994246.277 5994246.277 0 0 0-229.454 229.332 35.065 35.065 0 0 1-25.126 10.326c-9.2 0-18.26-3.393-25.2-10.326C194.973 359.808 34.31 199.269 11.354 176.34Z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+        <div onclick="xoCarousel.next('slsv3-carousel', 1)" class='slideshow-v3__xo-btn'>
+          <button class='embla__button embla__button--next' type='button'>
+            <svg class='embla__button__svg' viewBox='0 0 532 532'>
+              <path
+                fill="currentColor"
+                d="M520.646 355.66c13.805 13.793 13.805 36.208 0 50.001-13.804 13.785-36.238 13.785-50.034 0L266 201.22 61.391 405.66c-13.805 13.785-36.239 13.785-50.044 0-13.796-13.793-13.796-36.208 0-50.002 22.947-22.928 206.507-206.395 229.454-229.332a35.065 35.065 0 0 1 25.126-10.326c9.2 0 18.26 3.393 25.2 10.326 45.901 45.865 206.564 206.404 229.52 229.332Z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class='slideshow-v3__mobile'>
+    <xo-carousel
+      xo-loop
+      xo-overflow='visible'
+      xo-render-bullet="<span class='carousel-bullet'></span>"
+    >
+      <xo-carousel-inner>
+        <xo-carousel-list>
+          {%- for block in section.blocks -%}
+            <xo-carousel-slide class='embla__slide'>
+              <div class='embla__slide__large__img'>
+                {%- render 'image', image: block.settings.image -%}
+                <div class='embla__content--btn'>
+                  {% render 'button',
+                    text: block.settings.button_text,
+                    link: block.settings.button_link,
+                    mode: block.settings.button_mode,
+                    style: block.settings.button_style,
+                    size: block.settings.button_size,
+                    radius: block.settings.button_radius,
+                    padding: block.settings.button_padding
+                  %}
+                </div>
+              </div>
+            </xo-carousel-slide>
+          {%- endfor -%}
+        </xo-carousel-list>
+      </xo-carousel-inner>
+      <div class='embla__controls__mobile'>
+        <xo-carousel-prev>
+          <button class='embla__button embla__button--prev' type='button'>
+            <svg class='embla__button__svg' viewBox='0 0 532 532'>
+              <path
+                fill="currentColor"
+                d="M11.354 176.34c-13.805-13.793-13.805-36.208 0-50.001 13.804-13.785 36.238-13.785 50.034 0L266 330.78l204.61-204.442c13.805-13.785 36.239-13.785 50.044 0 13.796 13.793 13.796 36.208 0 50.002a5994246.277 5994246.277 0 0 0-229.454 229.332 35.065 35.065 0 0 1-25.126 10.326c-9.2 0-18.26-3.393-25.2-10.326C194.973 359.808 34.31 199.269 11.354 176.34Z"
+              ></path>
+            </svg></button
+        ></xo-carousel-prev>
+        <xo-carousel-next>
+          <button class='embla__button embla__button--next' type='button'>
+            <svg class='embla__button__svg' viewBox='0 0 532 532'>
+              <path
+                fill="currentColor"
+                d="M520.646 355.66c13.805 13.793 13.805 36.208 0 50.001-13.804 13.785-36.238 13.785-50.034 0L266 201.22 61.391 405.66c-13.805 13.785-36.239 13.785-50.044 0-13.796-13.793-13.796-36.208 0-50.002 22.947-22.928 206.507-206.395 229.454-229.332a35.065 35.065 0 0 1 25.126-10.326c9.2 0 18.26 3.393 25.2 10.326 45.901 45.865 206.564 206.404 229.52 229.332Z"
+              ></path>
+            </svg></button
+        ></xo-carousel-next>
+      </div>
+    </xo-carousel>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.slideshow_v3.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "t:sections.slideshow_v3.blocks.name.label",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.slideshow_v3.blocks.image.label"
+        },
+        {
+          "type": "image_picker",
+          "id": "sm_image",
+          "label": "t:sections.slideshow_v3.blocks.sm_image.label"
+        },
+        {
+          "type": "color",
+          "id": "body_text",
+          "label": "t:sections.slideshow_v3.blocks.body_text.label",
+          "default": "#fdc97c"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.all.button_heading.content"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "t:sections.all.button_text.label",
+          "default": "ALL PRODUCTS"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button_link.label",
+          "default": "/collections/all"
+        },
+        {
+          "type": "select",
+          "id": "button_mode",
+          "label": "t:sections.all.button_mode.label",
+          "options": [
+            {
+              "value": "light",
+              "label": "t:sections.all.button_mode.option__1.label"
+            },
+            {
+              "value": "dark",
+              "label": "t:sections.all.button_mode.option__2.label"
+            },
+            {
+              "value": "accent",
+              "label": "t:sections.all.button_mode.option__3.label"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "t:sections.all.button_style.label",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.option__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.option__2.label"
+            },
+            {
+              "value": "tertiary",
+              "label": "t:sections.all.button_style.option__3.label"
+            },
+            {
+              "value": "link",
+              "label": "t:sections.all.button_style.option__4.label"
+            }
+          ],
+          "default": "secondary"
+        },
+        {
+          "type": "select",
+          "id": "button_size",
+          "label": "t:sections.all.button_size.label",
+          "options": [
+            {
+              "value": "xs",
+              "label": "t:sections.all.button_size.option__0.label"
+            },
+            {
+              "value": "sm",
+              "label": "t:sections.all.button_size.option__1.label"
+            },
+            {
+              "value": "md",
+              "label": "t:sections.all.button_size.option__2.label"
+            },
+            {
+              "value": "lg",
+              "label": "t:sections.all.button_size.option__3.label"
+            }
+          ],
+          "default": "sm"
+        },
+        {
+          "type": "range",
+          "id": "button_radius",
+          "label": "t:sections.all.button_radius.label",
+          "max": 4,
+          "min": 0,
+          "step": 0.2,
+          "unit": "rem",
+          "default": 0.8
+        },
+        {
+          "type": "range",
+          "id": "button_padding",
+          "label": "t:sections.all.button_padding.label",
+          "info": "t:sections.all.button_padding.info",
+          "max": 10,
+          "min": 0,
+          "step": 0.2,
+          "unit": "rem",
+          "default": 1.4
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.slideshow_v3.presets.name"
+    }
+  ]
+}
+{% endschema %}

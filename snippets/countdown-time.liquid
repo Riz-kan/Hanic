@@ -1,0 +1,32 @@
+{% comment %}
+  Renders a countdown expired time
+
+  Accepts:
+  - title: {String} Title of countdown (optional)
+  - time: {String} Expired countdown time (required)
+
+  Usage:
+  {% render 'countdown-time', title: title, time: time %}
+{% endcomment %}
+
+{% assign timestamp = time | date: '%s' | append: '000' %}
+<xo-countdown xo-timestamp='{{timestamp}}' class='countdown-time' xo-zero-pad='2'>
+  <div class='countdown-time__text'>
+    {% render 'icon', name: 'lightning', icon_size: '12' %}
+    <span>{{ title }}</span>
+  </div>
+  <div class='countdown-time__time'>
+    <div class='countdown-time__box'>
+      <xo-countdown-day id='countdown-time'></xo-countdown-day>
+    </div>
+    <div class='countdown-time__box'>
+      <xo-countdown-hour id='countdown-time'></xo-countdown-hour>
+    </div>
+    <div class='countdown-time__box'>
+      <xo-countdown-minute id='countdown-time'></xo-countdown-minute>
+    </div>
+    <div class='countdown-time__box'>
+      <xo-countdown-second id='countdown-time'></xo-countdown-second>
+    </div>
+  </div>
+</xo-countdown>

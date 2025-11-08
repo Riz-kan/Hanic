@@ -1,0 +1,60 @@
+
+
+{%- assign show = settings.popup_newsletter_show_on -%}
+{% assign popup_newsletter_style = settings.popup_newsletter_style %}
+{%- assign cooldown = settings.popup_newsletter_cooldown -%}
+
+{% case popup_newsletter_style %}
+  {% when 'style_5' %}
+    {% assign width = '51rem' %}
+  {% when 'style_6' %}
+    {% assign width = '75rem' %}
+  {% else %}
+    {% assign width = '80rem' %}
+{% endcase %}
+
+<xo-modal
+  id='popup-newsletter__modal'
+  data-show='{{show}}'
+  xo-name='popup-newsletter'
+  xo-backdrop-color='#2d2d32cc'
+  style='z-index: 100000000000000;'
+>
+  <div
+    slot='popup-newsletter-inner'
+    class='popup-newsletter__container {% if settings.popup_newsletter_color_scheme %} color-{{ settings.popup_newsletter_color_scheme }}{% endif %}'
+    style='width: {{ width }}'
+  >
+    <div style='display: none !important;'>
+      <div id='popup-newsletter-data__cooldown'>{{ cooldown }}</div>
+    </div>
+    {% case popup_newsletter_style %}
+      {% when 'style_1' %}
+        {% render 'popup-newsletter-v1' %}
+      {% when 'style_2' %}
+        {% render 'popup-newsletter-v2' %}
+      {% when 'style_3' %}
+        {% render 'popup-newsletter-v3' %}
+      {% when 'style_4' %}
+        {% render 'popup-newsletter-v4' %}
+      {% when 'style_5' %}
+        {% render 'popup-newsletter-v5' %}
+      {% when 'style_6' %}
+        {% render 'popup-newsletter-v6' %}
+    {% endcase %}
+  </div>
+</xo-modal>
+
+{% schema %}
+{
+  "name": "t:sections.popup_newsletter.name",
+  "enabled_on": {
+    "groups": [
+      "custom.popups"
+    ]
+  },
+  "settings": [
+
+  ]
+}
+{% endschema %}

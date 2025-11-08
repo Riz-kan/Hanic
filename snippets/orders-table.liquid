@@ -1,0 +1,45 @@
+{% paginate customer.orders by 20 %}
+  {%- if customer.orders.size > 0 -%}
+    <xo-animate xo-cascade>
+      <table role='table' class='xo-orders-table'>
+        <thead role='rowgroup'>
+          <tr role='row' class='xo-orders-table__head-row'>
+            <th role='columnheader'>{{ 'customer.orders.order_number' | t }}</th>
+            <th role='columnheader'>{{ 'customer.orders.date' | t }}</th>
+            <th role='columnheader'>{{ 'customer.orders.payment_status' | t }}</th>
+            <th role='columnheader'>{{ 'customer.orders.fulfillment_status' | t }}</th>
+            <th role='columnheader'>{{ 'customer.orders.total' | t }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for order in customer.orders -%}
+            <tr role='row' class='xo-orders-table__body-row'>
+              <td role='cell' class='xo-orders-table__body-row-item' data-th='{{ 'customer.orders.order_number' | t }}'>
+                <a href='{{ order.customer_url }}' class='xo-orders-table__order-number'>{{ order.name }}</a>
+              </td>
+              <td role='cell' class='xo-orders-table__body-row-item' data-th='{{ 'customer.orders.date' | t }}'>
+                {{ order.created_at | time_tag: format: 'date' }}
+              </td>
+              <td role='cell' class='xo-orders-table__body-row-item' data-th='{{ 'customer.orders.payment_status' | t }}'>
+                {{ order.financial_status_label }}
+              </td>
+              <td role='cell' class='xo-orders-table__body-row-item' data-th='{{ 'customer.orders.fulfillment_status' | t }}'>
+                {{ order.fulfillment_status_label }}
+              </td>
+              <td role='cell' class='xo-orders-table__body-row-item' data-th='{{ 'customer.orders.total' | t }}'>
+                {% if settings.currency_code_enabled %}
+                  {{ order.total_price | money_with_currency }}
+                {% else %}
+                  {{ order.total_price | money }}
+                {% endif %}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </xo-animate>
+  {% else %}
+    <p>{{ 'customer.orders.none' | t }}</p>
+  {%- endif -%}
+  {% render 'pagination', paginate: paginate %}
+{% endpaginate %}

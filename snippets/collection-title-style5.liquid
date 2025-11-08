@@ -1,0 +1,65 @@
+{% comment %}
+  Renders a carousel of collection-title.
+
+  Usage:
+  {% render 'collection-title-style5' %}
+{% endcomment %}
+
+<xo-container {% render 'section-layout' %}>
+  <xo-animate xo-cascade>
+    <xo-carousel
+      xo-per-view='{{ section.settings.columns }}'
+      xo-loop
+      xo-breakpoints='
+        {
+          1200: {
+            perView: {{ section.settings.columns | minus: 1}},
+          },
+          992: {
+            perView: {{ section.settings.columns | minus: 2}},
+          },
+          768: {
+            perView: 2,
+          },
+          576: {
+            perView: 1,
+          },
+        }
+      '
+      class='collection-title-style5__carousel'
+    >
+      <xo-carousel-inner>
+        <xo-carousel-list role='list' aria-label='{{ 'general.slider.name' | t }}'>
+          {% for block in section.blocks %}
+            <xo-carousel-slide
+              aria-roledescription='{{ 'sections.slideshow.slide' | t }}'
+              aria-label='{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}'
+              class='collection-title-style5__nav'
+            >
+              <div class='collection-title-style5__nav-img'>
+                <a href='{{block.settings.collection.url}}'>
+                  {% if block.settings.collection_image != blank %}
+                    {% render 'image', image: block.settings.collection_image, media_aspect_ratio: '1/1' %}
+                  {% else %}
+                    {% render 'image', image: block.settings.collection.featured_image, media_aspect_ratio: '1/1' %}
+                  {% endif %}
+                </a>
+              </div>
+              <div class='collection-title-style5__nav-text'>
+                <a href='{{block.settings.collection.url}}'>
+                  {{ block.settings.collection.title | escape }}
+                </a>
+              </div>
+            </xo-carousel-slide>
+          {% endfor %}
+        </xo-carousel-list>
+      </xo-carousel-inner>
+      <xo-carousel-prev class='collection-title-style5__arrow-left'
+        ><button>{% render 'icon', name: 'arrow-left', icon_size: '12' %}</button></xo-carousel-prev
+      >
+      <xo-carousel-next class='collection-title-style5__arrow-right'
+        ><button>{% render 'icon', name: 'arrow-right', icon_size: '12' %}</button></xo-carousel-next
+      >
+    </xo-carousel>
+  </xo-animate>
+</xo-container>

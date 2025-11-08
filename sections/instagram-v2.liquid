@@ -1,0 +1,279 @@
+
+
+{% capture breakpoints %}
+  {% if section.settings.limit >= 5 %}
+    xo-breakpoints='
+    {
+      1200: {
+        perView: {{ section.settings.limit | minus: 1}},
+      },
+      992: {
+        perView: {{ section.settings.limit | minus: 2}},
+      },
+      576: {
+        perView: 2,
+      },
+    }
+    '
+  {% else %}
+    xo-breakpoints='
+    {
+      992: {
+        perView: 3,
+      },
+      576: {
+        perView: 2,
+      },
+    }
+    '
+  {% endif %}
+{% endcapture %}
+
+<section {% render 'section-attr' %}>
+  <xo-container {% render 'section-layout' %}>
+    <div class='instagram-v2__heading'>
+      <div class='instagram-v2__icon__heading'>
+        {%- render 'image', image: section.settings.icon_heading -%}
+      </div>
+      {%- if section.settings.title != blank -%}
+        <xo-animate xo-cascade>
+          <h2 class='instagram-v2__title'>{{ section.settings.title }}</h2>
+        </xo-animate>
+      {%- endif -%}
+      {%- if section.settings.description != blank -%}
+        <xo-animate xo-cascade class='instagram-v2__description'>
+          {{ section.settings.description }}
+        </xo-animate>
+      {%- endif -%}
+    </div>
+    <xo-animate xo-cascade>
+      <xo-instagram
+        xo-open-mode='{{ section.settings.open_mode }}'
+        xo-access-token='{{section.settings.access_token}}'
+        style='--gap:{{section.settings.gap}}px'
+      >
+        <xo-carousel
+          xo-per-view='{{ section.settings.limit }}'
+          xo-loop
+          xo-speed='2000'
+          xo-hover-pause='true'
+          class='ins2-xo-carousel'
+          {% if section.settings.auto_play %}
+            xo-autoplay='5000'
+          {% endif %}
+          {{ breakpoints }}
+        >
+          <xo-carousel-inner>
+            <xo-carousel-list role='list' aria-label='{{ 'general.slider.name' | t }}' class='instagram-v2__list'>
+              {% if section.settings.access_token == blank %}
+                {% assign slide_forloop = section.settings.limit | plus: 1 %}
+                {% for i in (1..slide_forloop) %}
+                  <xo-carousel-slide
+                    aria-roledescription='{{ 'sections.slideshow.slide' | t }}'
+                    aria-label='{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}'
+                  >
+                    <div class='instagram-v2__item'>
+                      <img
+                        src='{{ 'instagram' | append: i | append: '.jpg' | file_img_url: 'master' }}'
+                        class='instagram-v2__image'
+                        alt='instagram'
+                        is='xo-lazyload'
+                        loading='lazy'
+                        width='1000'
+                        height='1000'
+                      >
+                      <a href='https://www.instagram.com/' class='instagram-v2__image-layer' target='_blank'>
+                        {{ section.settings.icon_image }}
+                      </a>
+                    </div>
+                  </xo-carousel-slide>
+                {% endfor %}
+              {% else %}
+                <xo-instagram-template>
+                  <img class='instagram-v2__image' data-src='{ url }' alt='instagram' width='1000' height='1000' is='xo-lazyload' loading='lazy'>
+                  <span class='instagram-v2__image-layer'>{{ section.settings.icon_image }}</span>
+                </xo-instagram-template>
+              {% endif %}
+            </xo-carousel-list>
+          </xo-carousel-inner>
+        </xo-carousel>
+      </xo-instagram>
+    </xo-animate>
+  </xo-container>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.instagram_v2.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:sections.all.width.label",
+      "default": "box",
+      "options": [
+        {
+          "value": "box",
+          "label": "t:sections.all.width.options__1.label"
+        },
+        {
+          "value": "wide",
+          "label": "t:sections.all.width.options__2.label"
+        },
+        {
+          "value": "fullwidth",
+          "label": "t:sections.all.width.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "fullwidth_margin",
+      "label": "t:sections.all.fullwidth_margin.label",
+      "default": 0,
+      "visible_if": "{{ section.settings.width == 'fullwidth' }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.instagram_v2.settings.gap.label",
+      "default": 10
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_heading",
+      "label": "t:sections.instagram_v2.settings.icon_heading.label"
+    },
+    {
+      "type": "html",
+      "id": "icon_image",
+      "label": "t:sections.instagram_v2.settings.icon_image.label",
+      "default": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><path d=\"M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z\"/></svg>"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.instagram_v2.settings.title.label",
+      "default": "#inthistogether"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "t:sections.instagram_v2.settings.description.label",
+      "default": "Make new memories at home! Follow us @foden for kid-friendly activities, coloring pages + more"
+    },
+    {
+      "type": "text",
+      "id": "access_token",
+      "label": "t:sections.instagram_v2.settings.access_token.label",
+      "info": "t:sections.instagram_v2.settings.access_token.info"
+    },
+    {
+      "type": "select",
+      "id": "open_mode",
+      "label": "t:sections.instagram_v2.settings.open_mode.label",
+      "default": "newtab",
+      "options": [
+        {
+          "label": "t:sections.instagram_v2.settings.open_mode.option_1.label",
+          "value": "modal"
+        },
+        {
+          "label": "t:sections.instagram_v2.settings.open_mode.option_2.label",
+          "value": "newtab"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 3,
+      "max": 6,
+      "step": 1,
+      "label": "t:sections.instagram_v2.settings.limit.label",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_play",
+      "label": "t:sections.instagram_v2.settings.auto_play.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.instagram_v2.presets.name"
+    }
+  ]
+}
+{% endschema %}

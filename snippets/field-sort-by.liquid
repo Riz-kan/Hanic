@@ -1,0 +1,25 @@
+{% comment %}
+  Renders a sort by field for a collection or search object
+
+  Accepts:
+  - results: {Object} Collection or Search object
+  - type: {String} Type of field to render. Default: 'select' (optional)
+  - name: {String} Name of the field (optional)
+
+  Usage:
+  {% render 'field-sort-by' %}
+{% endcomment %}
+
+{% liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  capture options
+    for option in results.sort_options
+      assign checked = false
+      if option.value == sort_by
+        assign checked = true
+      endif
+      render 'field-select-custom-option-filter', label: option.name, name: 'sort_by', value: option.value, checked: checked
+    endfor
+  endcapture
+  render 'field-select-custom-filter', name: name, value: results.sort_options[0].name, options: options
+%}

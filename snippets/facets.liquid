@@ -1,0 +1,39 @@
+{% comment %}
+  Renders facets (sorting)
+
+  Accepts:
+  - results: {Object} Collection or Search object
+  - enable_sorting: {Boolean} Show sorting when true
+  - columns_desktop: {Number} Number of columns desktop for group buttons
+
+  Usage:
+  {% render 'facets', results: collection, enable_sorting: true %}
+{% endcomment %}
+
+{% if enable_sorting %}
+  <div class='xo-facets'>
+    <div class='xo-facets__toggle'>
+      <xo-toggle-trigger xo-name='group-button'>
+        <button>{% render 'icon', name: 'column-layout', icon_size: '12' %}</button>
+      </xo-toggle-trigger>
+      <xo-toggle xo-name='group-button' class='xo-facets__toggle-content'>
+        <xo-group class='xo-facets__group-button'>
+          {%- for i in (2..6) -%}
+            <xo-group-button
+              class='xo-facets__button-item'
+              {% if i == columns_desktop %}
+                xo-active
+              {% endif %}
+            >
+              {{- i -}}
+            </xo-group-button>
+          {%- endfor -%}
+        </xo-group>
+      </xo-toggle>
+    </div>
+    <div class='xo-facets__item'>
+      {% assign name = 'field-sort-by-horizontal-' | append: section.id %}
+      {% render 'field-sort-by', results: results, name: name %}
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,3 @@
+{% assign title = filter.label | escape %}
+{% capture content %}{% render 'fieldset-fields', filter: filter %}{% endcapture %}
+{% render 'collapse-style1', name: filter.param_name, title: title, content: content, icon: icon, filter: filter %}

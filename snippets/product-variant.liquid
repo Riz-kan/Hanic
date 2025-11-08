@@ -1,0 +1,76 @@
+{% comment %}
+  Renders a product variant option as a set of radio buttons.
+
+  Accepts:
+  - option: {Object} The product variant option to render.
+  - product: {Object} The product object.
+  - color_use_image: {Boolean} Whether to use the variant's featured image as the color swatch.
+  - style: { 'boxed' | 'color' } The style of the radio buttons.
+
+  Usage:
+  {% render 'product-variant', option: option, product: product, style: 'color' %}
+{% endcomment %}
+
+{% assign style = style | default: 'color' %}
+
+<div class='xo-product-variant'>
+  {% case style %}
+    {% when 'color' %}
+      <xo-product-variant
+        class='
+          xo-product-variant__inner {% if modified %}
+            xo-product-variant__inner--{{modified}}
+          {% endif %}
+        '
+        {% if modified == 'style1' %}
+          {% case settings.product_card_text_alignment %}
+            {% when 'left' %}
+              {% assign justify_variant = 'flex-start' %}
+            {% when 'center' %}
+              {% assign justify_variant = 'center' %}
+            {% else %}
+              {% assign justify_variant = 'right' %}
+          {% endcase %}
+          style='--justify_variant:{{justify_variant}}'
+        {% endif %}
+      >
+        {% liquid
+          for value in option.values
+            assign value_check = ''
+            for variant in product.variants
+              assign value = value | escape
+              assign checked = false
+              if option.selected_value == value
+                assign checked = true
+              endif
+              if variant.options contains value and value != value_check
+                assign value_check = value
+                render 'field-color', style: style, name: option.name, value: value, checked: checked, image: variant.featured_image, use_image: color_use_image, size: '1.4rem'
+              endif
+            endfor
+          endfor
+        %}
+      </xo-product-variant>
+    {% else %}
+      <xo-product-variant>
+        <div class='xo-product-variant__label'>
+          <span class='xo-product-variant__label-name'>{{ option.name | escape }}:</span>
+          <xo-product-variant-selected class='xo-product-variant__selected-value' xo-name='{{ option.name }}'>
+            {{- option.selected_value -}}
+          </xo-product-variant-selected>
+        </div>
+        <div class='xo-product-variant__inner'>
+          {% liquid
+            for value in option.values
+              assign value = value | escape
+              assign checked = false
+              if option.selected_value == value
+                assign checked = true
+              endif
+              render 'field-radio', style: 'boxed3', name: option.name, value: value, checked: checked, label: value
+            endfor
+          %}
+        </div>
+      </xo-product-variant>
+  {% endcase %}
+</div>

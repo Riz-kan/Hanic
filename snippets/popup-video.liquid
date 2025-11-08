@@ -1,0 +1,25 @@
+{% comment %}
+  Renders a popup-video.
+
+  Accepts:
+    - name: {String} name of modal for trigger and style (required)
+
+  Usage:
+  {% render 'popup-video' %}
+{% endcomment %}
+
+<xo-modal-trigger xo-name='popup-video-{{ name }}' class='popup-video__trigger popup-video__trigger--{{ name }}'>
+  <xo-tooltip xo-title='{{ 'products.product.media.play_video' | t }}' xo-placement='left-center' xo-animate='fade-right' xo-easing='spring'>
+    <button>
+      {% render 'icon', name: 'play', icon_size: '15' %}
+    </button>
+  </xo-tooltip>
+</xo-modal-trigger>
+<xo-modal xo-name='popup-video-{{ name }}' xo-animate='fade-up' xo-portal='true' class='popup-video__modal'>
+  <xo-modal-trigger class='popup-video__close'>
+    <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+  </xo-modal-trigger>
+  <div class='popup-video__wrap'>
+    {{ product.metafields.custom.video_embed }}
+  </div>
+</xo-modal>

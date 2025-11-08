@@ -1,0 +1,164 @@
+{% comment %}
+  Renders a SVG icon.
+
+  Accepts:
+  - name: {String} Name of the icon to render. Default: "arrow" (optional)
+  - icon_size: {Number} Size of the icon. Default: 20 (optional)
+  - color: {String} Color of the loader. Default: "currentColor" (optional)
+
+  Usage:
+  {% render 'icon',
+    name: 'arrow',
+    icon_size: '20',
+    color: "#000",
+  %}
+{% endcomment %}
+
+{% liquid
+  assign size = icon_size | default: '20'
+  assign color = color | default: 'currentColor'
+  assign class = class
+
+  case name
+    when 'phone1'
+      render 'icon-phone1', size: size, color: color
+    when 'location1'
+      render 'icon-location1', size: size, color: color
+    when 'fax'
+      render 'icon-fax', size: size, color: color
+    when '3d-model'
+      render 'icon-3d-model', size: size, color: color
+    when '360'
+      render 'icon-360', size: size, color: color
+    when 'author'
+      render 'icon-author', size: size, color: color
+    when 'bestsell'
+      render 'icon-bestsell', size: size, color: color
+    when 'chevron-up'
+      render 'icon-chevron-up', size: size, color: color
+    when 'chevron-down'
+      render 'icon-chevron-down', size: size, color: color
+    when 'chevron-left'
+      render 'icon-chevron-left', size: size, color: color
+    when 'chevron-right'
+      render 'icon-chevron-right', size: size, color: color
+    when 'cart'
+      render 'icon-cart', size: size, color: color
+    when 'check'
+      render 'icon-check', size: size, color: color
+    when 'check2'
+      render 'icon-check2', size: size, color: color
+    when 'clipboard'
+      render 'icon-clipboard', size: size, color: color
+    when 'clock'
+      render 'icon-clock', size: size, color: color
+    when 'comment'
+      render 'icon-comment', size: size, color: color
+    when 'close-small'
+      render 'icon-close-small', size: size, color: color
+    when 'close'
+      render 'icon-close', size: size, color: color
+    when 'compare'
+      render 'icon-compare', size: size, color: color
+    when 'discount'
+      render 'icon-discount', size: size, color: color
+    when 'error'
+      render 'icon-error', size: size, color: color
+    when 'eye'
+      render 'icon-eye', size: size, color: color
+    when 'facebook2'
+      render 'icon-facebook2', size: size, color: color
+    when 'filter2'
+      render 'icon-filter2', size: size, color: color
+    when 'fire'
+      render 'icon-fire', size: size, color: color
+    when 'google-plus'
+      render 'icon-google-plus', size: size, color: color
+    when 'hamburger'
+      render 'icon-hamburger', size: size, color: color
+    when 'instagram'
+      render 'icon-instagram', size: size, color: color
+    when 'instagram2'
+      render 'icon-instagram2', size: size, color: color
+    when 'minus'
+      render 'icon-minus', size: size, color: color
+    when 'pause'
+      render 'icon-pause', size: size, color: color
+    when 'pinterest2'
+      render 'icon-pinterest2', size: size, color: color
+    when 'play'
+      render 'icon-play', size: size, color: color
+    when 'plus'
+      render 'icon-plus', size: size, color: color
+    when 'plus2'
+      render 'icon-plus2', size: size, color: color
+    when 'return'
+      render 'icon-return', size: size, color: color
+    when 'share'
+      render 'icon-share', size: size, color: color
+    when 'snapchat'
+      render 'icon-snapchat', size: size, color: color
+    when 'success'
+      render 'icon-success', size: size, color: color
+    when 'tiktok'
+      render 'icon-tiktok', size: size, color: color
+    when 'tumblr'
+      render 'icon-tumblr', size: size, color: color
+    when 'twitter2'
+      render 'icon-twitter2', size: size, color: color
+    when 'vimeo'
+      render 'icon-vimeo', size: size, color: color
+    when 'youtube'
+      render 'icon-youtube', size: size, color: color
+    when 'search'
+      render 'icon-search', size: size, color: color
+    when 'empty'
+      render 'icon-empty', size: size, color: color
+    when 'star'
+      render 'icon-star', size: size, color: color
+    when 'arrow-right'
+      render 'icon-arrow-right', size: size, color: color
+    when 'arrow-left'
+      render 'icon-arrow-left', size: size, color: color
+    when 'heart'
+      render 'icon-heart', size: size, color: color
+    when 'heart-black'
+      render 'icon-heart-black', size: size, color: color
+    when 'more'
+      render 'icon-more', size: size, color: color
+    when 'caret-right'
+      render 'icon-caret-right', size: size, color: color
+    when 'email'
+      render 'icon-email', size: size, color: color, class: class
+    when 'column-layout'
+      render 'icon-column-layout', size: size, color: color
+    when 'account1'
+      render 'icon-account1', size: size, color: color
+    when 'location'
+      render 'icon-location', size: size, color: color
+    when 'lightning'
+      render 'icon-lightning', size: size, color: color
+    when 'close2'
+      render 'icon-close2', size: size, color: color
+    when 'smile'
+      render 'icon-smile', size: size, color: color
+    when 'order'
+      render 'icon-order', size: size, color: color
+    when 'coupon'
+      render 'icon-coupon', size: size, color: color
+    when 'shipping'
+      render 'icon-shipping', size: size, color: color
+    when 'truck'
+      render 'icon-truck', size: size, color: color
+    when 'ruler'
+      render 'icon-ruler', size: size, color: color
+    when 'color-circle'
+      render 'icon-color-circle', size: size, color: color
+    when 'ask'
+      render 'icon-ask', size: size, color: color
+    when 'shop'
+      render 'icon-shop', size: size, color: color
+    else
+      render 'icon-arrow', size: size, color: color
+  endcase
+%}

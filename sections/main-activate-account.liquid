@@ -1,0 +1,104 @@
+{% assign accpass = 'customer.activate_account.password' | t %}
+{% assign accpasscf = 'customer.activate_account.password_confirm' | t %}
+
+
+
+<div {% render 'section-attr' %}>
+  <xo-container>
+    <xo-grid>
+      <div class='xo-activate-account' style='--xs: 12'>
+        {%- form 'activate_customer_password' -%}
+          <xo-grid>
+            <xo-animate xo-cascade style='--xs: 12'>
+              {% render 'field-input', type: 'password', name: 'customer[password]', label: accpass %}
+            </xo-animate>
+            <xo-animate xo-cascade style='--xs: 12'>
+              {% render 'field-input', type: 'password', name: 'customer[password_confirmation]', label: accpasscf %}
+            </xo-animate>
+          </xo-grid>
+          {% render 'space', value: '24px' %}
+          <xo-animate xo-cascade>
+            {% assign btn_submit = 'customer.activate_account.submit' | t %}
+            {% render 'button', type: 'submit', text: btn_submit, size: 'lg', block: true, mode: 'dark', effect: 'fade' %}
+          </xo-animate>
+          {% render 'space', value: '15px' %}
+          <xo-animate xo-cascade>
+            {% render 'button', text: btn_submit, size: 'lg', block: true, mode: 'dark', effect: 'fade' %}
+          </xo-animate>
+        {%- endform -%}
+      </div>
+    </xo-grid>
+  </xo-container>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main_activate_account.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ]
+}
+{% endschema %}

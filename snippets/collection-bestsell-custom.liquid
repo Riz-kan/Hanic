@@ -1,0 +1,99 @@
+{% comment %}
+  Renders a collection-bestsell-custom with exactly product card style.
+
+  Accepts:
+  * product_card_style_layout: {String} Product card style (required)
+  * product_card_media_type: {String} Product media type (required)
+  * variant_modal_placement: {String} Variant modal placement (required)
+  - title: {String} Title of bestsell (optional)
+  - columns: {Number} Number of column for carousel perview (optional)
+  - collection: {Object} Collection to render products (required)
+  - show_pagination: {Boolean} Show/hide pagination desktop (optional)
+  - show_pagination_mobile: {Boolean} Show/hide pagination mobile (optional)
+
+  Usage:
+  {% render 'collection-bestsell-custom' %}
+{% endcomment %}
+
+{% liquid
+  assign product_card_style_layout = product_card_style_layout | default: 'style9'
+  assign product_card_media_type = product_card_media_type | default: 'auto'
+  assign variant_modal_placement = variant_modal_placement | default: 'default'
+
+  if show_pagination
+    assign display_pagination_desktop = 'block'
+  else
+    assign display_pagination_desktop = 'none'
+  endif
+  if show_pagination_mobile
+    assign display_pagination_mobile = 'block'
+  else
+    assign display_pagination_mobile = 'none'
+  endif
+%}
+
+<div class='collection-bestsell'>
+  <div class='collection-bestsell__header'>
+    {% render 'icon', name: 'bestsell', width: '20', color: '#e2971f' %}
+    <h2 class='collection-bestsell__title'>{{ title }}</h2>
+  </div>
+  <xo-animate xo-cascade>
+    <xo-carousel
+      xo-render-bullet='<span class="collection-bestsell__bullet"></span>'
+      xo-per-view='{{ columns }}'
+      class='collection-bestsell__carousel'
+      xo-breakpoints='
+        {
+          1200:{
+            perView: 3,
+          },
+          992: {
+            perView: 2,
+          },
+          576: {
+            perView: 1
+          }
+        }
+      '
+    >
+      <xo-carousel-inner>
+        <xo-carousel-list role='list' aria-label='{{ 'general.slider.name' | t }}'>
+          {% for product in collection.products limit: products_limit %}
+            {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+            {%- assign placeholder_image = 'product-apparel-' | append: placeholder_image_index -%}
+            <xo-carousel-slide aria-roledescription='{{ 'sections.slideshow.slide' | t }}' aria-label='{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}'>
+              {% render 'product-card-styles',
+                product_card_style: product_card_style_layout,
+                variant_modal_placement: variant_modal_placement,
+                product_card_media_type: product_card_media_type,
+                product: product,
+                show_image: section.settings.product_card_show_image,
+                show_vendor: section.settings.product_card_show_vendor,
+                show_description: section.settings.product_card_show_description,
+                show_quick_add: section.settings.product_card_show_quick_add,
+                show_quick_view: section.settings.product_card_show_quick_view,
+                show_wishlist: section.settings.product_card_show_wishlist,
+                show_price: section.settings.product_card_show_price,
+                show_badge: section.settings.product_card_show_badge,
+                media_aspect_ratio: section.settings.product_card_aspect_ratio,
+                color_scheme: section.settings.card_color_scheme,
+                placeholder_image: placeholder_image
+              %}
+            </xo-carousel-slide>
+          {% endfor %}
+        </xo-carousel-list>
+      </xo-carousel-inner>
+      <div class='collection-bestsell__navigation'>
+        <xo-carousel-prev class='collection-bestsell__arrow'
+          ><button>{% render 'icon', name: 'arrow-left', icon_size: '14' %}</button></xo-carousel-prev
+        >
+        <xo-carousel-next class='collection-bestsell__arrow'
+          ><button>{% render 'icon', name: 'arrow-right', icon_size: '14' %}</button></xo-carousel-next
+        >
+      </div>
+      <div class='collection-bestsell__pagination' style='--display-desktop: {{ display_pagination_desktop }}; --display-mobile: {{ display_pagination_mobile }}'>
+        {% render 'carousel-pagination-style3' %}
+      </div>
+    </xo-carousel>
+  </xo-animate>
+</div>

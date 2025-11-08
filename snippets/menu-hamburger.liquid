@@ -1,0 +1,56 @@
+{% comment %}
+  Renders a hamburger menu
+
+  Accepts:
+  - menu: {Object} Menu object (required)
+  _ event_type: {String} open type hover/click megamenu (optional)
+  - hamburger_type: {String} Open navigation modal type (optional)
+  - top: {String} Top position of navigation modal, equal height of header (optional)
+  _ hamburger_drawer_color_scheme: {Object} color scheme for drawer hamburger menu (required)
+  _ submenu_color_scheme: {Object} color scheme for sub menu (required)
+
+  Usage:
+  {% render 'menu-hamburger',
+    menu: menu,
+    event_type: event_type,
+    hamburger_type: hamburger_type,
+    top: top,
+    hamburger_drawer_color_scheme: hamburger_drawer_color_scheme,
+    submenu_color_scheme: submenu_color_scheme
+  %}
+{% endcomment %}
+
+{% liquid
+  assign event_type = event_type | default: 'hover'
+  assign hamburger_type = hamburger_type | default: 'drawer'
+  assign top = top | default: '0'
+%}
+
+{% if menu != blank %}
+  {% case hamburger_type %}
+    {% when 'horizontal' %}
+      <xo-modal-trigger class='xo-menu-hamburger__trigger' xo-name='xo-menu-hamburger'>
+        <div class='xo-menu-hamburger__icon'></div>
+      </xo-modal-trigger>
+      {% render 'menu-hamburger-horizontal', menu: menu %}
+    {% when 'vertical' %}
+      <xo-modal-trigger class='xo-menu-hamburger__trigger' xo-name='xo-menu-hamburger'>
+        <div class='xo-menu-hamburger__icon'></div>
+      </xo-modal-trigger>
+      {% render 'menu-hamburger-vertical', menu: menu %}
+    {% else %}
+      <xo-modal-trigger class='xo-menu-hamburger__trigger xo-menu-hamburger__trigger--desktop' xo-name='xo-menu-hamburger'>
+        <div class='xo-menu-hamburger__icon'></div>
+      </xo-modal-trigger>
+      {% render 'menu-hamburger-drawer-desktop',
+        menu: menu,
+        event_type: event_type,
+        hamburger_drawer_color_scheme: hamburger_drawer_color_scheme,
+        submenu_color_scheme: submenu_color_scheme
+      %}
+      <xo-modal-trigger class='xo-menu-hamburger__trigger xo-menu-hamburger__trigger--mobile' xo-name='xo-menu-hamburger-mobile'>
+        <div class='xo-menu-hamburger__icon'></div>
+      </xo-modal-trigger>
+      {% render 'menu-hamburger-drawer-mobile', menu: menu, top: top, hamburger_drawer_color_scheme: hamburger_drawer_color_scheme, submenu_color_scheme: submenu_color_scheme %}
+  {% endcase %}
+{% endif %}

@@ -1,0 +1,250 @@
+
+
+<div {% render 'section-attr' %}>
+  <xo-container>
+    <div class='xo-404-page'>
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'title' %}
+            <xo-animate xo-cascade>
+              {%- assign default_title = 'templates.404.title' | t -%}
+              <h2 class='xo-404-page__title'>{{ block.settings.title | default: default_title }}</h2>
+            </xo-animate>
+            {%- if block.settings.subtitle != blank -%}
+              <xo-animate xo-cascade>
+                {%- assign default_subtitle = 'templates.404.subtext' | t -%}
+                <h2 class='xo-404-page__subtitle'>{{ block.settings.subtitle | default: default_subtitle }}</h2>
+              </xo-animate>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <xo-animate xo-cascade class='xo-404-page__description'>
+                {{ block.settings.description }}
+              </xo-animate>
+            {%- endif -%}
+            {% render 'space', value: '3rem' %}
+          {% when 'button' %}
+            {{  }}
+            <xo-animate xo-cascade>
+              {%- render 'button',
+                text: block.settings.button_text,
+                link: block.settings.button_link,
+                mode: block.settings.button_mode,
+                style: block.settings.button_style,
+                size: block.settings.button_size,
+                radius: block.settings.button_radius,
+                padding: block.settings.button_padding
+              -%}
+            </xo-animate>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </xo-container>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main_404.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "t:sections.main_404.settings.title.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.main_404.settings.title.title.label"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "t:sections.main_404.settings.title.subtitle.label"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:sections.main_404.settings.title.description.label"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "limit": 1,
+      "name": "t:sections.main_404.settings.button.name",
+      "settings": [
+        {
+          "type": "header",
+          "content": "t:sections.all.button_heading.content"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "t:sections.all.button_text.label",
+          "default": "ALL PRODUCTS"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.button_link.label",
+          "default": "/collections/all"
+        },
+        {
+          "type": "select",
+          "id": "button_mode",
+          "label": "t:sections.all.button_mode.label",
+          "options": [
+            {
+              "value": "light",
+              "label": "t:sections.all.button_mode.option__1.label"
+            },
+            {
+              "value": "dark",
+              "label": "t:sections.all.button_mode.option__2.label"
+            },
+            {
+              "value": "accent",
+              "label": "t:sections.all.button_mode.option__3.label"
+            }
+          ],
+          "default": "light"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "t:sections.all.button_style.label",
+          "options": [
+            {
+              "value": "primary",
+              "label": "t:sections.all.button_style.option__1.label"
+            },
+            {
+              "value": "secondary",
+              "label": "t:sections.all.button_style.option__2.label"
+            },
+            {
+              "value": "tertiary",
+              "label": "t:sections.all.button_style.option__3.label"
+            },
+            {
+              "value": "link",
+              "label": "t:sections.all.button_style.option__4.label"
+            }
+          ],
+          "default": "secondary"
+        },
+        {
+          "type": "select",
+          "id": "button_size",
+          "label": "t:sections.all.button_size.label",
+          "options": [
+            {
+              "value": "xs",
+              "label": "t:sections.all.button_size.option__0.label"
+            },
+            {
+              "value": "sm",
+              "label": "t:sections.all.button_size.option__1.label"
+            },
+            {
+              "value": "md",
+              "label": "t:sections.all.button_size.option__2.label"
+            },
+            {
+              "value": "lg",
+              "label": "t:sections.all.button_size.option__3.label"
+            }
+          ],
+          "default": "sm"
+        },
+        {
+          "type": "range",
+          "id": "button_radius",
+          "label": "t:sections.all.button_radius.label",
+          "max": 4,
+          "min": 0,
+          "step": 0.2,
+          "unit": "rem",
+          "default": 0.8
+        },
+        {
+          "type": "range",
+          "id": "button_padding",
+          "label": "t:sections.all.button_padding.label",
+          "info": "t:sections.all.button_padding.info",
+          "max": 10,
+          "min": 0,
+          "step": 0.2,
+          "unit": "rem",
+          "default": 1.4
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

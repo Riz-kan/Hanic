@@ -1,0 +1,127 @@
+{% comment %}
+  Renders a share component with links to social media sites.
+
+  Accepts:
+  - url: {String} The url to share
+  - list: {String} A list of social media sites to include
+  - tooltip_placement: {String} The placement of the tooltip
+
+  Usage:
+  {% render 'share-style2' %}
+{% endcomment %}
+
+
+
+{% liquid
+  if list == null
+    assign list = 'facebook, twitter, pinterest, instagram'
+  endif
+  if tooltip_placement == null
+    assign tooltip_placement = 'top-center'
+  endif
+  assign items = list | split: ','
+%}
+
+<div class='xo-share-style2'>
+  <div class='xo-share-style2__title'>Copy link</div>
+  <div class='xo-share-style2__copy'>
+    <label class='xo-share-style2__label'>
+      <input
+        class='xo-share-style2__input'
+        type='text'
+        readonly
+        value='{{ url }}'
+      >
+    </label>
+    <xo-tooltip xo-title='{{ 'general.share.copy_to_clipboard' | t }}' xo-placement='{{ tooltip_placement }}'>
+      <xo-copy
+        xo-url='{{ url }}'
+        class='xo-share-style2__copy-button'
+      >
+        {% assign message = 'general.share.success_message' | t %}
+        {% render 'icon', name: 'clipboard', icon_size: '12' %}
+        {% render 'toast', type: 'success', name: 'share-copy', message: message %}
+        <div class='xo-visually-hidden'>Copy</div>
+      </xo-copy>
+    </xo-tooltip>
+  </div>
+  <div class='xo-share-style2__social-title'>Share</div>
+  <div class='xo-share-style2__social'>
+    {% for item in items %}
+      {% assign temp = item | strip %}
+      {% case temp %}
+        {% when 'twitter' %}
+          <xo-tooltip xo-title='{{ 'general.social.links.twitter' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='https://twitter.com/share?url={{ url }}'
+              target='_blank'
+              class='xo-share-style2__link'
+              aria-label='{{ 'general.social.links.twitter' | t }}'
+            >
+              {% render 'icon', name: 'twitter2', icon_size: '20' %}
+            </a>
+          </xo-tooltip>
+        {% when 'facebook' %}
+          <xo-tooltip xo-title='{{ 'general.social.links.facebook' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='https://www.facebook.com/sharer/sharer.php?u={{ url }}'
+              target='_blank'
+              class='xo-share-style2__link'
+              aria-label='{{ 'general.social.links.facebook' | t }}'
+            >
+              {% render 'icon', name: 'facebook2', icon_size: '20' %}
+            </a>
+          </xo-tooltip>
+        {% when 'pinterest' %}
+          <xo-tooltip xo-title='{{ 'general.social.links.pinterest' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='https://pinterest.com/pin/create/button/?url={{ url }}'
+              target='_blank'
+              class='xo-share-style2__link'
+              aria-label='{{ 'general.social.links.pinterest' | t }}'
+            >
+              {% render 'icon', name: 'pinterest2', icon_size: '20' %}
+            </a>
+          </xo-tooltip>
+
+        {% when 'instagram' %}
+          <xo-tooltip xo-title='{{ 'general.social.links.instagram' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='https://instagram.com/share?url={{ url }}'
+              target='_blank'
+              class='xo-share-style2__link'
+              aria-label='{{ 'general.social.links.instagram' | t }}'
+            >
+              {% render 'icon', name: 'instagram2', icon_size: '20' %}
+            </a>
+          </xo-tooltip>
+
+        {% when 'google' %}
+          <xo-tooltip xo-title='{{ 'general.social.links.google' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='https://plus.google.com/share?url={{ url }}'
+              target='_blank'
+              class='xo-share-style2__link'
+              aria-label='{{ 'general.social.links.google' | t }}'
+            >
+              {% render 'icon', name: 'google-plus', icon_size: '20' %}
+            </a>
+          </xo-tooltip>
+
+        {% when 'tumblr' %}
+          <xo-tooltip xo-title='{{ 'general.social.links.tumblr' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='https://plus.google.com/share?url={{ url }}'
+              target='_blank'
+              class='xo-share-style2__link'
+              aria-label='{{ 'general.social.links.tumblr' | t }}'
+            >
+              {% render 'icon', name: 'tumblr' %}
+            </a>
+          </xo-tooltip>
+        {% else %}
+          <div class='xo-error'>List support: 'copy, facebook, twitter, pinterest, tumblr'</div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>

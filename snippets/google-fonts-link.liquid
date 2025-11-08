@@ -1,0 +1,20 @@
+{% if settings.font_heading_selection != 'shopify_fonts' %}
+  <link
+    href='https://fonts.googleapis.com/css2?family={{ settings.font_heading_selection | replace: ' ', '+' }}:wght@{{settings.font_heading_weight}}&display=swap'
+    rel='stylesheet'
+  >
+{% endif %}
+
+{% if settings.font_body_selection != 'shopify_fonts' %}
+  <link
+    href='https://fonts.googleapis.com/css2?family={{ settings.font_body_selection  | replace: ' ', '+' }}:wght@{{settings.font_body_weight}}&display=swap'
+    rel='stylesheet'
+  >
+{% endif %}
+
+{% if settings.font_custom_selection != 'shopify_fonts' %}
+  <link
+    href='https://fonts.googleapis.com/css2?family={{ settings.font_custom_selection  | replace: ' ', '+' }}:wght@{{settings.font_custom_weight}}&display=swap'
+    rel='stylesheet'
+  >
+{% endif %}

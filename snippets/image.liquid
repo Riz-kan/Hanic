@@ -1,0 +1,100 @@
+{% comment %}
+  Image
+
+  Accepts:
+  - image: {Image} Image source (required)
+  - lazyload: {Boolean} Lazyload image. Default: true (optional)
+  - container_class: {String} Class of the image (required)
+  - class: {String} Class of the image (required)
+  - placeholder: {String} Placeholder SVG. Default: "detailed-apparel-1" (optional)
+  - media_aspect_ratio: {Number} Aspect ratio of the image (optional)
+  - fallback_width: {Number} Fallback width of the image (optional)
+  - widths: {String} srcset attribute
+  - full_height: {Boolean} Full height of the container (optional)
+  - no_overflow: {Boolean} No overflow of the image (optional)
+
+  Usage:
+  {% render 'image',
+    image: section.settings.image,
+  %}
+{% endcomment %}
+
+{% liquid
+  assign global_lazyload = settings.image_lazyload
+  if lazyload == null
+    assign lazyload = global_lazyload
+  endif
+  assign image_svg_class = ''
+  if image == blank and media_aspect_ratio == 'auto'
+    assign image_svg_class = ' xo-image--svg'
+  endif
+  assign alt = image.alt | escape | default: 'image'
+  if media_aspect_ratio == blank or media_aspect_ratio == 'auto'
+    assign media_aspect_ratio = image.aspect_ratio
+  endif
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+  assign sizes = '100vw'
+  if lazyload
+    assign loading = 'lazy'
+    assign wc = 'xo-lazyload'
+    assign final_widths = '100'
+    assign width = 100
+  else
+    assign loading = 'eager'
+    assign wc = null
+    assign final_widths = '375, 550, 750, 1100, 1500'
+    if widths != blank
+      assign final_widths = widths
+      assign width = final_widths | replace: ' ', '' | split: ',' | last
+    endif
+  endif
+%}
+
+<div
+  class='xo-image{{ image_svg_class }}{%- if container_class %} {{ container_class }}{% endif -%}'
+  style='--xo-ratio-percent: {{ media_aspect_ratio }}; --x-pos: {{ image.presentation.focal_point.x }}%; --y-pos: {{ image.presentation.focal_point.y }}%; {%- if full_height %} height: 100%; padding-top: unset; {%- endif -%} {%- if no_overflow %} overflow: unset; {%- endif -%}'
+>
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: width
+      | image_tag:
+        is: wc,
+        loading: loading,
+        width: image.width,
+        height: image.height,
+        class: class,
+        sizes: sizes,
+        widths: final_widths,
+        alt: alt,
+        fetchpriority: fetch_priority,
+        xo-intrinsic-width: image.width,
+        xo-intrinsic-height: image.height
+    }}
+    {%- if lazyload -%}
+      <div class='xo-image__overlay xo-lazyload-overlay'>
+        <div class='xo-image__loading'>
+          {% liquid
+            case settings.image_lazyload_loading
+              when 'loader-1'
+                render 'loader-1', color: 'rgb(var(--color-foreground))'
+              when 'loader-2'
+                render 'loader-2', color: 'rgb(var(--color-foreground))'
+              when 'loader-3'
+                render 'loader-3', color: 'rgb(var(--color-foreground))'
+              else
+                render 'loader-3', color: 'rgb(var(--color-foreground))'
+            endcase
+          %}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- else -%}
+    <div class='xo-image__placeholder' style='--xo-ratio-percent: {{ media_aspect_ratio }}'>
+      {{ placeholder | default: 'detailed-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,37 @@
+{% comment %}
+  Renders a search input with predictive search results
+
+  Accepts:
+  - value: {String} The value of the search input
+  - label: {String} The label for the search input
+
+  Usage:
+  {% render 'predictive-search', value: '' %}
+{% endcomment %}
+
+{% liquid
+  unless value
+    assign value = ''
+  endunless
+  assign pages = 'templates.search.pages' | t
+  assign collections = 'templates.search.collections' | t
+  assign products = 'templates.search.products' | t
+  assign articles = 'templates.search.articles' | t
+%}
+
+<div
+  class='xo-predictive-search'
+  data-locales='
+    {
+      pages: "{{ pages }}",
+      collections: "{{ collections }}",
+      products: "{{ products }}",
+      articles: "{{ articles }}"
+    }
+  '
+>
+  <xo-animate xo-cascade class='xo-predictive-search__input xo-predictive-search__input--style2'>
+    {% render 'field-input', value: value, name: 'q', label: label, type: 'search', attr: "id='predictive-search' data-predictive-search-input='header'", block: true %}
+    <button type='submit' class='xo-predictive-search__icon' aria-label='{{ 'general.search.search' | t }}'>{% render 'icon', name: 'search', icon_size: '24' %}</button>
+  </xo-animate>
+</div>

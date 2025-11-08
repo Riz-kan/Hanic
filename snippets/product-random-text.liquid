@@ -1,0 +1,21 @@
+<p id='randomText'><span class='number' id='number1'></span> sold in last <span class='number' id='number2'></span> Hour</p>
+<div id='num1' style='display: none'>{{ number1 }}</div>
+<div id='num2' style='display: none'>{{ number2 }}</div>
+<script>
+  function getRandomNumber(minElementId, maxElementId) {
+    const min = parseInt(document.getElementById(minElementId).innerText, 10);
+    const max = parseInt(document.getElementById(maxElementId).innerText, 10);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function updateText() {
+    const number1Element = document.getElementById('number1');
+    const number2Element = document.getElementById('number2');
+
+    const random1 = getRandomNumber('num1', 'num2');
+    const random2 = getRandomNumber('num1', 'num2');
+    number1Element.innerText = random1;
+    number2Element.innerText = random2;
+  }
+  setInterval(updateText, 3500);
+</script>

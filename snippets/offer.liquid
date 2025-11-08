@@ -1,0 +1,31 @@
+{% comment %}
+  Renders a offer (sale product information).
+
+  Accepts:
+  - title: {String} The product to count time (optional)
+  - content1: {String} The first content (optional)
+  - content2: {String} The second content (optional)
+  - content3: {String} The third content (optional)
+  - color: {String} The color of offer (optional)
+
+  Usage:
+  {% render 'offer', title: title, content1: content1, content2: content2, content3: content3, color: color %}
+{% endcomment %}
+
+<div class='offer'>
+  <h4 class='offer__title' style='color: {{ color }};'>{{ title }}</h4>
+  <ul role='list' class='offer__list'>
+    <li class='offer__item'>
+      {% render 'icon', name: 'caret-right', icon_size: '18', color: color %}
+      <span class='offer__content' style='color:{{ color }};'>{{ content1 }}</span>
+    </li>
+    <li class='offer__item'>
+      {% render 'icon', name: 'caret-right', icon_size: '18', color: color %}
+      <span class='offer__content' style='color:{{ color }};'>{{ content2 }}</span>
+    </li>
+    <li class='offer__item'>
+      {% render 'icon', name: 'caret-right', icon_size: '18', color: color %}
+      <span class='offer__content' style='color:{{ color }};'>{{ content3 }}</span>
+    </li>
+  </ul>
+</div>

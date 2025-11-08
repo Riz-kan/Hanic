@@ -1,0 +1,23 @@
+{% comment %}
+  Renders a product static data
+
+  Accepts:
+  - product: {Object} Product Liquid object
+  - media_aspect_ratio: image aspect ratio
+
+  Usage:
+  {% render 'product-static-data', product: product, media_aspect_ratio: media_aspect_ratio %}
+{% endcomment %}
+
+<xo-product-liquid-static>
+  <script type='application/json'>
+    {
+      {% for variant in product.variants %}
+        {{ variant.id }}: {
+          price: `{% render 'price', variant: variant, reverse: false, card:true %}`,
+          img: `{% render 'product-image', product: product, variant: variant, media_aspect_ratio: media_aspect_ratio %}`
+        },
+      {% endfor %}
+    }
+  </script>
+</xo-product-liquid-static>

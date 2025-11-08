@@ -1,0 +1,53 @@
+{% comment %}
+  Renders a sticky toolbar at mobile screen
+
+  Usage:
+  {% render 'toolbar' %}
+{% endcomment %}
+
+{% liquid
+  assign template = template | split: '.' | first
+  assign background_color = '--bg-color: ' | append: settings.toolbar_background_color | append: ';'
+  assign background_gradient = '--bg-gradient: ' | append: settings.toolbar_background_gradient | append: ';'
+%}
+
+{% if template != 'product' %}
+  <div class='toolbar color-{{ settings.toolbar_color_scheme }}' style='{{ background_color }} {{ background_gradient }}'>
+    <a href='/collections/all' class='toolbar__item'>
+      {% render 'icon', name: 'shop', icon_size: '22', color: 'rgba(var(--color-foreground))' %}
+    </a>
+    <xo-modal-trigger xo-name='search' class='toolbar__item'>
+      {% render 'icon', name: 'search', icon_size: '22', color: 'rgba(var(--color-foreground))' %}
+    </xo-modal-trigger>
+    <a
+      href='{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}'
+      class='toolbar__item'
+    >
+      {% render 'icon', name: 'account1', icon_size: '22', color: 'rgba(var(--color-foreground))' %}
+    </a>
+    <div class='toolbar__item'>
+      <a href='/pages/wishlist' aria-label='Wishlist' title='Wishlist'>
+        {% render 'icon', name: 'heart', icon_size: '22', color: 'rgba(var(--color-foreground))' %}
+      </a>
+    </div>
+    {% if settings.cart_type == 'page' %}
+      <a href='{{ routes.cart_url }}' class='toolbar__item'>
+        <span class='toolbar__icon'>
+          {% render 'icon', name: 'cart', icon_size: '22', color: 'rgba(var(--color-foreground))' %}
+          <span class='toolbar__cart-count'>
+            <xo-cart-size>{{ cart.item_count }}</xo-cart-size>
+          </span>
+        </span>
+      </a>
+    {% else %}
+      <xo-modal-trigger xo-name='cart' class='toolbar__item'>
+        <span class='toolbar__icon'>
+          {% render 'icon', name: 'cart', icon_size: '22', color: 'rgba(var(--color-foreground))' %}
+          <span class='toolbar__cart-count'>
+            <xo-cart-size>{{ cart.item_count }}</xo-cart-size>
+          </span>
+        </span>
+      </xo-modal-trigger>
+    {% endif %}
+  </div>
+{% endif %}

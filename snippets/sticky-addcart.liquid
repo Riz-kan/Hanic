@@ -1,0 +1,182 @@
+{% comment %}
+  Renders a sticky add to cart as at when scroll down.
+
+  Accepts:
+  - product: {Object} The product object (required)
+  - show_checkbox: {Boolean} checkbox at buy_button snippets to allow add to cart and buy it now(optional)
+  Usage:
+  {% render 'sticky-addcart', product: product, direction: 'down', placement: bottom %}
+{% endcomment %}
+
+{% liquid
+  assign featured_media = product.selected_or_first_available_variant.featured_media
+  assign media_aspect_ratio = settings.product_card_aspect_ratio
+%}
+
+<div class='sticky-addcart-desktop'>
+  <xo-sticky xo-name='sticky-addcart' xo-direction='{{ direction }}' xo-placement='{{ placement }}'>
+    {%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+      <xo-product-will-change xo-unique-id='product-buy-now-id-{{ product.id }}'>
+        <input type='hidden' name='id' value='{{ product.selected_or_first_available_variant.id }}' disabled>
+      </xo-product-will-change>
+      <div class='sticky-addcart'>
+        <xo-container {% render 'section-layout' %}>
+          <div class='sticky-addcart__wrap'>
+            <a xo-scroll-to href='#top' class='sticky-addcart__left'>
+              <xo-product-will-change xo-unique-id='product-media-{{ product.id }}' class='sticky-addcart__media'>
+                {% if featured_media != null %}
+                  {% render 'media', type: 'image', media: featured_media.preview_image, media_aspect_ratio: media_aspect_ratio %}
+                {% else %}
+                  {% render 'media', type: 'image', media: product.featured_media.preview_image, media_aspect_ratio: media_aspect_ratio %}
+                {% endif %}
+              </xo-product-will-change>
+
+              <div class='sticky-addcart__product'>
+                <h3>{{ product.title | escape }}</h3>
+                <xo-product-will-change xo-unique-id='product-price-{{ product.id }}' {{ block.shopify_attributes }}>
+                  {% render 'price', product: product, use_variant: true, style: 'small' %}
+                  {% if cart.taxes_included == true %}
+                    <span>{{ 'products.product.price.include_tax' | t }}</span>
+                  {% endif %}
+                </xo-product-will-change>
+              </div>
+            </a>
+            <div class='sticky-addcart__right'>
+              {% if product.options_with_values.size > 0 and product.options_with_values[0].name != 'Title' %}
+                <div class='sticky-addcart__variants-wrap'>
+                  {%- for option in product.options_with_values -%}
+                    {% capture options %}
+                      <xo-product-variant>
+                        {% liquid
+                        for value in option.values
+                        assign checked = false
+                        if option.selected_value == value
+                        assign checked = true
+                        endif
+                        render 'field-select-custom-option-variant', label: value, name: option.name, value: value, checked: checked
+                        endfor
+                        %}
+                      </xo-product-variant>
+                    {% endcapture %}
+                    {% assign variant_name = option.name | append: '-sticky' %}
+                    {% render 'field-select-custom-variant', name: variant_name, value: option.values[0].name, options: options, placement: 'top-center', height: '5rem' %}
+                  {%- endfor -%}
+                </div>
+              {% endif %}
+              {% render 'quantity-style2', form_id: form_id, width: '13.5rem', height: '5rem', modify: 'half' %}
+              <div class='sticky-addcart__buttons-wrap'>
+                <div class='terms-binding'>
+                  <xo-product-will-change
+                    xo-unique-id='product-add-button-{{ product.id }}'
+                    class='buy-button__add'
+                    {% if product.selected_or_first_available_variant.available == false %}
+                      xo-disabled
+                    {% endif %}
+                  >
+                    <xo-cart-add
+                      {% if product.selected_or_first_available_variant.available == false %}
+                        xo-disabled
+                      {% endif %}
+                    >
+                      {%- if product.selected_or_first_available_variant.available -%}
+                        {% assign button_text = 'products.product.add_to_cart' | t %}
+                      {%- else -%}
+                        {% assign button_text = 'products.product.sold_out' | t %}
+                      {%- endif -%}
+                      {% render 'button', style: 'primary', text: button_text, block: true, size: 'md', class: 'sticky-addcart__add' %}
+                    </xo-cart-add>
+                  </xo-product-will-change>
+                </div>
+                {%- if section.settings.sticky_dynamic -%}
+                  <div class='terms-binding'>
+                    <xo-product-will-change
+                      class='buy-button__now sticky-addcart__buy-now'
+                      xo-unique-id='product-buy-now-button-{{ product.id }}'
+                      {% if product.selected_or_first_available_variant.available == false %}
+                        xo-disabled
+                      {% endif %}
+                    >
+                      {{ form | payment_button }}
+                      {{ form | payment_terms }}
+                    </xo-product-will-change>
+                  </div>
+                {%- endif -%}
+                {%- if section.settings.sticky_compare -%}
+                  <xo-tooltip xo-title='{{ 'products.product.compare' | t }}'>
+                    <xo-modal-trigger xo-name='show-compare' class='sticky-addcart__compare-trigger'>
+                      {% render 'icon', name: 'compare', icon_size: '15' %}
+                    </xo-modal-trigger>
+                  </xo-tooltip>
+                  {% render 'compare', product: product %}
+                {%- endif -%}
+                {%- if section.settings.sticky_wishlist -%}
+                  <div>
+                    {% comment %} add to wishlist {% endcomment %}
+                    <xo-products-fetcher-add xo-type='wishlist' class='sticky-addcart__wishlist'>
+                      <xo-tooltip
+                        xo-title='{{ 'products.product.add_to_wishlist' | t }}'
+                        class='sticky-addcart__icon-wishlist'
+                        xo-added
+                      >
+                        {% render 'icon', name: 'heart', icon_size: '20' %}
+                      </xo-tooltip>
+                    </xo-products-fetcher-add>
+                    {% comment %} remove wishlist {% endcomment %}
+                    <xo-products-fetcher-add xo-type='wishlist' class='sticky-addcart__wishlist'>
+                      <xo-tooltip
+                        xo-title='{{ 'products.product.remove_from_wishlist' | t }}'
+                        class='sticky-addcart__icon-wishlist'
+                        xo-removed
+                      >
+                        {% render 'icon', name: 'heart', icon_size: '20' %}
+                      </xo-tooltip>
+                    </xo-products-fetcher-add>
+                  </div>
+                {%- endif -%}
+              </div>
+              <div class='sticky-addcart__buttons-mobile'>
+                {%- if section.settings.sticky_dynamic -%}
+                  <div class='terms-binding'>
+                    <xo-product-will-change
+                      class='buy-button__now sticky-addcart__buy-now'
+                      xo-unique-id='product-buy-now-button-{{ product.id }}'
+                      {% if product.selected_or_first_available_variant.available == false %}
+                        xo-disabled
+                      {% endif %}
+                    >
+                      {{ form | payment_button }}
+                      {{ form | payment_terms }}
+                    </xo-product-will-change>
+                  </div>
+                {% else %}
+                  <div class='terms-binding'>
+                    <xo-product-will-change
+                      xo-unique-id='product-add-button-{{ product.id }}'
+                      class='buy-button__add'
+                      {% if product.selected_or_first_available_variant.available == false %}
+                        xo-disabled
+                      {% endif %}
+                    >
+                      <xo-cart-add
+                        {% if product.selected_or_first_available_variant.available == false %}
+                          xo-disabled
+                        {% endif %}
+                      >
+                        {%- if product.selected_or_first_available_variant.available -%}
+                          {% assign button_text = 'products.product.add_to_cart' | t %}
+                        {%- else -%}
+                          {% assign button_text = 'products.product.sold_out' | t %}
+                        {%- endif -%}
+                        {% render 'button', style: 'primary', text: 'Add to cart', block: true, size: 'md', class: 'sticky-addcart__add' %}
+                      </xo-cart-add>
+                    </xo-product-will-change>
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        </xo-container>
+      </div>
+    {%- endform -%}
+  </xo-sticky>
+</div>

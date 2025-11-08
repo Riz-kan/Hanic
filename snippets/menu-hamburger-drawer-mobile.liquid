@@ -1,0 +1,194 @@
+
+
+{% comment %}
+  Renders a hamburger menu style drawer mobile
+
+  Accepts:
+  - menu: {Object} Menu object (required)
+  - top: {String} Top position of navigation modal, equal height of header (optional)
+  _ hamburger_drawer_color_scheme: {Object} color scheme for sub menu (required)
+  _ submenu_color_scheme: {Object} color scheme for sub menu (required)
+
+  Usage:
+  {% render 'menu-hamburger-drawer-mobile',
+    menu: menu,
+    top: top,
+    hamburger_drawer_color_scheme: hamburger_drawer_color_scheme,
+    submenu_color_scheme: submenu_color_scheme
+  %}
+{% endcomment %}
+
+{% liquid
+  assign background_color = '--drawer-bg-color: ' | append: section.settings.hamburger_drawer_background_color | append: ';'
+  assign background_gradient = '--drawer-bg-gradient: ' | append: section.settings.hamburger_drawer_background_gradient | append: ';'
+%}
+
+<xo-modal
+  class='menu-hamburger-drawer-mobile'
+  xo-name='xo-menu-hamburger-mobile'
+  xo-animate='slide-right'
+  xo-placement='top-left'
+  xo-duration='400'
+  style='--top:{{ top }}'
+  xo-portal
+  xo-backdrop-color='rgba(0, 0, 0, 0.2)'
+>
+  <div class='menu-hamburger-drawer-mobile__content color-{{ hamburger_drawer_color_scheme }}' style='{{ background_color }} {{ background_gradient }}'>
+    <div>
+      {% for link in menu.links %}
+        {% capture submenu %}
+          {% if link.links != blank %}
+            <xo-container style='padding-top: 1rem; padding-bottom: 1rem' class='color-{{ submenu_color_scheme }}'>
+              {% for childlink in link.links %}
+                <div class="menu-hamburger-drawer-mobile__collapse-wrap">
+                  <xo-collapse-trigger xo-name='menu-hamburger-drawer-mobile-collapse-child-{{ forloop.index0 }}' class='menu-hamburger-drawer-mobile__collapse-child-trigger'>
+                    <a
+                      class='menu-hamburger-drawer-mobile__child-link'
+                      href='{{ childlink.url }}'
+                      {% if childlink.current %}
+                        aria-current='page'
+                      {% endif %}
+                    >
+                      {{ childlink.title | escape }}
+                    </a>
+                    {% comment %} check child link has grandchild link always show arrow {% endcomment %}
+                    {% if childlink.links != blank %}
+                      <span class='menu-hamburger-drawer-mobile__child-arrow'>
+                        {% render 'icon', name: 'chevron-down', icon_size: '1.5rem' %}
+                      </span>
+                    {% endif %}
+                  </xo-collapse-trigger>
+                  {% comment %} check child link has grandchild link {% endcomment %}
+                  {% if childlink.links != blank %}
+                    <xo-collapse xo-name='menu-hamburger-drawer-mobile-collapse-child-{{ forloop.index0 }}'>
+                      <div>
+                        <xo-container>
+                          {% for grandchildlink in childlink.links %}
+                            <a
+                              class='menu-hamburger-drawer-mobile__grandchild-link'
+                              href='{{ grandchildlink.url }}'
+                              {% if grandchildlink.current %}
+                                aria-current='page'
+                              {% endif %}
+                            >
+                              {{ grandchildlink.title | escape }}
+                            </a>
+                          {% endfor %}
+                        </xo-container>
+                      </div>
+                    </xo-collapse>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </xo-container>
+          {% endif %}
+        {% endcapture %}
+        {% if link.title contains '[' %}
+          <div class='menu-hamburger-drawer-mobile__collapse-wrap'>
+            <xo-collapse-trigger
+              xo-name='menu-hamburger-drawer-mobile-collapse-{{ forloop.index0 }}'
+              id='menu-hamburger-drawer-trigger'
+              class='menu-hamburger-drawer-mobile__collapse-trigger'
+            >
+              <a
+                class='menu-hamburger-drawer-mobile__link'
+                href='{{ link.url }}'
+                title='{{ link.title | escape | split: '[' | first  }}'
+                {% if link.current %}
+                  aria-current='page'
+                {% endif %}
+              >
+                <span class='menu-hamburger-drawer-mobile__label'>{{ link.title | escape | split: '[' | first }}</span>
+                <span
+                  class='menu-hamburger-drawer-mobile__label-filter'
+                  {% if link.title contains '(' %}
+                    style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                  {% endif %}
+                >
+                  {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                </span>
+              </a>
+              {% comment %} check conditions to render arrow collapse child link/megamenu {% endcomment %}
+              {% if link.links != blank %}
+                <span class='menu-hamburger-drawer-mobile__arrow'>
+                  {% render 'icon', name: 'chevron-down', icon_size: '1.5rem' %}
+                </span>
+              {% endif %}
+              {% comment %} always render for check empty megamenu in js {% endcomment %}
+              <span class='menu-hamburger-drawer-mobile__arrow' id='xo-menu-hamburger__arrow'>
+                {% render 'icon', name: 'chevron-down', icon_size: '1.5rem' %}
+              </span>
+            </xo-collapse-trigger>
+            <xo-collapse xo-name='menu-hamburger-drawer-mobile-collapse-{{ forloop.index0 }}' id='menu-hamburger-drawer-content' class='menu-hamburger-drawer-mobile__collapse'>
+              <div class='menu-hamburger-drawer-mobile__collapse-content'>
+                <xo-mega-menu class='menu-hamburger-drawer-mobile__mega-menu' xo-name='header-mega-menu' xo-index='{{ forloop.index0 }}'></xo-mega-menu>
+                {{ submenu }}
+              </div>
+            </xo-collapse>
+          </div>
+          {% comment %} check link has logo {% endcomment %}
+        {% elsif link.title contains '(' %}
+          {% comment %} skip {% endcomment %}
+        {% else %}
+          <div class='menu-hamburger-drawer-mobile__collapse-wrap'>
+            <xo-collapse-trigger
+              xo-name='menu-hamburger-drawer-mobile-collapse-{{ forloop.index0 }}'
+              id='menu-hamburger-drawer-trigger'
+              class='menu-hamburger-drawer-mobile__collapse-trigger'
+            >
+              <a
+                class='menu-hamburger-drawer-mobile__link'
+                href='{{ link.url }}'
+                title='{{ link.title | escape }}'
+                {% if link.current %}
+                  aria-current='page'
+                {% endif %}
+              >
+                <span class='menu-hamburger-drawer-mobile__label'>{{ link.title | escape }}</span>
+              </a>
+              {% comment %} check conditions to render arrow collapse child link/megamenu {% endcomment %}
+              {% if link.links != blank %}
+                <span class='menu-hamburger-drawer-mobile__arrow'>
+                  {% render 'icon', name: 'chevron-down', icon_size: '1.5rem' %}
+                </span>
+              {% endif %}
+              {% comment %} always render for check empty megamenu in js {% endcomment %}
+              <span class='menu-hamburger-drawer-mobile__arrow' id='xo-menu-hamburger__arrow'>
+                {% render 'icon', name: 'chevron-down', icon_size: '1.5rem' %}
+              </span>
+            </xo-collapse-trigger>
+            <xo-collapse xo-name='menu-hamburger-drawer-mobile-collapse-{{ forloop.index0 }}' id='menu-hamburger-drawer-content' class='menu-hamburger-drawer-mobile__collapse'>
+              <div class='menu-hamburger-drawer-mobile__collapse-content'>
+                <xo-mega-menu class='menu-hamburger-drawer-mobile__mega-menu' xo-name='header-mega-menu' xo-index='{{ forloop.index0 }}'></xo-mega-menu>
+                {{ submenu }}
+              </div>
+            </xo-collapse>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div>
+      <div class='menu-hamburger-drawer-mobile__utilities'>
+        <a href='{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}' class='menu-hamburger-drawer-mobile__utility'>
+          {% render 'icon', name: 'account1', icon_size: '18' %}
+          <span>
+            {%- if customer -%}{{ 'customer.account.title' | t }}{%- else -%}{{ 'customer.login_page.title' | t }}{%- endif -%}
+          </span>
+        </a>
+        <a href='/pages/wishlist' class='menu-hamburger-drawer-mobile__utility'>
+          {% render 'icon', name: 'heart', icon_size: '18' %}
+          <span style='padding-top:0.3rem'>
+            {{ 'general.wishlist.wishlist' | t }}
+          </span>
+        </a>
+      </div>
+      <div class='menu-hamburger-drawer-mobile__selects'>
+        {% render 'language-select', placement: 'top-center' %}
+        <div class='menu-hamburger-drawer-mobile__select-item'>
+          <span class='menu-hamburger-drawer-mobile__flag'>{{ localization.country | image_url: width: 20 | image_tag }}</span>
+          {% render 'currency-select', placement: 'top-center' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</xo-modal>

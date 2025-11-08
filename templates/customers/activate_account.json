@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main-page-heading": {
+      "type": "main-page-heading",
+      "settings": {
+        "padding_top": 10,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-activate-account",
+      "settings": {
+        "padding_top": 10,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main-page-heading",
+    "main"
+  ]
+}

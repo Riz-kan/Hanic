@@ -1,0 +1,71 @@
+{% comment %}
+  Renders a popup-newsletter-v5
+
+  Accepts:
+  - title: {String} Subheading of the popup-newsletter (Optional)
+  - description: {String} Description of the popup-newsletter (Optional)
+  - placeholder: {String} Placeholder for the input signup form (Optional)
+  - button_label: {String} Label for the button
+  - image: {String} Image for the popup-newsletter
+
+  Usage:
+  {% render 'popup-newsletter-v5',
+    title: 'Get 20% discount shipped to your inbox',
+    description: 'Subscribe to our newsletter and we will ship <strong>20% discount code</strong> today',
+    placeholder: 'Enter Your Email ...',
+    button_label: 'Subscribe',
+    image: '{{image}}'
+   %}
+{% endcomment %}
+
+{% assign title = settings.popup_newsletter_title %}
+{% assign description = settings.popup_newsletter_description %}
+{% assign placeholder = 'newsletter.email' | t %}
+{% assign button_text = 'newsletter.button_label' | t %}
+{% assign image = settings.popup_newsletter_image %}
+
+<div class='popup-newsletter-v5'>
+  <div class='popup-newsletter-v5__wrap'>
+    <div class='popup-newsletter-v5__box1'>
+      <div class='popup-newsletter-v5__img'>
+        {%- render 'image', image: image -%}
+      </div>
+      <div class='popup-newsletter-v5__close'>
+        <xo-modal-trigger class='xo-modal-content-style1__close{% if close_class %} {{ close_class }}{% endif %}' aria-label='{{ 'accessibility.close' | t }}'>
+          {% render 'icon', name: 'close2', icon_size: '15' %}
+        </xo-modal-trigger>
+      </div>
+    </div>
+    <div class='popup-newsletter-v5__box2'>
+      <h1 class='popup-newsletter-v5__title'>
+        {{ title }}
+      </h1>
+      <div class='popup-newsletter-v5__description'>
+        {{ description }}
+      </div>
+      <div class='popup-newsletter-v5__signup'>
+        {%- form 'customer', id: 'ContactFooter' -%}
+          <input type='hidden' name='contact[tags]' value='newsletter'>
+          <div class='popup-newsletter-v5__form'>
+            {% assign value = form.email %}
+            {% capture attr %}
+                  aria-required='true'
+                  autocorrect='off'
+                  {% if form.errors %}
+                  autofocus
+                  aria-invalid='true'
+                  aria-describedby='ContactFooter-error'
+                  {% elsif form.posted_successfully? %}
+                  aria-describedby='ContactFooter-success'
+                  {% endif %}
+                  required
+                {% endcapture -%}
+            {% render 'field-input', type: 'email', name: 'contact[email]', value: value, label: placeholder, attr: attr %}
+            {% render 'button', type: 'submit', text: button_text, style: 'secondary', mode: settings.popup_newsletter_button_mode, size: 'md', padding: 3 %}
+          </div>
+          {% render 'newsletter-form-message', form: form %}
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>

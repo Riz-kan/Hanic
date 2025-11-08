@@ -1,0 +1,102 @@
+{% comment %}
+  Renders the wishlist table.
+
+  Usage:
+  {% render 'wishlist-table' %}
+{% endcomment %}
+
+
+
+<xo-products-fetcher xo-type='wishlist' xo-section-id='{{ section.id }}' class='wishlist-table'>
+  <table role='table' class='xo-table'>
+    <thead role='rowgroup'>
+      <tr role='row' class='xo-table__head-row'>
+        <th role='columnheader'>{{ 'sections.wishlist.headings.product' | t }}</th>
+        <th role='columnheader'>{{ 'sections.wishlist.headings.price' | t }}</th>
+        <th role='columnheader'>{{ 'sections.wishlist.headings.stock_status' | t }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if search.results %}
+        {% for product in search.results %}
+          <tr role='row' class='xo-table__body-row'>
+            <td role='cell' data-th='Product'>
+              <xo-product xo-section-id='{{ section.id }}' xo-product-id='{{ product.id }}' xo-line='{{ forloop.index }}'>
+                <div class='wishlist-table__item'>
+                  <a href='{{ product.url }}' class='wishlist-table__item-image'>
+                    {% render 'image', image: product.featured_media, media_aspect_ratio: settings.product_card_aspect_ratio %}
+                  </a>
+                  <h3 class='wishlist-table__item-title'>
+                    <a href='{{ product.url }}'>
+                      {{ product.title | escape }}
+                    </a>
+                  </h3>
+                </div>
+                <div class='wishlist-table__desktop-hidden'>
+                  {% render 'price', product: product, use_variant: true %}
+                  <div>
+                    {% if product.available %}
+                      {{ 'sections.wishlist.in_stock' | t }}
+                    {% else %}
+                      {{ 'sections.wishlist.out_stock' | t }}
+                    {% endif %}
+                  </div>
+                  <div class='wishlist-table__action'>
+                    <xo-cart-add
+                      {% if product.selected_or_first_available_variant.available == false %}
+                        xo-disabled
+                      {% endif %}
+                    >
+                      {% assign add_cart_text = 'products.product.add_to_cart' | t %}
+                      {% render 'button', style: 'primary', mode: 'light', size: 'xs', text: add_cart_text, radius: 100 %}
+                    </xo-cart-add>
+                    <xo-products-fetcher-remove xo-type='wishlist'>
+                      {% assign remove_wishlist_text = 'sections.wishlist.remove' | t %}
+                      {% render 'button', style: 'secondary', mode: 'dark', size: 'xs', text: remove_wishlist_text, radius: 100 %}
+                    </xo-products-fetcher-remove>
+                  </div>
+                </div>
+                {% render 'product-data', product: product %}
+              </xo-product>
+            </td>
+            <td role='cell' data-th='Price'>
+              <xo-product xo-section-id='{{ section.id }}' xo-product-id='{{ product.id }}' xo-line='{{ forloop.index }}'>
+                {% render 'price', product: product, use_variant: true %}
+                {% render 'product-data', product: product %}
+              </xo-product>
+            </td>
+            <td role='cell' data-th='Stock' class='wishlist-table__stock'>
+              <xo-product xo-section-id='{{ section.id }}' xo-product-id='{{ product.id }}' xo-line='{{ forloop.index }}'>
+                {% if product.available %}
+                  {{ 'sections.wishlist.in_stock' | t }}
+                {% else %}
+                  {{ 'sections.wishlist.out_stock' | t }}
+                {% endif %}
+                {% render 'product-data', product: product %}
+              </xo-product>
+            </td>
+            <td role='cell' data-th='Action'>
+              <xo-product xo-section-id='{{ section.id }}' xo-product-id='{{ product.id }}' xo-line='{{ forloop.index }}'>
+                <div class='wishlist-table__action'>
+                  <xo-cart-add
+                    {% if product.selected_or_first_available_variant.available == false %}
+                      xo-disabled
+                    {% endif %}
+                  >
+                    {% assign add_cart_text = 'products.product.add_to_cart' | t %}
+                    {% render 'button', style: 'primary', mode: 'light', size: 'xs', text: add_cart_text, radius: 100 %}
+                  </xo-cart-add>
+                  <xo-products-fetcher-remove xo-type='wishlist'>
+                    {% assign remove_wishlist_text = 'sections.wishlist.remove' | t %}
+                    {% render 'button', style: 'secondary', mode: 'dark', size: 'xs', text: remove_wishlist_text, radius: 100 %}
+                  </xo-products-fetcher-remove>
+                </div>
+                {% render 'product-data', product: product %}
+              </xo-product>
+            </td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+</xo-products-fetcher>

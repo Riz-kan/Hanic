@@ -1,0 +1,19 @@
+{% comment %}
+  Renders a page heading.
+
+  Accepts:
+  - title: {String} Title of the page (optional)
+  - description: {String} Description of the page (optional)
+  - align: {String} Alignment of the page heading (optional)
+
+  Usage:
+  {% render 'section-heading' %}
+{% endcomment %}
+
+{% if title %}
+  <div class='xo-section-heading{% if align %} xo-section-heading--{{ align }}{% endif %}'>
+    <h2 class='xo-section-heading__title'>
+      {{ title | escape }}
+    </h2>
+  </div>
+{% endif %}

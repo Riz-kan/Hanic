@@ -1,0 +1,73 @@
+{% comment %}
+  Renders collection sidebar
+
+  Accepts:
+  - menu_title: {String} Title of menu (linklist) (optional)
+  - link_list: {Array} List of menu links (required)
+  - enable_filtering: {Boolean} Show/hide filter (optional)
+  - banner_link: {URL} Link of banner (optional)
+  - banner_image: {URL} Image of banner (optional)
+
+  Usage:
+  {% render 'collection-sidebar', menu_title: menu_title %}
+{% endcomment %}
+
+
+
+{% if link_list != blank %}
+  <div class='collection-sidebar__header'>
+    <h2 class='collection-sidebar__title' id='verticalTitle'>
+      {{ menu_title }}
+    </h2>
+  </div>
+  <div class='collection-sidebar__menu'>
+    {%- for parent_link in link_list -%}
+      {%- if parent_link.levels > 0 -%}
+        {%- capture collapse_content -%}
+          {%- for child_link in parent_link.links -%}
+            <div class='collection-sidebar__item collection-sidebar__item--child'>
+              <span class='collection-sidebar__icon'>{% render 'icon', name: 'arrow-right', icon_size: '11', color: 'rgba(var(--color-foreground))' %}</span>
+              {{ child_link.title | escape | link_to: child_link.url }}
+            </div>
+          {%- endfor -%}
+        {%- endcapture -%}
+        {%- capture collapse_title -%}
+          <div class='collection-sidebar__item'>
+            <span class='collection-sidebar__icon'>{% render 'icon', name: 'arrow-right', icon_size: '11', color: 'rgba(var(--color-foreground))' %}</span>
+            {{ parent_link.title | escape | link_to: parent_link.url }}
+          </div>
+        {%- endcapture -%}
+        {% assign parent_link_title = parent_link.title | escape %}
+        {% render 'collapse-style1', title: collapse_title, content: collapse_content, name: parent_link_title, icon_size: '15' %}
+      {%- else -%}
+        <div class='collection-sidebar__item'>
+          <span class='collection-sidebar__icon'>{% render 'icon', name: 'arrow-right', icon_size: '11', color: 'rgba(var(--color-foreground))' %}</span>
+          {{ parent_link.title | escape | link_to: parent_link.url }}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{% endif %}
+{% if enable_filtering %}
+  {% for filter in collection.filters %}
+    {% render 'filters-fieldset', type: 'block', filter: filter %}
+  {% endfor %}
+{% endif %}
+{% if show_banner %}
+  <div class='collection-sidebar__banner'>
+    <a
+      href='
+        {%- if banner_link != blank -%}
+          {{ banner_link }} {%- else -%}
+          https://shopify.pxf.io/9gPaY0
+        {%- endif -%}
+      '
+    >
+      {%- if banner_image != blank -%}
+        {% render 'image', image: banner_image %}
+      {%- else -%}
+        <img src='https://landing.shopilaunch.com/starter/sidebar_banner.jpg' width='768' height='1024' alt='affiliate' is='xo-lazyload' loading='lazy'>
+      {%- endif -%}
+    </a>
+  </div>
+{% endif %}

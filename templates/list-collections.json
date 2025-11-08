@@ -1,0 +1,97 @@
+{
+  "sections": {
+    "main-page-heading": {
+      "type": "main-page-heading",
+      "settings": {
+        "padding_top": 60,
+        "padding_bottom": 20,
+        "title": "All Collections",
+        "description": "<p>Our new cozy collection is made with environmentally friendly materials and<br>simple to care for so you can stay cozy wherever.<\/p>"
+      }
+    },
+    "main": {
+      "type" : "main-list-collections",
+      "settings": {
+        "padding_top": 20
+      },
+      "blocks": {
+        "3be361b1-1ee2-4f6b-b8b6-590e4f6dbe76": {
+          "type": "collection",
+          "settings": {
+            "collection": "left-sidebar"
+          }
+        },
+        "ffcfc673-ace0-4528-992e-5f0d62796909": {
+          "type": "collection",
+          "settings": {
+            "collection": "right-sidebar"
+          }
+        },
+        "517f4c7b-a4e9-40db-97bf-00ded2faf142": {
+          "type": "collection",
+          "settings": {
+            "collection": "box-container"
+          }
+        },
+        "f6d6ef68-e996-4fcd-b6da-b107087546af": {
+          "type": "collection",
+          "settings": {
+            "collection": "wide-container"
+          }
+        },
+        "9a0a0ca3-7c22-4c1c-ba2d-259e2e497b33": {
+          "type": "collection",
+          "settings": {
+            "collection": "list-view"
+          }
+        },
+        "500a2519-10b2-4423-846d-71b7877204cb": {
+          "type": "collection",
+          "settings": {
+            "collection": "filter-sidebar"
+          }
+        },
+        "de634ac9-6a42-4549-8ee5-bdd53cc86070": {
+          "type": "collection",
+          "settings": {
+            "collection": "filter-hidden"
+          }
+        },
+        "7404e6e3-b5bb-44f3-ba36-2ebacfb51ef6": {
+          "type": "collection",
+          "settings": {
+            "collection": "grid-2-columns"
+          }
+        },
+        "e87f8941-994b-40da-bd91-0d9a247d7d2f": {
+          "type": "collection",
+          "settings": {
+            "collection": "grid-3-columns"
+          }
+        },
+        "b951cdf9-06dc-46b5-8d67-40639eb8b4a4": {
+          "type": "collection",
+          "settings": {
+            "collection": "grid-4-columns"
+          }
+        }
+      },
+      "block_order": [
+        "3be361b1-1ee2-4f6b-b8b6-590e4f6dbe76",
+        "ffcfc673-ace0-4528-992e-5f0d62796909",
+        "517f4c7b-a4e9-40db-97bf-00ded2faf142",
+        "f6d6ef68-e996-4fcd-b6da-b107087546af",
+        "9a0a0ca3-7c22-4c1c-ba2d-259e2e497b33",
+        "500a2519-10b2-4423-846d-71b7877204cb",
+        "de634ac9-6a42-4549-8ee5-bdd53cc86070",
+        "7404e6e3-b5bb-44f3-ba36-2ebacfb51ef6",
+        "e87f8941-994b-40da-bd91-0d9a247d7d2f",
+        "b951cdf9-06dc-46b5-8d67-40639eb8b4a4"
+      ]
+    }
+  },
+  "order": [
+    "main-page-heading",
+    "main"
+  ]
+}

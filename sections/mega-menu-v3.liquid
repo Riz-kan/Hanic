@@ -1,0 +1,614 @@
+
+
+<template xo-mega-menu-name='header-mega-menu' xo-mega-menu-index='{{ section.settings.index }}'>
+  <div data-id='{{ section.id }}' {% render 'section-attr' %}>
+    {% render 'section-bg-image' %}
+    <xo-container {% render 'section-layout' %}>
+      <div class='mega-menu-v3__grid-wrap xo-scrollbar'>
+        <xo-grid style='--col-width: 17rem; --col-width-mobile: 32rem'>
+          {%- if section.settings.menu_1 != blank -%}
+            <div>
+              {%- if section.settings.title_1 != blank -%}
+                <h4 class='mega-menu-v3__title'>{{- section.settings.title_1 -}}</h4>
+              {%- endif -%}
+              <ul role='list' class='list-unstyled'>
+                {%- for link in section.settings.menu_1.links -%}
+                  <li class='mega-menu-v3__item'>
+                    {% if link.title contains '[' %}
+                      <a
+                        href='{{ link.url }}'
+                        title='{{ link.title | escape | split: '[' | first }}'
+                        class='mega-menu-v3__link'
+                      >
+                        <span class='mega-menu-v3__label'>{{- link.title | escape | split: '[' | first }}</span>
+                        <span
+                          class='mega-menu-v3__label-filter'
+                          {% if link.title contains '(' %}
+                            style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                          {% endif %}
+                        >
+                          {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                        </span>
+                      </a>
+                    {% else %}
+                      <a href='{{ link.url }}' title='{{ link.title | escape }}' class='mega-menu-v3__link'
+                        ><span class='mega-menu-v3__label'>{{ link.title | escape }}</span></a
+                      >
+                    {% endif %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.menu_2 != blank -%}
+            <div>
+              {%- if section.settings.title_2 != blank -%}
+                <h4 class='mega-menu-v3__title'>{{- section.settings.title_2 -}}</h4>
+              {%- endif -%}
+              <ul role='list' class='list-unstyled'>
+                {%- for link in section.settings.menu_2.links -%}
+                  <li class='mega-menu-v3__item'>
+                    {% if link.title contains '[' %}
+                      <a
+                        href='{{ link.url }}'
+                        title='{{ link.title | escape | split: '[' | first }}'
+                        class='mega-menu-v3__link'
+                      >
+                        <span class='mega-menu-v3__label'>{{- link.title | escape | split: '[' | first }}</span>
+                        <span
+                          class='mega-menu-v3__label-filter'
+                          {% if link.title contains '(' %}
+                            style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                          {% endif %}
+                        >
+                          {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                        </span>
+                      </a>
+                    {% else %}
+                      <a href='{{ link.url }}' title='{{ link.title | escape }}' class='mega-menu-v3__link'
+                        ><span class='mega-menu-v3__label'>{{ link.title | escape }}</span></a
+                      >
+                    {% endif %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.menu_3 != blank -%}
+            <div>
+              {%- if section.settings.title_3 != blank -%}
+                <h4 class='mega-menu-v3__title'>{{- section.settings.title_3 -}}</h4>
+              {%- endif -%}
+              <ul role='list' class='list-unstyled'>
+                {%- for link in section.settings.menu_3.links -%}
+                  <li class='mega-menu-v3__item'>
+                    {% if link.title contains '[' %}
+                      <a
+                        href='{{ link.url }}'
+                        title='{{ link.title | escape | split: '[' | first }}'
+                        class='mega-menu-v3__link'
+                      >
+                        <span class='mega-menu-v3__label'>{{- link.title | escape | split: '[' | first }}</span>
+                        <span
+                          class='mega-menu-v3__label-filter'
+                          {% if link.title contains '(' %}
+                            style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                          {% endif %}
+                        >
+                          {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                        </span>
+                      </a>
+                    {% else %}
+                      <a href='{{ link.url }}' title='{{ link.title | escape }}' class='mega-menu-v3__link'
+                        ><span class='mega-menu-v3__label'>{{ link.title | escape }}</span></a
+                      >
+                    {% endif %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.menu_4 != blank -%}
+            <div>
+              {%- if section.settings.title_4 != blank -%}
+                <h4 class='mega-menu-v3__title'>{{- section.settings.title_4 -}}</h4>
+              {%- endif -%}
+              <ul role='list' class='list-unstyled'>
+                {%- for link in section.settings.menu_4.links -%}
+                  <li class='mega-menu-v3__item'>
+                    {% if link.title contains '[' %}
+                      <a
+                        href='{{ link.url }}'
+                        title='{{ link.title | escape | split: '[' | first }}'
+                        class='mega-menu-v3__link'
+                      >
+                        <span class='mega-menu-v3__label'>{{- link.title | escape | split: '[' | first }}</span>
+                        <span
+                          class='mega-menu-v3__label-filter'
+                          {% if link.title contains '(' %}
+                            style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                          {% endif %}
+                        >
+                          {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                        </span>
+                      </a>
+                    {% else %}
+                      <a href='{{ link.url }}' title='{{ link.title | escape }}' class='mega-menu-v3__link'
+                        ><span class='mega-menu-v3__label'>{{ link.title | escape }}</span></a
+                      >
+                    {% endif %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.menu_5 != blank -%}
+            <div>
+              {%- if section.settings.title_5 != blank -%}
+                <h4 class='mega-menu-v3__title'>{{- section.settings.title_5 -}}</h4>
+              {%- endif -%}
+              <ul role='list' class='list-unstyled'>
+                {%- for link in section.settings.menu_5.links -%}
+                  <li class='mega-menu-v3__item'>
+                    {% if link.title contains '[' %}
+                      <a
+                        href='{{ link.url }}'
+                        title='{{ link.title | escape | split: '[' | first }}'
+                        class='mega-menu-v3__link'
+                      >
+                        <span class='mega-menu-v3__label'>{{- link.title | escape | split: '[' | first }}</span>
+                        <span
+                          class='mega-menu-v3__label-filter'
+                          {% if link.title contains '(' %}
+                            style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                          {% endif %}
+                        >
+                          {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                        </span>
+                      </a>
+                    {% else %}
+                      <a href='{{ link.url }}' title='{{ link.title | escape }}' class='mega-menu-v3__link'
+                        ><span class='mega-menu-v3__label'>{{ link.title | escape }}</span></a
+                      >
+                    {% endif %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.menu_6 != blank -%}
+            <div>
+              {%- if section.settings.title_6 != blank -%}
+                <h4 class='mega-menu-v3__title'>{{- section.settings.title_6 -}}</h4>
+              {%- endif -%}
+              <ul role='list' class='list-unstyled'>
+                {%- for link in section.settings.menu_6.links -%}
+                  <li class='mega-menu-v3__item'>
+                    {% if link.title contains '[' %}
+                      <a
+                        href='{{ link.url }}'
+                        title='{{ link.title | escape | split: '[' | first }}'
+                        class='mega-menu-v3__link'
+                      >
+                        <span class='mega-menu-v3__label'>{{- link.title | escape | split: '[' | first }}</span>
+                        <span
+                          class='mega-menu-v3__label-filter'
+                          {% if link.title contains '(' %}
+                            style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                          {% endif %}
+                        >
+                          {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                        </span>
+                      </a>
+                    {% else %}
+                      <a href='{{ link.url }}' title='{{ link.title | escape }}' class='mega-menu-v3__link'
+                        ><span class='mega-menu-v3__label'>{{ link.title | escape }}</span></a
+                      >
+                    {% endif %}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </xo-grid>
+      </div>
+    </xo-container>
+  </div>
+</template>
+
+{% schema %}
+{
+  "name": "t:sections.mega_menu_v3.name",
+  "class": "section-mega-menu",
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:sections.all.width.label",
+      "default": "box",
+      "options": [
+        {
+          "value": "box",
+          "label": "t:sections.all.width.options__1.label"
+        },
+        {
+          "value": "wide",
+          "label": "t:sections.all.width.options__2.label"
+        },
+        {
+          "value": "fullwidth",
+          "label": "t:sections.all.width.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "fullwidth_margin",
+      "label": "t:sections.all.fullwidth_margin.label",
+      "default": 0,
+      "visible_if": "{{ section.settings.width == 'fullwidth' }}"
+    },
+    {
+      "type": "select",
+      "id": "index",
+      "label": "t:sections.mega_menu_v3.settings.index.label",
+      "options": [
+        {
+          "value": "0",
+          "label": "t:sections.mega_menu_v3.settings.index.option_1.label"
+        },
+        {
+          "value": "1",
+          "label": "t:sections.mega_menu_v3.settings.index.option_2.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.mega_menu_v3.settings.index.option_3.label"
+        },
+        {
+          "value": "3",
+          "label": "t:sections.mega_menu_v3.settings.index.option_4.label"
+        },
+        {
+          "value": "4",
+          "label": "t:sections.mega_menu_v3.settings.index.option_5.label"
+        },
+        {
+          "value": "5",
+          "label": "t:sections.mega_menu_v3.settings.index.option_6.label"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.mega_menu_v3.settings.menu_header1.content"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "t:sections.mega_menu_v3.settings.title.label",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "t:sections.mega_menu_v3.settings.menu.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.mega_menu_v3.settings.menu_header2.content"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "t:sections.mega_menu_v3.settings.title.label",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "t:sections.mega_menu_v3.settings.menu.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.mega_menu_v3.settings.menu_header3.content"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "t:sections.mega_menu_v3.settings.title.label",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "t:sections.mega_menu_v3.settings.menu.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.mega_menu_v3.settings.menu_header4.content"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "t:sections.mega_menu_v3.settings.title.label",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_4",
+      "label": "t:sections.mega_menu_v3.settings.menu.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.mega_menu_v3.settings.menu_header5.content"
+    },
+    {
+      "type": "text",
+      "id": "title_5",
+      "label": "t:sections.mega_menu_v3.settings.title.label",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_5",
+      "label": "t:sections.mega_menu_v3.settings.menu.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.mega_menu_v3.settings.menu_header6.content"
+    },
+    {
+      "type": "text",
+      "id": "title_6",
+      "label": "t:sections.mega_menu_v3.settings.title.label",
+      "default": "Quick links"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_6",
+      "label": "t:sections.mega_menu_v3.settings.menu.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_desktop",
+      "label": "t:sections.all.background_image_desktop.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "t:sections.all.background_image_mobile.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_parallax",
+      "label": "t:sections.all.use_parallax.label",
+      "default": true,
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_image_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "textarea",
+      "id": "background_video_url",
+      "label": "t:sections.all.background_video_url.label",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_video_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "color",
+      "id": "background_overlay",
+      "label": "t:sections.all.background_overlay.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'image' or section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.mega_menu_v3.presets.name"
+    }
+  ]
+}
+{% endschema %}

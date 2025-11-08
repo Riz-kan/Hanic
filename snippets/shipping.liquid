@@ -1,0 +1,26 @@
+{% comment %}
+  Renders numbers visitor random between min and max number.
+
+  Accepts:
+  - show_delivery: {boolean} show/hide delivery text (required)
+  - show_return: {boolean} show/hide return text (required)
+  - delivery: {richtext} render delivery text (required)
+  - return: {richtext} render return text (required)
+  Usage:
+  {% render 'shippng', show_delivery: show_delivery, show_return: show_return, delivery: delivery, return: return %}
+{% endcomment %}
+
+<div class='shipping'>
+  {% if show_delivery %}
+    <div class='shipping_item'>
+      {% render 'icon', name: 'truck', icon_size: '24' %}
+      {{ delivery }}
+    </div>
+  {% endif %}
+  {% if show_return %}
+    <div class='shipping_item'>
+      {% render 'icon', name: 'return', icon_size: '22' %}
+      {{ return }}
+    </div>
+  {% endif %}
+</div>

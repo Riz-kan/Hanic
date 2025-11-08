@@ -1,0 +1,18 @@
+<div class='xo-address-detail'>
+  <xo-animate xo-cascade class='xo-address-detail__title'>
+    {{ 'customer.account.details' | t }}
+  </xo-animate>
+  <xo-animate xo-cascade class='xo-address-detail__user'>
+    <div class='xo-address-detail__user-name'>
+      {{ customer.default_address.first_name | capitalize }}
+      {{ customer.default_address.last_name | capitalize }}
+    </div>
+    <div class='xo-address-detail__user-phone'>{{ customer.default_address.phone }}</div>
+  </xo-animate>
+  <xo-animate xo-cascade class='xo-address-detail__address'>
+    {{- customer.default_address.company }}
+    {{ customer.default_address.street }}
+    {{ customer.default_address.city | capitalize }}
+    {{ customer.default_address.country -}}
+  </xo-animate>
+</div>

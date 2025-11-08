@@ -1,0 +1,21 @@
+{% comment %}
+  Renders a filters field with many types.
+
+  Accepts:
+  - filter: {Object} Filter of collection (required)
+  - style: {String} Modified style for fieldset snippets (optional)
+
+  Usage:
+  {% render 'fieldset-block'',
+    title: 'Title',
+  %}
+{% endcomment %}
+
+{% case type %}
+  {% when 'popover' %}
+    {% render 'fieldset-popover', filter: filter %}
+  {% when 'collapse' %}
+    {% render 'fieldset-collapse', filter: filter %}
+  {% when 'block' %}
+    {% render 'fieldset-block', filter: filter, style: style %}
+{% endcase %}

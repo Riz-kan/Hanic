@@ -1,0 +1,28 @@
+{% comment %}
+  Renders a main-collection style on mobile.
+
+  Usage:
+  {% render 'main-collection-mobile' %}
+{% endcomment %}
+
+<xo-modal-trigger xo-name='collection-modal-mobile' class='main-collection-mobile__trigger'>
+  {% render 'icon', name: 'filter2', icon_size: '18' %}
+  <div class='main-collection-mobile__trigger-text'>Filter</div>
+</xo-modal-trigger>
+<xo-modal xo-portal xo-name='collection-modal-mobile' xo-animate='slide-right' xo-placement='top-left' style='z-index:999'>
+  <div class='main-collection-mobile__modal-wrap'>
+    <xo-modal-trigger class='main-collection-style2__modal-close'>
+      <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+    </xo-modal-trigger>
+    <div class='main-collection-mobile__modal'>
+      {% render 'collection-sidebar',
+        menu_title: section.settings.menu_title,
+        link_list: section.settings.menu_sidebar.links,
+        enable_filtering: section.settings.enable_filtering,
+        show_banner: section.settings.show_banner,
+        banner_link: section.settings.banner_link,
+        banner_image: section.settings.banner_image
+      %}
+    </div>
+  </div>
+</xo-modal>

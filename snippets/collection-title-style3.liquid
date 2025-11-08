@@ -1,0 +1,53 @@
+{% comment %}
+  Renders a carousel of collection-title.
+
+  Usage:
+  {% render 'collection-title-style3' %}
+{% endcomment %}
+
+<xo-animate xo-cascade>
+  <xo-carousel
+    xo-per-view='{{ section.settings.columns }}'
+    xo-loop
+    xo-breakpoints='
+      {
+        1200: {
+          perView: {{ section.settings.columns | minus: 1}},
+        },
+        992: {
+          perView: {{ section.settings.columns | minus: 2}},
+        },
+        768: {
+          perView: 2,
+        },
+        576: {
+          perView: 1,
+        },
+      }
+    '
+    class='collection-title-style3__carousel {%- if section.settings.color_scheme %} color-{{ section.settings.color_scheme }}{% endif %}'
+    style='background-color:{{section.settings.background_color}};background-image:{{section.settings.background_gradient}}'
+  >
+    <xo-container {% render 'section-layout' %}>
+      <xo-carousel-inner style='position: relative;'>
+        <xo-carousel-list role='list' aria-label='{{ 'general.slider.name' | t }}'>
+          {% for block in section.blocks %}
+            <xo-carousel-slide aria-roledescription='{{ 'sections.slideshow.slide' | t }}' aria-label='{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}'>
+              <div class='collection-title-style3__nav-text'>
+                <a href='{{block.settings.collection.url}}'>
+                  {{ block.settings.collection.title | escape }}
+                </a>
+              </div>
+            </xo-carousel-slide>
+          {% endfor %}
+        </xo-carousel-list>
+        <xo-carousel-prev class='collection-title-style3__arrow collection-title-style3__arrow--left'
+          ><button>{% render 'icon', name: 'arrow-left', icon_size: '15' %}</button></xo-carousel-prev
+        >
+        <xo-carousel-next class='collection-title-style3__arrow collection-title-style3__arrow--right'
+          ><button>{% render 'icon', name: 'arrow-right', icon_size: '15' %}</button></xo-carousel-next
+        >
+      </xo-carousel-inner>
+    </xo-container>
+  </xo-carousel>
+</xo-animate>

@@ -1,0 +1,50 @@
+{% comment %}
+  Renders a collapse-style2 component.
+
+  Accepts:
+  - title: {String} Title of the collapse-style2 (optional)
+  - content: {String} Content of the collapse-style2 (optional)
+  - name: {String} Name of the collapse-style2 (optional)
+  - icon: {String} Name of the icon to use. Default: 'chevron-down' (optional)
+
+  Usage:
+  {% render 'collapse'',
+    title: 'Title',
+    content: 'Content',
+    icon: 'chevron-down'
+  %}
+{% endcomment %}
+
+{% assign icon = icon | default: 'chevron-down' %}
+
+<xo-collapse-trigger
+  class='xo-collapse-style2__trigger'
+  {% if name %}
+    xo-name='{{ name }}'
+  {% endif %}
+>
+  <div class='xo-collapse-style2__trigger-option'>
+    {{ title }}
+  </div>
+  <div class='xo-collapse-style2__trigger-icon'>
+    {% render 'icon', name: icon %}
+  </div>
+</xo-collapse-trigger>
+<xo-collapse
+  class='xo-collapse-style2__body'
+  {% if name %}
+    xo-name='{{ name }}'
+  {% endif %}
+>
+  {% if content != blank %}
+    <div class='xo-collapse-style2__content xo-content'>
+      {{ content }}
+    </div>
+  {% endif %}
+
+  {% if content_liquid != blank %}
+    <div class='xo-collapse-style2__content xo-content'>
+      {{ content_liquid }}
+    </div>
+  {% endif %}
+</xo-collapse>

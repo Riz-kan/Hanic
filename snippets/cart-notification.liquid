@@ -1,0 +1,27 @@
+{% liquid
+  assign notification_header = 'general.cart.item_added' | t
+  capture notification_content
+    for item in cart.items
+      render 'cart-mini-item', item: item, animate_enabled: true, for_notification: true, forloop_index: forloop.index
+    endfor
+  endcapture
+%}
+
+{% capture notification_footer %}
+  <div class=''>
+    {% assign label = 'general.cart.view' | t: count: cart.item_count %}
+    {% render 'button', text: label, style: 'link', mode: 'dark', mode:'dark', link: routes.cart_url, block: true %}
+
+    <form style="--lg: 12" action='{{ routes.cart_url }}' method='post' id='xo-cart-popup-form'>
+        {% capture checkout_label %}{{ 'sections.cart.checkout' | t }}{% endcapture %}
+        {% render 'button', text: checkout_label, type: 'submit', block: true %}
+    </form>
+
+    <xo-modal-trigger style="--lg: 12">
+      {% capture continue_label %}{{ 'general.continue_shopping' | t }}{% endcapture %}
+      {% render 'button', text: continue_label, style: 'link', mode: 'dark', mode:'dark', block: true %}
+    </xo-modal-trigger>
+  </div>
+{% endcapture %}
+
+{% render 'modal-content-style1', content: notification_content, title: notification_header, footer: notification_footer %}

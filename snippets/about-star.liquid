@@ -1,0 +1,9 @@
+<div class='about-star '>
+  {%- if stars > 0 -%}
+    <ul role='list' class='about-star__list-star'>
+      {% for i in (1..stars) %}
+        <li>{% render 'icon', name: 'star', icon_size: '15' %}</li>
+      {% endfor %}
+    </ul>
+  {%- endif -%}
+</div>

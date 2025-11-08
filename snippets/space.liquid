@@ -1,0 +1,14 @@
+{% comment %}
+  Renders a space element with a given value
+
+  Accepts:
+  - value: {String} Default value of the space. Default: 0 (optional)
+  - type: {String} Type of space to render (vertical or horizontal). Default: vertical (optional)
+
+  Usage:
+  {% render 'space', value: '1rem' %}
+{% endcomment %}
+
+{% assign type = type | default: 'vertical' %}
+
+<div class='xo-space xo-space--{{ type }}' style='--space: {{ value }}'></div>

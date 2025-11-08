@@ -1,0 +1,31 @@
+<div class='meta'>
+  <p
+    class='
+      meta__info meta__info--sku {% if disable1 == false %}
+        meta__info--disable
+      {% endif %}
+    '
+  >
+    SKU :
+    <span>
+      {%- for variant in product.variants %}
+        {{ variant.sku }}
+      {% endfor -%}
+    </span>
+  </p>
+  <p
+    class='
+      meta__info {% if disable2 == false %}
+        meta__info--disable
+      {% endif %}
+    '
+  >
+    Categories :
+    <span>
+      <span>
+        {%- assign collection_titles = product.collections | map: 'title' | join: ', ' -%}
+        {{ collection_titles | replace: ', ', ', ' }}
+      </span>
+    </span>
+  </p>
+</div>

@@ -1,0 +1,317 @@
+{
+  "sections": {
+    "collection-v2": {
+      "type": "collection-v2",
+      "blocks": {
+        "collection_DJGtXg": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/slide4.1.jpg",
+            "collection": "list-view"
+          }
+        },
+        "collection_YwyFG6": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/slide4.2.jpg",
+            "collection": "media-carousel"
+          }
+        },
+        "collection_Tdafnj": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/slide4.3.jpg",
+            "collection": "product-card-style-02"
+          }
+        },
+        "collection_zghU6R": {
+          "type": "collection",
+          "settings": {
+            "image": "shopify://shop_images/slide4.1.jpg",
+            "collection": "media-carousel-autoplay"
+          }
+        }
+      },
+      "block_order": ["collection_DJGtXg", "collection_YwyFG6", "collection_Tdafnj", "collection_zghU6R"],
+      "settings": {
+        "width": "fullwidth",
+        "fullwidth_margin": 0,
+        "columns_limit": 3,
+        "gap": 5,
+        "auto_play": false,
+        "hover": "scale_up",
+        "aspect_ratio": "1/1",
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": true,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 0,
+        "padding_bottom": 50
+      }
+    },
+    "product_v2_6HFYAP": {
+      "type": "product-v2",
+      "blocks": {
+        "tab_xrXgTw": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "NEW ARRIVALS",
+            "tab_collection": "list-view",
+            "tab_limit": 8
+          }
+        },
+        "tab_UkjBhC": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "BEST SELLERS",
+            "tab_collection": "best-seller",
+            "tab_limit": 8
+          }
+        },
+        "tab_4PHqd8": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "TOP RATES",
+            "tab_collection": "product-card-style-02",
+            "tab_limit": 8
+          }
+        }
+      },
+      "block_order": ["tab_xrXgTw", "tab_UkjBhC", "tab_4PHqd8"],
+      "name": "PRODUCT V2",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "heading_title": "Our Best Seller",
+        "heading_align": "center",
+        "columns_size": 4,
+        "distinct_color_scheme": false,
+        "product_card_color_scheme": "",
+        "button_text": "",
+        "button_link": "shopify://collections/all",
+        "button_mode": "light",
+        "button_style": "secondary",
+        "button_size": "sm",
+        "button_radius": 0.8,
+        "button_padding": 1.4,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 0,
+        "padding_bottom": 50
+      }
+    },
+    "banner-v5": {
+      "type": "banner-v5",
+      "settings": {
+        "width": "wide",
+        "fullwidth_margin": 0,
+        "title": "The Benefits of HavingPlants in Your Home",
+        "subtitle": "Seat cushions have down alternative-wrapped, high-resiliency polyurethane foam cores.High-gauge sinuous springs provide cushion support.",
+        "button_text": "SHOP NOW",
+        "button_link": "shopify://collections/all",
+        "button_mode": "accent",
+        "button_style": "secondary",
+        "button_size": "sm",
+        "button_radius": 0,
+        "button_padding": 1.4,
+        "color_scheme": "background-1",
+        "background_type": "image",
+        "background_color": "",
+        "background_gradient": "",
+        "background_image_desktop": "shopify://shop_images/banner7.jpg",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 300,
+        "padding_bottom": 300
+      }
+    },
+    "banner-v6": {
+      "type": "banner-v6",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "hover": "scale_up",
+        "gap": 30,
+        "subtitle1": "BEST FURNITURE",
+        "title1": "Floating Shelf",
+        "image1": "shopify://shop_images/banner4.1.jpg",
+        "link1": "shopify://collections/all",
+        "button1_text": "SHOP NOW",
+        "button1_mode": "dark",
+        "button1_style": "link",
+        "button1_size": "sm",
+        "button1_radius": 0.8,
+        "button1_padding": 1.4,
+        "subtitle2": "SPECIAL",
+        "title2": "CHANDELIER",
+        "image2": "shopify://shop_images/banner4.2.jpg",
+        "link2": "shopify://collections/all",
+        "button2_text": "SHOP NOW",
+        "button2_mode": "dark",
+        "button2_style": "link",
+        "button2_size": "sm",
+        "button2_radius": 0.8,
+        "button2_padding": 1.4,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": true,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 80,
+        "padding_bottom": 50
+      }
+    },
+    "product_v3_9hV": {
+      "type": "product-v3",
+      "name": "PRODUCT V3",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "title": "Hot Deal",
+        "subtitle": "Don't Miss Today's Featured Deals",
+        "collection": "collection-title-style-03",
+        "limit": 4,
+        "columns_size": 4,
+        "distinct_color_scheme": false,
+        "product_card_color_scheme": "",
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 20,
+        "padding_bottom": 50
+      }
+    },
+    "test2": {
+      "type": "testimonial-v2",
+      "blocks": {
+        "review_QMMNrx": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/people4.png",
+            "stars": 5,
+            "testimonial": "Saved our business! We have no regrets! Thanks for the great service. Hango is worth much more than I paid Saved our business! We have no regrets! Thanks for the great service. Hango is worth much more!",
+            "name_customer": "DESTINEE",
+            "position": "Marketing Personal"
+          }
+        },
+        "review_yByQEg": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/people3.png",
+            "stars": 5,
+            "testimonial": "Saved our business! We have no regrets! Thanks for the great service. Tilesy is worth much more than I paid Saved our business! We have no regrets! Thanks for the great service. Tilesy is worth much more!",
+            "name_customer": "DAVID",
+            "position": "Marketing Personal"
+          }
+        },
+        "review_4F3Ype": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/people2.png",
+            "stars": 5,
+            "testimonial": "Saved our business! We have no regrets! Thanks for the great service. Tilesy is worth much more than I paid Saved our business! We have no regrets! Thanks for the great service. Tilesy is worth much more!",
+            "name_customer": "AMILY",
+            "position": "Marketing Personal"
+          }
+        },
+        "review_qTdGmY": {
+          "type": "review",
+          "settings": {
+            "avatar": "shopify://shop_images/people1.png",
+            "stars": 5,
+            "testimonial": "Blood bank canine teeth larynx occupational therapist oncologist optician plaque spinal tap stat strep screen violence joints symptoms x-ray...",
+            "name_customer": "Ann Smith",
+            "position": "Photographer"
+          }
+        }
+      },
+      "block_order": ["review_QMMNrx", "review_yByQEg", "review_4F3Ype", "review_qTdGmY"],
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "auto_play": true,
+        "color_scheme": "inverse",
+        "background_type": "image",
+        "background_color": "#fcdec6",
+        "background_gradient": "",
+        "background_image_desktop": "shopify://shop_images/bg_testimonial.jpg",
+        "background_image_mobile": "shopify://shop_images/bg_testimonial.jpg",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 80,
+        "padding_bottom": 50
+      }
+    },
+    "blog_v1": {
+      "type": "blog-v1",
+      "name": "BLOG V1",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "radius": 0,
+        "title": "Our Blogs",
+        "subtitle": "",
+        "blog": "news",
+        "articles_limit": 8,
+        "columns_limit": 2,
+        "gap": 30,
+        "auto_play": false,
+        "hover": "scale_up",
+        "aspect_ratio": "auto",
+        "button_text": "",
+        "button_mode": "dark",
+        "button_style": "secondary",
+        "button_size": "sm",
+        "button_radius": 0,
+        "button_padding": 1.4,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 50,
+        "padding_bottom": 50
+      }
+    }
+  },
+  "order": ["collection-v2", "product_v2_6HFYAP", "banner-v5", "banner-v6", "product_v3_9hV", "test2", "blog_v1"]
+}

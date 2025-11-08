@@ -1,0 +1,49 @@
+{%- if item.original_price != item.final_price or item.unit_price_measurement -%}
+  <dl>
+    {%- if item.original_price != item.final_price -%}
+      <dt>
+        <span class='xo-visually-hidden'>{{ 'products.product.price.regular_price' | t }}</span>
+      </dt>
+      <dd class='regular-price'>
+        <s>{{ item.original_price | money }}</s>
+      </dd>
+      <dt>
+        <span class='xo-visually-hidden'>{{ 'products.product.price.sale_price' | t }}</span>
+      </dt>
+      <dd>
+        <span>{{ item.final_price | money }}</span>
+      </dd>
+    {%- else -%}
+      <dt>
+        <span class='xo-visually-hidden'>{{ 'products.product.price.regular_price' | t }}</span>
+      </dt>
+      <dd>
+        {{ item.original_price | money }}
+      </dd>
+    {%- endif -%}
+    {%- if item.unit_price_measurement -%}
+      <dt>
+        <span class='xo-visually-hidden'>{{ 'products.product.price.unit_price' | t }}</span>
+      </dt>
+      <dd class='unit-price'>
+        <span>
+          {%- capture unit_price_separator -%}
+            <span aria-hidden="true">/</span
+            ><span class="xo-visually-hidden">{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+          {%- endcapture -%}
+          {%- capture unit_price_base_unit -%}
+            {%- if item.unit_price_measurement.reference_value != 1 -%}
+              {{- item.unit_price_measurement.reference_value -}}
+            {%- endif -%}
+            {{ item.unit_price_measurement.reference_unit }}
+          {%- endcapture -%}
+          <span data-unit-price>{{ item.unit_price | money }}</span>
+          {{- unit_price_separator -}}
+          {{- unit_price_base_unit -}}
+        </span>
+      </dd>
+    {%- endif -%}
+  </dl>
+{%- else -%}
+  <span>{{ item.final_price | money }}</span>
+{%- endif -%}

@@ -1,0 +1,60 @@
+{% comment %}
+  Renders a bg image
+
+  Usage:
+  {% render 'header-bg-image' %}
+{% endcomment %}
+
+{% liquid
+  assign video_url = section.settings.background_video_url
+  assign background_overlay = section.settings.background_overlay
+  assign background_video_animation = section.settings.background_video_animation
+
+  assign use_parallax = section.settings.use_parallax
+  assign img_desktop = section.settings.background_image_desktop | image_url
+  assign img_mobile = section.settings.background_image_mobile | image_url
+  assign background_image_animation = section.settings.background_image_animation
+
+  assign duration = 1000
+%}
+
+{%- if video_url != blank -%}
+  {%- assign type = background_video_animation -%}
+
+  {%- capture style -%}
+    {% if background_overlay != blank %}--bg-overlay: {{ background_overlay }};{% endif %}
+  {%- endcapture -%}
+
+  {%- capture content -%}
+    <xo-video-cover xo-src='{{ video_url }}'></xo-video-cover>
+  {%- endcapture -%}
+
+  {%- else -%}
+    {%- assign type = background_image_animation -%}
+
+    {%- capture style -%}
+      {% if background_overlay != blank %}--bg-overlay: {{ background_overlay }};{% endif %}
+      {% if img_desktop != blank %}--img-desktop: url("{{ img_desktop | image_url: width: 100 }}");{% endif %}
+      {% if img_mobile != blank %}--img-mobile: url("{{ img_mobile | image_url: width: 100 }}");{% endif %}
+    {%- endcapture -%}
+
+    {%- capture content -%}
+      {% if use_parallax %}
+        <xo-parallax xo-lerp-ease='0.4' class='header-bg-image__item'>
+          <xo-parallax-scroll
+            xo-keyframes="
+              {
+                '0%': { backgroundPositionY: '200px' },
+                '100%': { backgroundPositionY: '-200px' },
+              }
+            "
+            class='header-bg-image__url xo-background-lazyload'
+          ></xo-parallax-scroll>
+        </xo-parallax>
+      {% else %}
+        <div class='header-bg-image__item'><div class='header-bg-image__url xo-background-lazyload'></div></div>
+      {% endif %}
+    {%- endcapture -%}
+{%- endif -%}
+
+{% render 'animation', content: content, type: type, duration: duration class: 'header-bg', style: style %}

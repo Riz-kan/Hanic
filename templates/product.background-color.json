@@ -1,0 +1,232 @@
+{
+  "sections": {
+    "breadcrumb-v1": {
+      "type": "breadcrumb-v1",
+      "settings": {
+        "background_color": "#F5F5F5",
+        "breadcrumb_align": "flex-start",
+        "breadcrumb_hide": false,
+        "breadcrumb_hide_mobile": true,
+        "padding_top": 15,
+        "padding_bottom": 15
+      }
+    },
+    "main-product": {
+      "type": "main-product",
+      "settings": {
+        "background_color": "#F5F5F5",
+        "padding_top": 0,
+        "padding_bottom": 50
+      },
+      "blocks": {
+        "b9220087-e178-48b9-a33a-095a4119abaf": {
+          "type": "vendor",
+          "disabled": true,
+          "settings": {}
+        },
+        "bedc5e2d-642d-4448-8569-c7fcfd527042": {
+          "type": "title",
+          "settings": {
+            "padding_bottom": 0
+          }
+        },
+        "judge_me_reviews_preview_badge_h3WD8N": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        },
+        "b1d95bc4-490b-4b8c-914a-89b1323d2a43": {
+          "type": "price",
+          "settings": {
+            "padding_bottom": 20
+          }
+        },
+        "b1d95bc4-490b-4b8c-914a-89b1323d2a41": {
+          "type": "countdown_time",
+          "disabled": true,
+          "settings": {
+            "countdown_title": "Sale ends in:"
+          }
+        },
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1k": {
+          "type": "variants",
+          "settings": {}
+        },
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1b": {
+          "type": "description",
+          "settings": {}
+        },
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1c": {
+          "type": "visitor",
+          "disabled": true,
+          "settings": {
+            "visitor_text": "people are viewing this right now"
+          }
+        },
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1a": {
+          "type": "offer",
+          "disabled": true,
+          "settings": {
+            "offer_title": "Special Offer",
+            "offer_content1": "In Stock",
+            "offer_content2": "Free Delivery Available*",
+            "offer_content3": "Sale 30% Off Use Code: Deal30"
+          }
+        },
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94h": {
+          "type": "countdown_stock",
+          "disabled": true,
+          "settings": {}
+        },
+        "addon_buttons_MGW7hE": {
+          "type": "addon_buttons",
+          "disabled": true,
+          "settings": {
+            "sizeguide_page": "size-guide",
+            "sizeguide_image": "shopify:\/\/shop_images\/sizeguide.png",
+            "sizeguide_content": "<h4>Sizes for this Product.</h4><p>This is an approximate conversion table to help you find your size. Measure around the fullest part, place the tape close under the arms and make sure the tape is flat across the back (Unit: centimeter).</p><p>SizeUSBustBody WaistFullest HipXS23224 - 2533 - 34S434 - 3526 - 2735 - 36M636 - 3728 - 2937 - 38L838 - 3930 - 3139 - 40XL1040 - 4232 - 3341 - 42XXL1240 - 4134 - 343 - 44</p><h4>How to Measure.</h4><h5>1. Bust</h5><p>Measure at the fullest part of your chest, keeping the tape parallel to the floor.</p><h5>2. Body Waist</h5><p>Measure at the smallest part of your waist. This is usually below the rib cage and above the hip bone.</p><h5>3. Fullest Hip</h5><p>Measure at the fullest part of your seat, keeping the tape parallel to the floor.</p>"
+          }
+        },
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94d": {
+          "type": "buy_button",
+          "settings": {
+            "add_color_scheme": "",
+            "show_dynamic_checkout": true,
+            "show_checkbox": false
+          }
+        },
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94k": {
+          "type": "buy_othersite",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/ebay-logo.png",
+            "link": "https://www.ebay.com/"
+          }
+        },
+        "941018d2-7613-4b60-aa2c-94962df06c94": {
+          "type": "trustbadge",
+          "disabled": true,
+          "settings": {
+            "trustbadge_image": "shopify:\/\/shop_images\/payment_methods_940a3571-dee7-40.png"
+          }
+        },
+        "367088f1-d502-47f7-b8b1-1c3f0e2221be": {
+          "type": "pickup",
+          "disabled": true,
+          "settings": {}
+        },
+        "367088f1-d502-47f7-b8b1-1c3f0e2221ce": {
+          "type": "shipping",
+          "settings": {}
+        },
+        "cac56f9f-8acd-4ad3-bdcc-54a1403984cf": {
+          "type": "complementary",
+          "disabled": true,
+          "settings": {
+            "complementary_title": "Pairs well with",
+            "products_to_show": 10
+          }
+        },
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94e": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "add_color_scheme": "",
+            "show_dynamic_checkout": true
+          }
+        },
+        "367088f1-d502-47f7-b8b1-1c3f0e2221af": {
+          "type": "richtext",
+          "disabled": true,
+          "settings": {}
+        },
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94f": {
+          "type": "liquid",
+          "disabled": true,
+          "settings": {}
+        },
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94g": {
+          "type": "collapse",
+          "disabled": true,
+          "settings": {
+            "heading": "Description",
+            "content": "",
+            "content_liquid": "{% render 'product-description-style3' %}"
+          }
+        },
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94l": {
+          "type": "collapse",
+          "disabled": true,
+          "settings": {
+            "heading": "Shipping & return",
+            "content": "",
+            "content_liquid": "{% assign policy_content = shop.policies | where: 'title', 'Shipping policy' | first %} {{ policy_content.body }}"
+          }
+        },
+        "367088f1-d502-47f7-b8b1-1c3f0e2221ae": {
+          "type": "image",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "b9220087-e178-48b9-a33a-095a4119abaf",
+        "bedc5e2d-642d-4448-8569-c7fcfd527042",
+        "judge_me_reviews_preview_badge_h3WD8N",
+        "b1d95bc4-490b-4b8c-914a-89b1323d2a43",
+        "b1d95bc4-490b-4b8c-914a-89b1323d2a41",
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1k",
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1b",
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1c",
+        "4dabf9d3-3372-4f5a-9edf-1e1f03527b1a",
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94h",
+        "addon_buttons_MGW7hE",
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94d",
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94k",
+        "941018d2-7613-4b60-aa2c-94962df06c94",
+        "367088f1-d502-47f7-b8b1-1c3f0e2221be",
+        "367088f1-d502-47f7-b8b1-1c3f0e2221ce",
+        "cac56f9f-8acd-4ad3-bdcc-54a1403984cf",
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94e",
+        "367088f1-d502-47f7-b8b1-1c3f0e2221af",
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94f",
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94g",
+        "ae0ed4c8-948a-46c7-b292-5f2687b8c94l",
+        "367088f1-d502-47f7-b8b1-1c3f0e2221ae",
+        "ebe1dbeb-d8fc-4f0c-9d34-fc7892bde207"
+      ]
+    },
+    "product-information-tabs": {
+      "type": "product-information-tabs",
+      "settings": {
+        "padding_bottom": 0
+      },
+      "blocks": {
+        "tab1": {
+          "type": "liquid",
+          "settings": {
+            "header": "Description",
+            "custom_liquid": "{% render 'product-description-style4' %}"
+          }
+        },
+        "tab2": {
+          "type": "shipping",
+          "settings": {}
+        },
+        "judge_me_reviews_review_widget_GGYDz3": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": ["tab1", "tab2", "judge_me_reviews_review_widget_GGYDz3"]
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading_title": "You Might Also Like"
+      },
+      "blocks": {},
+      "block_order": []
+    }
+  },
+  "order": ["breadcrumb-v1", "main-product", "product-information-tabs", "product-recommendations"]
+}

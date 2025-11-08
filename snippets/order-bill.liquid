@@ -1,0 +1,43 @@
+<div class='xo-order-bill'>
+  <div>
+    <xo-animate xo-cascade class='xo-order-bill__nav-title'>{{ 'customer.order.billing_address' | t }} </xo-animate>
+    <xo-animate
+      xo-cascade
+      class='xo-order-bill__payment-status'
+    >
+      <span class='xo-order-bill__payment-status-text'> {{ 'customer.order.payment_status' | t }}: </span>
+      {{ order.financial_status_label }}
+    </xo-animate>
+    <xo-animate xo-cascade class='xo-order-bill__user'>
+      <div class='xo-order-bill__user-name'>{{ customer.name }}</div>
+      <div class='xo-order-bill__user-phone'>{{ customer.phone }}</div>
+    </xo-animate>
+    <xo-animate xo-cascade class='xo-order-bill__address'>
+      {{ order.billing_address.company }}
+      {{ order.billing_address.street }}
+      {{ order.billing_address.city | capitalize }}
+      {{ order.billing_address.country -}}
+    </xo-animate>
+  </div>
+
+  <div class='xo-order-bill__ship-address'>
+    <xo-animate xo-cascade class='xo-order-bill__nav-title'>{{ 'customer.order.shipping_address' | t }}</xo-animate>
+    <xo-animate
+      xo-cascade
+      class='xo-order-bill__payment-status'
+    >
+      <span class='xo-order-bill__payment-status-text'>{{ 'customer.order.fulfillment_status' | t }}:</span>
+      {{ order.fulfillment_status_label }}
+    </xo-animate>
+    <xo-animate xo-cascade class='xo-order-bill__user'>
+      <div class='xo-order-bill__user-name'>{{ order.shipping_address.name }}</div>
+      <div class='xo-order-bill__user-phone'>{{ order.shipping_address.phone }}</div>
+    </xo-animate>
+    <xo-animate xo-cascade class='xo-order-bill__address'>
+      {{- order.shipping_address.company }}
+      {{ order.shipping_address.street }}
+      {{ order.shipping_address.city | capitalize }}
+      {{ order.shipping_address.country -}}
+    </xo-animate>
+  </div>
+</div>

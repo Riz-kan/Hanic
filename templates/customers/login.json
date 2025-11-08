@@ -1,0 +1,24 @@
+{
+  "sections": {
+    "main-page-heading": {
+      "type": "main-page-heading",
+      "settings": {
+        "description": "<p>If you have an account with us, please sign in.<\/p>",
+        "align": "center",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main": {
+      "type": "main-login",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main-page-heading",
+    "main"
+  ]
+}

@@ -1,0 +1,54 @@
+{% assign cart_title = 'sections.cart.title' | t %}
+
+{% capture drawer_content %}
+{% comment %} <xo-cart-size class='cartlength'>{{ cart.item_count }}</xo-cart-size> {% endcomment %}
+
+  <xo-animate xo-cascade>
+    {% render 'cart-free-shipping' %}
+  </xo-animate>
+  <div id='xo-notify' class='xo-notify-cart' aria-label="{{ 'general.cart.item_added' | t }}" role="dialog">
+    {% render 'icon', name:'smile', color: '#5fd321', icon_size='15' %}
+    <span>{{ 'sections.cart.product_added_message' | t }}</span>
+  </div>  
+  <xo-cart-will-change xo-unique-id='xo-cart-mini-content' class='xo-cart-mini-content__successfully'>
+    {% liquid
+      if cart == empty
+        render 'cart-empty'
+      else
+        for item in cart.items
+          if forloop.index < 5
+            render 'cart-mini-item', item: item, animate_enabled: true, forloop_index: forloop.index
+          else
+            render 'cart-mini-item', item: item, forloop_index: forloop.index
+          endif
+        endfor
+      endif
+    %}
+  </xo-cart-will-change>
+{% endcapture %}
+
+{% capture drawer_footer %}
+  <xo-cart-will-change xo-unique-id='xo-cart-mini-drawer-footer'>
+    {% if cart != empty %}
+      {% if settings.show_cart_drawer_note %}
+        {% assign type_note = settings.cart_drawer_note_type %}
+        <xo-animate xo-cascade class='xo-cart-mini-drawer-footer__border'>
+          {% render 'cart-note', uid: 'cart-drawer', type: type_note %}
+        </xo-animate>
+      {% endif %}
+      {% render 'cart-mini-footer' %}
+    {% endif %}
+  </xo-cart-will-change>
+{% endcapture %}
+
+{% render 'modal-content-style1',
+  content_tag_name: 'xo-cart-scroll',
+  content: drawer_content,
+  title: cart_title,
+  footer: drawer_footer,
+  full_height: true,
+  animate: true,
+  footer_class: 'flex-v',
+  header_separator: true,
+  footer_separator: true
+%}

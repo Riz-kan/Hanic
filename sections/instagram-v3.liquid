@@ -1,0 +1,263 @@
+
+
+<section {% render 'section-attr' %}>
+  <xo-container {% render 'section-layout' %}>
+    <div class='instagram-v3__grid' style='--gap:{{section.settings.gap}}px'>
+      <div class='instagram-v3__item1 instagram-v3__item'>
+        <a href='{{ section.settings.url1 }}'>
+          {%- render 'image', image: section.settings.img1 -%}
+          <a href='https://www.instagram.com/' class='instagram-v3__image-layer' target='_blank'>
+            {{ section.settings.icon_image }}
+          </a>
+        </a>
+      </div>
+      <div class='instagram-v3__item2 instagram-v3__item'>
+        <a href='{{ section.settings.url2 }}'>
+          {%- render 'image', image: section.settings.img2 -%}
+          <a href='https://www.instagram.com/' class='instagram-v3__image-layer' target='_blank'>
+            {{ section.settings.icon_image }}
+          </a>
+        </a>
+      </div>
+      <div class='instagram-v3__item3 instagram-v3__item'>
+        <a href='{{ section.settings.url3 }}'>
+          {%- render 'image', image: section.settings.img3 -%}
+          <a href='https://www.instagram.com/' class='instagram-v3__image-layer' target='_blank'>
+            {{ section.settings.icon_image }}
+          </a>
+        </a>
+      </div>
+      <div class='instagram-v3__item4 instagram-v3__item'>
+        <a href='{{ section.settings.url4 }}'>
+          {%- render 'image', image: section.settings.img4 -%}
+          <a href='https://www.instagram.com/' class='instagram-v3__image-layer' target='_blank'>
+            {{ section.settings.icon_image }}
+          </a>
+        </a>
+      </div>
+      <div class='instagram-v3__item5 instagram-v3__item'>
+        <a href='{{ section.settings.url5 }}'>
+          {%- render 'image', image: section.settings.img5 -%}
+          <a href='https://www.instagram.com/' class='instagram-v3__image-layer' target='_blank'>
+            {{ section.settings.icon_image }}
+          </a>
+        </a>
+      </div>
+      <div class='instagram-v3__item6 instagram-v3__item'>
+        <a href='{{ section.settings.url6 }}'>
+          {%- render 'image', image: section.settings.img6 -%}
+          <a href='https://www.instagram.com/' class='instagram-v3__image-layer' target='_blank'>
+            {{ section.settings.icon_image }}
+          </a>
+        </a>
+      </div>
+      <div class='instagram-v3__item7 instagram-v3__item'>
+        <a href='{{ section.settings.url7 }}'>
+          {%- render 'image', image: section.settings.img7 -%}
+          <a href='https://www.instagram.com/' class='instagram-v3__image-layer' target='_blank'>
+            {{ section.settings.icon_image }}
+          </a>
+        </a>
+      </div>
+    </div>
+  </xo-container>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.instagram_v3.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:sections.all.width.label",
+      "default": "box",
+      "options": [
+        {
+          "value": "box",
+          "label": "t:sections.all.width.options__1.label"
+        },
+        {
+          "value": "wide",
+          "label": "t:sections.all.width.options__2.label"
+        },
+        {
+          "value": "fullwidth",
+          "label": "t:sections.all.width.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "fullwidth_margin",
+      "label": "t:sections.all.fullwidth_margin.label",
+      "default": 0,
+      "visible_if": "{{ section.settings.width == 'fullwidth' }}"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.instagram_v3.settings.gap.label",
+      "default": 10
+    },
+    {
+      "type": "html",
+      "id": "icon_image",
+      "label": "t:sections.instagram_v3.settings.icon_image.label",
+      "default": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 448 512\"><path d=\"M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z\"/></svg>"
+    },
+    {
+      "type": "image_picker",
+      "id": "img1",
+      "label": "t:sections.instagram_v3.settings.img1.label"
+    },
+    {
+      "type": "url",
+      "id": "url1",
+      "label": "t:sections.instagram_v3.settings.url1.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "image_picker",
+      "id": "img2",
+      "label": "t:sections.instagram_v3.settings.img2.label"
+    },
+    {
+      "type": "url",
+      "id": "url2",
+      "label": "t:sections.instagram_v3.settings.url2.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "image_picker",
+      "id": "img3",
+      "label": "t:sections.instagram_v3.settings.img3.label"
+    },
+    {
+      "type": "url",
+      "id": "url3",
+      "label": "t:sections.instagram_v3.settings.url3.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "image_picker",
+      "id": "img4",
+      "label": "t:sections.instagram_v3.settings.img4.label"
+    },
+    {
+      "type": "url",
+      "id": "url4",
+      "label": "t:sections.instagram_v3.settings.url4.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "image_picker",
+      "id": "img5",
+      "label": "t:sections.instagram_v3.settings.img5.label"
+    },
+    {
+      "type": "url",
+      "id": "url5",
+      "label": "t:sections.instagram_v3.settings.url5.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "image_picker",
+      "id": "img6",
+      "label": "t:sections.instagram_v3.settings.img6.label"
+    },
+    {
+      "type": "url",
+      "id": "url6",
+      "label": "t:sections.instagram_v3.settings.url6.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "image_picker",
+      "id": "img7",
+      "label": "t:sections.instagram_v3.settings.img7.label"
+    },
+    {
+      "type": "url",
+      "id": "url7",
+      "label": "t:sections.instagram_v3.settings.url7.label",
+      "default": "/collections/all"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.instagram_v3.presets.name"
+    }
+  ]
+}
+{% endschema %}

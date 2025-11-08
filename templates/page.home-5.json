@@ -1,0 +1,122 @@
+{
+  "sections": {
+    "banner-v7": {
+      "type": "banner-v7",
+      "settings": {
+        "width": "fullwidth",
+        "fullwidth_margin": 0,
+        "title": "Modern furniture for everyday living",
+        "title_small": "Create a home you love with mindfully made pieces that don't cost the earth",
+        "link_banner": "shopify://collections/all",
+        "img_banner": "shopify://shop_images/banner6.jpg",
+        "color_scheme": "inverse",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "use_parallax": true,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "instagram_v2_rfd8bU": {
+      "type": "instagram-v2",
+      "name": "INSTAGRAM V2",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "gap": 1,
+        "icon_image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 448 512\"><path d=\"M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z\"></path></svg>",
+        "title": "",
+        "description": "",
+        "access_token": "",
+        "open_mode": "newtab",
+        "limit": 3,
+        "auto_play": false,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "background_margin": 0,
+        "padding_top": 15,
+        "padding_bottom": 0
+      }
+    },
+    "instagram_v2_ihzMMC": {
+      "type": "instagram-v2",
+      "name": "INSTAGRAM V2",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "gap": 1,
+        "icon_image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 448 512\"><path d=\"M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z\"></path></svg>",
+        "title": "",
+        "description": "",
+        "access_token": "",
+        "open_mode": "newtab",
+        "limit": 3,
+        "auto_play": false,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "background_margin": 0,
+        "padding_top": 1,
+        "padding_bottom": 1
+      }
+    },
+    "instagram_v2_Uh7AyT": {
+      "type": "instagram-v2",
+      "name": "INSTAGRAM V2",
+      "settings": {
+        "width": "box",
+        "fullwidth_margin": 0,
+        "gap": 1,
+        "icon_image": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 448 512\"><path d=\"M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z\"></path></svg>",
+        "title": "",
+        "description": "",
+        "access_token": "",
+        "open_mode": "newtab",
+        "limit": 3,
+        "auto_play": false,
+        "color_scheme": "",
+        "background_type": "color",
+        "background_color": "",
+        "background_gradient": "",
+        "background_margin": 0,
+        "padding_top": 0,
+        "padding_bottom": 10
+      }
+    },
+    "newsletter_v4_EYa7KW": {
+      "type": "newsletter-v4",
+      "name": "NEWSLETTER V4",
+      "settings": {
+        "width": "wide",
+        "fullwidth_margin": 0,
+        "svg": "",
+        "title": "GET UPDATE",
+        "subtitle": "Subscribe our newsletter and get\ndiscount 30% off",
+        "button_mode": "accent",
+        "color_scheme": "inverse",
+        "background_type": "image",
+        "background_color": "#f2f2f2",
+        "background_gradient": "",
+        "background_image_desktop": "shopify://shop_images/newsletter.jpg",
+        "use_parallax": false,
+        "background_image_animation": "none",
+        "background_video_url": "",
+        "background_video_animation": "none",
+        "background_overlay": "",
+        "background_margin": 0,
+        "padding_top": 100,
+        "padding_bottom": 100
+      }
+    }
+  },
+  "order": ["banner-v7", "instagram_v2_rfd8bU", "instagram_v2_ihzMMC", "instagram_v2_Uh7AyT", "newsletter_v4_EYa7KW"]
+}

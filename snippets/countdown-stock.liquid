@@ -1,0 +1,29 @@
+{% comment %}
+  Renders a stock product countdown.
+
+  Accepts:
+  - product: {Object} The product to count stock (required)
+  - block: {Object} The countdown stock block to get changing time (required)
+
+  Usage:
+  {% render 'countdown-stock', product: product %}
+{% endcomment %}
+
+{% liquid
+  assign quantity = 0
+  for variant in product.variants
+    if variant.inventory_quantity != 0
+      assign quantity = quantity | plus: variant.inventory_quantity
+    endif
+  endfor
+%}
+
+<div class='countdown-stock__title'>
+  {% render 'icon', name: 'fire', icon_size: '25' %}
+  <p class='countdown-stock__text' role='status'>
+    {{ 'products.product.countdown_stock' | t: quantity: quantity }}
+  </p>
+</div>
+<div class='countdown-stock__progress'>
+  <div class='countdown-stock__bar' style='width: 80%'></div>
+</div>

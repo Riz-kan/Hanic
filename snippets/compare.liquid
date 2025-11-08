@@ -1,0 +1,60 @@
+{% comment %}
+  Renders a variants product comparation  .
+
+  Accepts:
+  - product: {Object} The product object (required)
+
+  Usage:
+  {% render 'compare', product: product %}
+{% endcomment %}
+
+{%- assign option = product.options_with_values | where: 'name', 'Color' | first -%}
+
+<xo-modal xo-name='show-compare' xo-animate='fade-up' xo-portal class='compare__modal'>
+  <div class='compare__modal-content'>
+    <div class='compare__modal-header'>
+      <div class='compare__modal-title'>Compare Color</div>
+      <xo-modal-trigger class='compare__modal-close'>
+        <button>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+      </xo-modal-trigger>
+    </div>
+    <div class='compare__modal-body'>
+      <div class='compare__variant-colorwrap'>
+        {%- for value in option.values -%}
+          <xo-toggle-trigger xo-name='compare__variant-{{ value }}' class='compare__variant-color'>
+            <button>
+              <span
+                style='
+                  --color:{{ value.swatch.color }}; {%- if value.swatch.image -%}
+                    --image-src: url("{{ value.swatch.image | image_url: width: 40 }}")
+                  {%- endif -%}
+                '
+              ></span>
+            </button>
+          </xo-toggle-trigger>
+        {%- endfor -%}
+      </div>
+      <xo-grid
+        style='
+          --xs:2; --sm: 3; --md:4; --xo-grid-col-gap: 20px;
+          --xo-grid-row-gap: 20px;
+        '
+      >
+        {%- for value in option.values -%}
+          {%- assign value_check = '' -%}
+          {%- for variant in product.variants -%}
+            {%- assign value = value | escape -%}
+            {%- if variant.options contains value and value != value_check -%}
+              {%- assign value_check = value -%}
+              <xo-toggle class='compare__variant-image' xo-name='compare__variant-{{ value }}'>
+                {% render 'image', image: variant.featured_image, media_aspect_ratio: settings.product_card_aspect_ratio, container_class: 'variant-image' %}
+                <div class='compare__variant-value'>{{ value }}</div>
+              </xo-toggle>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+      </xo-grid>
+      <div class='compare__variant-note'>{{ 'products.compare.note' | t }}</div>
+    </div>
+  </div>
+</xo-modal>

@@ -1,0 +1,50 @@
+{% comment %}
+  Renders a carousel navigation.
+
+  Accepts:
+  - carousel_name: {String} Used to connect to that carousel (optional)
+
+  Usage:
+  {% render 'carousel-navigation-style3', carousel_name: 'carousel-xo-name' %}
+{% endcomment %}
+
+{% liquid
+  if carousel_name != blank
+    assign tag_name_prev = 'button'
+    assign tag_name_next = 'button'
+    assign method_next = 'xoCarousel.next( "' | append: carousel_name | append: '", 1)'
+    assign method_prev = 'xoCarousel.prev( "' | append: carousel_name | append: '", 1)'
+  else
+    assign tag_name_prev = 'xo-carousel-prev'
+    assign tag_name_next = 'xo-carousel-next'
+  endif
+%}
+
+<{{ tag_name_prev }}
+  {%- if method_prev != blank -%}
+    onclick='{{ method_prev }}'
+  {%- endif -%}
+  class='carousel-navigation-style3'
+  aria-label='{{ 'general.slider.previous_slide' | t }}'
+>
+  <div class='carousel-navigation-style3__icon-before carousel-navigation-style3__icon-before--left'>
+    {% render 'icon', name: 'chevron-left', icon_size: '20' %}
+  </div>
+  <div class='carousel-navigation-style3__icon-after carousel-navigation-style3__icon-after--left'>
+    {% render 'icon', name: 'chevron-left', icon_size: '20' %}
+  </div>
+</{{ tag_name_prev }}>
+<{{ tag_name_next }}
+  {%- if method_next != blank -%}
+    onclick='{{ method_next }}'
+  {%- endif -%}
+  class='carousel-navigation-style3'
+  aria-label='{{ 'general.slider.next_slide' | t }}'
+>
+  <div class='carousel-navigation-style3__icon-before carousel-navigation-style3__icon-before--right'>
+    {% render 'icon', name: 'chevron-right', icon_size: '20' %}
+  </div>
+  <div class='carousel-navigation-style3__icon-after carousel-navigation-style3__icon-after--right'>
+    {% render 'icon', name: 'chevron-right', icon_size: '20' %}
+  </div>
+</{{ tag_name_next }}>

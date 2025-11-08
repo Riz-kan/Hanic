@@ -1,0 +1,21 @@
+{% comment %}
+  Renders numbers visitor random between min and max number.
+
+  Accepts:
+  - max: {number} max number (required)
+  - min: {number} min number (required)
+  - change: {number} changing visitor times (required)
+  - text: {string} text to display (required)
+  Usage:
+  {% render 'visitor', max: max, min: min, change: change %}
+{% endcomment %}
+
+<xo-random-visitor xo-max='{{ max }}' xo-min='{{ min }}' xo-change='{{ change }}' class='visitor'>
+  <div class='visitor__icon'>
+    {% render 'icon', name: 'eye', icon_size: '14' %}
+  </div>
+  <div class='visitor__text'>
+    <xo-random-visitor-number></xo-random-visitor-number>
+    <span> {{ text }} </span>
+  </div>
+</xo-random-visitor>

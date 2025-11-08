@@ -1,0 +1,37 @@
+{% comment %}
+  Renders a checkbox button (type text)
+
+  Accepts:
+  - name: {string} Name of the checkbox button
+  - value: {string} Value of the checkbox button
+  - label: {string} Label of the checkbox button (optional)
+  - checked: {Boolean} If the radio button is checked (optional)
+
+  Usage:
+  {% render 'field-checkbox-text',
+    name: 'checkbox',
+    value: 'checkbox',
+    label: 'Checkbox',
+  %}
+{% endcomment %}
+
+<label class='field-checkbox-text'>
+  <input
+    class='field-checkbox-text__input'
+    type='checkbox'
+    name='{{ name }}'
+    value='{{ value | escape }}'
+    xo-label='{{ label | escape }}'
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+  <div
+    class='field-checkbox-text__item'
+  >
+    <span class='field-checkbox-text__icon'>{% render 'icon', name: 'arrow-right', icon_size: '12', color: 'rgba(var(--color-foreground))' %}</span>
+    {% if label != null %}
+      <span class='field-checkbox-text__content'>{{ label | escape }}</span>
+    {% endif %}
+  </div>
+</label>

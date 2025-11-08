@@ -1,0 +1,27 @@
+{% comment %}
+  Renders a carousel pagination with HTML <span> tag bullets.
+  Accepts:
+   - class: {String} class to style pagination (optional).
+   - vertical: {Boolean} Vertical pagination (optional)
+
+  Usage:
+  {% render 'carousel-pagination-style3', class: class %}
+  <xo-carousel xo-render-bullet='<span></span>'>
+{% endcomment %}
+
+<div class='carousel-pagination-style3 {% if class -%} {{ class }} {%- endif %}'>
+  <div class='carousel-pagination-style3__pagination-wrap'>
+    <xo-carousel-pagination
+      class='carousel-pagination-style3__pagination'
+      {% if vertical %}
+        xo-vertical
+      {% endif %}
+    >
+    </xo-carousel-pagination>
+    <xo-carousel-pagination-bullet-active
+      {% if vertical %}
+        xo-vertical
+      {% endif %}
+    ></xo-carousel-pagination-bullet-active>
+  </div>
+</div>

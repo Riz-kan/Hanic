@@ -1,0 +1,58 @@
+{% comment %}
+  Renders an animation tag <xo-animate>.
+
+  Accepts:
+  - type: {string} The type of animation to apply (required)
+  - duration: {number} The duration of the animation in milliseconds (optional)
+  - order: {number} The order of the animation (optional)
+  - strength: {number} The strength of the animation (optional)
+  - cascade: {boolean} Whether to apply the animation in cascade (optional)
+  - constant: {number} Whether to apply the animation in constant (optional)
+  - scroll_forced: {boolean} Whether to force the animation on scroll (optional)
+  - easing: {string} The easing of the animation (optional)
+  - style: {string} The style custom of the animation (optional)
+  - class: {string} The class custom of the animation (optional)
+  - content: {string} The content inside the animation tag (required)
+
+  Usage:
+  {% render 'animation', type: 'fade-up', content: 'abc' %}
+{% endcomment %}
+
+{% assign type = type | default: 'fade-up' %}
+
+<xo-animate
+  {% if class -%}
+    class='{{ class }}'
+  {%- endif %}
+  {% if type == 'none' -%}
+    xo-disabled
+  {%- else -%}
+    xo-type='{{ type }}'
+  {%- endif %}
+  {% if duration -%}
+    xo-duration='{{ duration }}'
+  {%- endif %}
+  {% if order -%}
+    xo-order='{{ order }}'
+  {%- endif %}
+  {% if strength -%}
+    xo-strength='{{ strength }}'
+  {%- endif %}
+  {% if cascade -%}
+    xo-cascade
+  {%- endif %}
+  {% if constant -%}
+    xo-constant='{{ constant }}'
+  {%- endif %}
+  {% if scroll_forced -%}
+    xo-scroll-forced
+  {%- endif %}
+  {% if easing -%}
+    xo-easing='{{ easing }}'
+  {%- endif %}
+  {% if style -%}
+    style='{{ style }}'
+  {%- endif %}
+>
+  {{ content }}
+</xo-animate>

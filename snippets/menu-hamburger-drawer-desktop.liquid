@@ -1,0 +1,211 @@
+
+
+{% comment %}
+  Renders a hamburger menu style drawer desktop
+
+  Accepts:
+  - menu: {Object} Menu object (required)
+  _ event_type: {String} open type hover/click megamenu (optional)
+  - top: {String} Top position of navigation modal, equal height of header (optional)
+  _ color_scheme: {Object} color scheme for sub menu (required)
+
+  Usage:
+  {% render 'menu-hamburger-drawer-desktop',
+    menu: menu,
+    event_type: event_type,
+    top: top,
+    color_scheme: color_scheme
+  %}
+{% endcomment %}
+
+{% liquid
+  assign event_type = event_type | default: 'hover'
+  assign background_color = '--drawer-bg-color: ' | append: section.settings.hamburger_drawer_background_color | append: ';'
+  assign background_gradient = '--drawer-bg-gradient: ' | append: section.settings.hamburger_drawer_background_gradient | append: ';'
+
+  assign submenu_background_color = '--submenu-bg-color: ' | append: section.settings.submenu_background_color | append: ';'
+  assign submenu_background_gradient = '--submenu-bg-gradient: ' | append: section.settings.submenu_background_gradient | append: ';'
+%}
+
+<xo-modal
+  class='menu-hamburger-drawer-desktop'
+  xo-name='xo-menu-hamburger'
+  xo-animate='slide-right'
+  xo-placement='top-left'
+  xo-duration='400'
+  style='--top:{{ top }}'
+  xo-portal
+  xo-backdrop-color='rgba(0, 0, 0, 0.2)'
+>
+  <div class='menu-hamburger-drawer-desktop__content color-{{ hamburger_drawer_color_scheme }}' style='{{ background_color }} {{ background_gradient }}'>
+    <div>
+      <xo-modal-trigger xo-name='xo-menu-hamburger' class='xo-menu-hamburger__trigger xo-menu-hamburger__trigger--close'>
+        <div class='xo-menu-hamburger__icon' aria-label='{{ 'accessibility.close' | t }}'></div>
+      </xo-modal-trigger>
+      <a href='/' class='menu-hamburger-drawer-desktop__logo'>
+        {%- if section.settings.logo_desktop != blank -%}
+          {%- assign logo_alt = section.settings.logo_desktop.alt | default: shop.name | escape -%}
+          {%- assign width = section.settings.logo_desktop_width %}
+          {%- assign height = section.settings.logo_desktop_width | divided_by: section.settings.logo_desktop.aspect_ratio %}
+          <img
+            src='{{ section.settings.logo_desktop | image_url }}'
+            alt='{{ logo_alt }}'
+            style='width: {{ width }}px; height: {{ height }}px'
+            height='auto'
+            width='auto'
+          >
+        {%- else -%}
+          <span class='h4 menu-hamburger-drawer-desktop__logo-placeholder'>{{ shop.name | escape }}</span>
+        {%- endif -%}
+      </a>
+      <ul
+        role='list'
+        class='menu-hamburger-drawer-desktop__list list-unstyled{% if event_type == 'hover' %} menu-hamburger-drawer-desktop--hover{% else %} menu-hamburger-drawer-desktop--click{% endif %}'
+      >
+        {% for link in menu.links %}
+          {% capture submenu %}
+            {% if link.links != blank %}
+              <div class='menu-hamburger-drawer-desktop__sub-menu'>
+                <ul role='list'
+                  class='list-unstyled menu-hamburger-drawer-desktop__sub-menu-list color-{{ submenu_color_scheme }}'
+                  style='{{ submenu_background_color }} {{ submenu_background_gradient }}'
+                >
+                  {% for childlink in link.links %}
+                    <li class='menu-hamburger-drawer-desktop__item menu-hamburger-drawer-desktop__item--child{% if event_type == 'hover' %} menu-hamburger-drawer-desktop__item--hover{% else %} menu-hamburger-drawer-desktop__item--click{% endif %}'>
+                      <a
+                        class='menu-hamburger-drawer-desktop__link'
+                        href='{{ childlink.url }}'
+                        {% if childlink.current %}
+                          aria-current='page'
+                        {% endif %}
+                      >
+                        <span class='menu-hamburger-drawer-desktop__child-label'>{{ childlink.title | escape }}</span>
+                        {% comment %} check child link has grandchild link always show arrow{% endcomment %}
+                        {% if childlink.links != blank %}
+                          <span class='menu-hamburger-drawer-desktop__child-arrow'>
+                            {% render 'icon', name: 'chevron-right', icon_size: '1.5rem' %}
+                          </span>
+                        {% endif %}
+                      </a>
+                      {% comment %} check child link has grandchild link show grandchild link{% endcomment %}
+                      {% if childlink.links != blank %}
+                        <div class='menu-hamburger-drawer-desktop__sub-menu menu-hamburger-drawer-desktop__sub-menu--grandchild'>
+                          <ul role='list'
+                            class='list-unstyled menu-hamburger-drawer-desktop__sub-menu-list'
+                            style='{{ background_color }} {{ background_gradient }}'
+                          >
+                            {% for grandchildlink in childlink.links %}
+                              <li class='menu-hamburger-drawer-desktop__item menu-hamburger-drawer-desktop__item--grandchild'>
+                                <a
+                                  class='menu-hamburger-drawer-desktop__link'
+                                  href='{{ grandchildlink.url }}'
+                                  {% if grandchildlink.current %}
+                                    aria-current='page'
+                                  {% endif %}
+                                >
+                                  <span class='menu-hamburger-drawer-desktop__grandchild-label'>{{ grandchildlink.title | escape }}</span>
+                                </a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          {% endcapture %}
+          {% if link.title contains '[' %}
+            <li
+              class='menu-hamburger-drawer-desktop__item{% if event_type == 'hover' %} menu-hamburger-drawer-desktop__item--hover{% else %} menu-hamburger-drawer-desktop__item--click{% endif %}'
+            >
+              {% comment %} render megamenu {% endcomment %}
+              <xo-mega-menu class='menu-hamburger-drawer-desktop__mega-menu' xo-name='header-mega-menu' xo-index='{{ forloop.index0 }}'></xo-mega-menu>
+              <a
+                class='menu-hamburger-drawer-desktop__link'
+                href='{{ link.url }}'
+                title='{{ link.title | escape | split: '[' | first }}'
+                {% if link.current %}
+                  aria-current='page'
+                {% endif %}
+              >
+                <span class='menu-hamburger-drawer-desktop__label'>{{ link.title | escape | split: '[' | first }}</span>
+                <span
+                  class='menu-hamburger-drawer-desktop__label-filter'
+                  {% if link.title contains '(' %}
+                    style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+                  {% endif %}
+                >
+                  {{ link.title | escape | split: '[' | last | split: ']' | first }}
+                </span>
+                {% comment %} check conditions to render arrow dropdown child link/megamenu{% endcomment %}
+                {% if link.links != blank %}
+                  <span class='menu-hamburger-drawer-desktop__arrow'>
+                    {% render 'icon', name: 'chevron-right', icon_size: '1.5rem' %}
+                  </span>
+                {% else %}
+                  {% comment %} always render for check empty megamenu in css {% endcomment %}
+                  <span class='menu-hamburger-drawer-desktop__arrow menu-hamburger-drawer-desktop__arrow--mega-menu'>
+                    {% render 'icon', name: 'chevron-right', icon_size: '1.5rem' %}
+                  </span>
+                {% endif %}
+              </a>
+              {{ submenu }}
+            </li>
+          {% elsif link.title contains '(' %}
+            {% comment %} skip {% endcomment %}
+          {% else %}
+            <li
+              class='menu-hamburger-drawer-desktop__item{% if event_type == 'hover' %} menu-hamburger-drawer-desktop__item--hover{% else %} menu-hamburger-drawer-desktop__item--click{% endif %}'
+            >
+              {% comment %} render megamenu {% endcomment %}
+              <xo-mega-menu class='menu-hamburger-drawer-desktop__mega-menu' xo-name='header-mega-menu' xo-index='{{ forloop.index0 }}'></xo-mega-menu>
+              <a
+                class='menu-hamburger-drawer-desktop__link'
+                href='{{ link.url }}'
+                title='{{ link.title | escape }}'
+                {% if link.current %}
+                  aria-current='page'
+                {% endif %}
+              >
+                <span class='menu-hamburger-drawer-desktop__label'>{{ link.title | escape }}</span>
+                {% comment %} check conditions to render arrow dropdown child link/megamenu {% endcomment %}
+                {% if link.links != blank %}
+                  <span class='menu-hamburger-drawer-desktop__arrow'>
+                    {% render 'icon', name: 'chevron-right', icon_size: '1.5rem' %}
+                  </span>
+                {% else %}
+                  {% comment %}always render for check empty megamenu in css{% endcomment %}
+                  <span class='menu-hamburger-drawer-desktop__arrow menu-hamburger-drawer-desktop__arrow--mega-menu'>
+                    {% render 'icon', name: 'chevron-right', icon_size: '1.5rem' %}
+                  </span>
+                {% endif %}
+              </a>
+              {{ submenu }}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    <div class='menu-hamburger-drawer-desktop__search'>
+      <form action='{{ routes.search_url }}' method='get' role='search'>
+        {% liquid
+          assign value = search.terms | escape
+          if search.performed
+            assign label = 'templates.search.title' | t
+          else
+            assign label = 'general.search.search' | t
+          endif
+          unless value
+            assign value = ''
+          endunless
+        %}
+        {% render 'field-input', value: value, name: 'q', label: label, block: true %}
+        <span class='menu-hamburger-drawer-desktop__search-icon'>
+          <button type='submit'>{% render 'icon', name: 'search', icon_size: '24', color: 'rgba(var(--color-foreground))' %}</button>
+        </span>
+      </form>
+    </div>
+  </div>
+</xo-modal>

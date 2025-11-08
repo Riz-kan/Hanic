@@ -1,0 +1,79 @@
+{% comment %}
+  Renders an article card for a given blog with settings to either show the image or not.
+
+  Accepts:
+  - article: {Object} Article object
+  - media_aspect_ratio: {string} The setting changes the aspect ratio of the article image, if shown
+  - show_image: {Boolean} The setting either show the article image or not. If it's not included it will show the image by default
+  - show_date: {Boolean} The setting either show the article date or not. If it's not included it will not show the image by default
+  - show_author: {Boolean} The setting either show the article author or not. If it's not included it will not show the author by default
+  - show_tag: {Boolean} The setting either show the article tags or not. If it's not included it will not show the tags by default
+  - show_badge: {Boolean} The setting either show the blog badge or not.
+  - placeholder_image: {String} The placeholder image to use when no article exists. Default: 'article-apparel-1' (optional)
+  - color_scheme: {String} The color scheme to use (optional)
+  - animate_enabled: {Boolean} Enable animation. Default: true (optional)
+
+  Usage:
+  {% render 'article-card-style2', article: article, show_image: section.settings.show_image %}
+{% endcomment %}
+
+{% liquid
+  if animate_enabled == null
+    assign animate_enabled = true
+  endif
+  assign tag_name = 'div'
+  if animate_enabled
+    assign tag_name = 'xo-animate'
+  endif
+%}
+
+{%- if article and article != empty -%}
+  <{{ tag_name }}
+    xo-cascade
+    class='{% if color_scheme %} color-{{ color_scheme }}{% endif %}'
+  >
+    <xo-grid class='article-card-style2__grid'>
+      {%- if show_image == true and article.image -%}
+        {%- comment -%}Add xl, xxl to overwrite xo-grid atribute in mega-menu-v5 {%- endcomment -%}
+        <div style='--xs: 3; --xl: 3; --xxl: 3'>
+          <a href='{{ article.url }}' class='article-card-style2__image {% render 'hover-style' %}'>
+            {% render 'image', image: article.image, media_aspect_ratio: media_aspect_ratio %}
+          </a>
+        </div>
+      {%- endif -%}
+      {%- comment -%}Add xl, xxl to overwrite xo-grid atribute in mega-menu-v5 {%- endcomment -%}
+      <div style='--xs: 9; --xl: 9; --xxl: 9'>
+        <a href='{{ article.url }}'>
+          <h3 class='article-card-style2__title'>
+            {{ article.title | truncate: 50 | escape }}
+          </h3>
+        </a>
+        {%- if show_excerpt -%}
+          {%- if article.excerpt.size > 0 or article.content.size > 0 -%}
+            <div class='article-card-style2__description'>
+              {%- if article.excerpt.size > 0 -%}
+                {{ article.excerpt | strip_html | truncatewords: 30 }}
+              {%- else -%}
+                {{ article.content | strip_html | truncatewords: 30 }}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+        <div class='article-card-style2__date-comment'>
+          {%- if show_date -%}
+            <span class='article-card-style2__date'>{{ article.published_at | time_tag: format: 'date' }}</span>
+          {%- endif -%}
+          <div class='article-card-style2__comment'>
+            {%- if article.comments_count > 1 -%}
+              {{ 'blogs.article.comments.other' | t: count: article.comments_count }}
+            {%- else -%}
+              {{ 'blogs.article.comments.one' | t: count: article.comments_count }}
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </xo-grid>
+  </{{ tag_name }}>
+{% else %}
+  {% render 'article-card-placeholder', placeholder_image: placeholder_image %}
+{%- endif -%}

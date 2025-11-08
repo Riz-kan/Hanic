@@ -1,0 +1,166 @@
+{% comment %}
+  Renders a horizontal menu
+
+  Accepts:
+  _ menu: {Object} object header menu (required)
+  _ event_type: {String} open type hover/click megamenu (optional)
+  _ navigation_show_arrow: {Boolean} show arrow in navigation (optional)
+  _ navigation_padding_item: {String} padding css class xo-menu-horizontal__link (optional)
+  _ submenu_color_scheme: {Object} color scheme for sub menu (required)
+
+  Usage:
+  {% render 'menu-horizontal',
+     menu: menu,
+     event_type: event_type,
+     navigation_show_arrow: navigation_show_arrow,
+     navigation_padding_item: navigation_padding_item,
+     submenu_color_scheme: submenu_color_scheme
+  %}
+{% endcomment %}
+
+{% liquid
+  assign event_type = event_type | default: 'hover'
+  assign navigation_show_arrow = navigation_show_arrow | default: false
+  assign navigation_padding_item = navigation_padding_item | default: '3rem'
+
+  assign background_color = '--submenu-bg-color: ' | append: section.settings.submenu_background_color | append: ';'
+  assign background_gradient = '--submenu-bg-gradient: ' | append: section.settings.submenu_background_gradient | append: ';'
+%}
+
+{% if menu != blank %}
+  <ul role='list' class='xo-menu-horizontal list-unstyled{% if event_type == 'hover' %} xo-menu-horizontal--hover{% else %} xo-menu-horizontal--click{% endif %}'>
+    {% for link in menu.links %}
+      <li
+        class='xo-menu-horizontal__item{% if event_type == 'hover' %} xo-menu-horizontal__item--hover{% else %} xo-menu-horizontal__item--click{% endif %}'
+        style='--padding:{{ navigation_padding_item }}'
+      >
+        {% comment %} render megamenu {% endcomment %}
+        <xo-mega-menu class='xo-menu-horizontal__mega-menu' xo-name='header-mega-menu' xo-index='{{ forloop.index0 }}'></xo-mega-menu>
+        {% comment %} check link title has color label {% endcomment %}
+        {% if link.title contains '[' %}
+          <a
+            class='xo-menu-horizontal__link'
+            href='{{ link.url }}'
+            title='{{link.title | escape | split: '[' | first }}'
+            {% if link.current %}
+              aria-current='page'
+            {% endif %}
+          >
+            <span class='xo-menu-horizontal__label'>{{ link.title | escape | split: '[' | first }}</span>
+            <span
+              class='xo-menu-horizontal__label-filter'
+              {% if link.title contains '(' %}
+                style='--bg-color: {{link.title | escape | split: '(' | last  | split: ')' | first}}'
+              {% endif %}
+            >
+              {{ link.title | escape | split: '[' | last | split: ']' | first }}
+            </span>
+            {% comment %} check conditions to render arrow dropdown child link/megamenu{% endcomment %}
+            {% if navigation_show_arrow %}
+              {% if link.links != blank %}
+                <span class='xo-menu-horizontal__arrow'>
+                  {% render 'icon', name: 'chevron-down', icon_size: '1.2rem' %}
+                </span>
+              {% else %}
+                {% comment %} always render for check empty megamenu in css {% endcomment %}
+                <span class='xo-menu-horizontal__arrow xo-menu-horizontal__arrow--mega-menu'>
+                  {% render 'icon', name: 'chevron-down', icon_size: '1.2rem' %}
+                </span>
+              {% endif %}
+            {% endif %}
+          </a>
+        {% else %}
+          <a
+            class='xo-menu-horizontal__link'
+            href='{{ link.url }}'
+            title='{{ link.title | escape }}'
+            {% if link.current %}
+              aria-current='page'
+            {% endif %}
+          >
+            {% comment %} check for style logo in menu link  {% endcomment %}
+            {% if link.title contains '(' %}
+              <span class='xo-menu-horizontal__logo'>
+                {%- if section.settings.logo_desktop != blank -%}
+                  {%- assign logo_alt = section.settings.logo_desktop.alt | default: shop.name | escape -%}
+                  {%- assign width = section.settings.logo_desktop_width %}
+                  {%- assign height = section.settings.logo_desktop_width | divided_by: section.settings.logo_desktop.aspect_ratio %}
+                  <img
+                    src='{{ section.settings.logo_desktop | image_url }}'
+                    alt='{{ logo_alt }}'
+                    style='width: {{ width }}px; height: {{ height }}px'
+                    height='auto'
+                    width='auto'
+                  >
+                {%- else -%}
+                  <span class='xo-menu-horizontal__label'>{{ link.title | escape }}</span>
+                {%- endif -%}
+              </span>
+            {% else %}
+              <span class='xo-menu-horizontal__label'>{{ link.title | escape }}</span>
+              {% comment %} check conditions to render arrow dropdown child link/megamenu {% endcomment %}
+              {% if navigation_show_arrow %}
+                {% if link.links != blank %}
+                  <span class='xo-menu-horizontal__arrow'>
+                    {% render 'icon', name: 'chevron-down', icon_size: '1.2rem' %}
+                  </span>
+                {% else %}
+                  {% comment %}always render for check empty megamenu in css{% endcomment %}
+                  <span class='xo-menu-horizontal__arrow xo-menu-horizontal__arrow--mega-menu'>
+                    {% render 'icon', name: 'chevron-down', icon_size: '1.2rem' %}
+                  </span>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          </a>
+        {% endif %}
+        {% comment %} show sub menu with child link {% endcomment %}
+        {% if link.links != blank %}
+          <ul role='list' class='xo-menu-horizontal__sub-menu list-unstyled color-{{ submenu_color_scheme }}' style='{{ background_color }} {{ background_gradient }}'>
+            {% for childlink in link.links %}
+              <li class='xo-menu-horizontal__item xo-menu-horizontal__item--child{% if event_type == 'hover' %} xo-menu-horizontal__item--hover{% else %} xo-menu-horizontal__item--click{% endif %}'>
+                <a
+                  class='xo-menu-horizontal__link'
+                  href='{{ childlink.url }}'
+                  {% if childlink.current %}
+                    aria-current='page'
+                  {% endif %}
+                >
+                  <span class='xo-menu-horizontal__child-label'>{{ childlink.title | escape }}</span>
+                  {% comment %} check child link has grandchild link always show arrow{% endcomment %}
+                  {% if childlink.links != blank %}
+                    <span class='xo-menu-horizontal__child-arrow'>
+                      {% render 'icon', name: 'chevron-right', icon_size: '1.5rem' %}
+                    </span>
+                  {% endif %}
+                </a>
+                {% comment %} check child link has grandchild link show grandchild link{% endcomment %}
+                {% if childlink.links != blank %}
+                  <ul
+                    role='list'
+                    class='xo-menu-horizontal__sub-menu xo-menu-horizontal__sub-menu--grandchild list-unstyled'
+                    style='{{  text_color }} {{ background_color }} {{ background_gradient }}'
+                  >
+                    {% for grandchildlink in childlink.links %}
+                      <li class='xo-menu-horizontal__item xo-menu-horizontal__item--grandchild'>
+                        <a
+                          class='xo-menu-horizontal__link'
+                          href='{{ grandchildlink.url }}'
+                          {% if grandchildlink.current %}
+                            aria-current='page'
+                          {% endif %}
+                        >
+                          <span class='xo-menu-horizontal__grandchild-label'>{{ grandchildlink.title | escape }}</span>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}

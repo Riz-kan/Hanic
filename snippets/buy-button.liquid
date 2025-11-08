@@ -1,0 +1,101 @@
+{% comment %}
+  Renders a buy button group include quantity, add to carrt, buy it now.
+
+  Accepts:
+  - show_gift_card_recipient: {Boolean} Show/hide gift card recipient (required)
+  - show_dynamic_checkout: {Boolean} Show/hide button buy it now (required)
+  - show_checkbox: {Boolean} Show/hide check box accpet term & conditions (optional)
+
+  Usage:
+  {% render 'buy-button', show_dynamic_checkout: show_dynamic_checkout %}
+{% endcomment %}
+
+{% assign form_id = 'product_form_id-' | append: section.id %}
+
+{%- form 'product', product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+  <input type='hidden' name='id' value='{{ product.selected_or_first_available_variant.id }}'>
+
+  {% liquid
+    assign gift_card_recipient_feature_active = false
+    if show_gift_card_recipient and product.gift_card?
+      assign gift_card_recipient_feature_active = true
+    endif
+  %}
+  {% if gift_card_recipient_feature_active == true %}
+    {%- render 'recipient-form', product: product, form: form, section: section -%}
+  {% endif %}
+
+  <div class='buy-button'>
+    <div>
+      {% render 'quantity-style2', form_id: form_id, width: '13.5rem', height: '5rem', modify: 'half' %}
+    </div>
+    <div class='terms-binding'>
+      <xo-product-will-change
+        xo-unique-id='product-add-button-{{ product.id }}'
+        class='buy-button__add'
+        {% if product.selected_or_first_available_variant.available == false %}
+          xo-disabled
+        {% endif %}
+      >
+        <xo-cart-add
+          {% if product.selected_or_first_available_variant.available == false %}
+            disabled
+          {% endif %}
+        >
+          {%- if product.selected_or_first_available_variant.available -%}
+            {% assign button_text = 'products.product.add_to_cart' | t %}
+          {%- else -%}
+            {% assign button_text = 'products.product.sold_out' | t %}
+          {%- endif -%}
+          {% render 'button', type: 'submit', style: 'primary', text: button_text, block: true %}
+        </xo-cart-add>
+      </xo-product-will-change>
+    </div>
+  </div>
+
+  {% if show_dynamic_checkout and product.selling_plan_groups == empty and gift_card_recipient_feature_active == false %}
+    {% render 'space', value: '2.5rem' %}
+    <div class='terms-binding'>
+      <xo-product-will-change
+        class='buy-button__now'
+        xo-unique-id='product-buy-now-button-{{ product.id }}'
+        {% if product.selected_or_first_available_variant.available == false %}
+          xo-disabled
+        {% endif %}
+      >
+        {{ form | payment_button }}
+        {{ form | payment_terms }}
+      </xo-product-will-change>
+    </div>
+  {% endif %}
+{%- endform -%}
+
+{% if show_checkbox %}
+  {% liquid
+    assign label = 'customer.policy.label' | t
+    assign button_text = 'customer.policy.terms_and_conditions' | t
+    assign modal_title = 'customer.policy.terms_of_service' | t
+    assign checkbox_name = 'agree_policy'
+  %}
+  {% render 'space', value: '2.5rem' %}
+  <div class='buy-button__policy'>
+    {% render 'field-checkbox', name: checkbox_name, label: label %}
+    <xo-modal-trigger xo-name='agree_policy'>
+      {% render 'button', text: button_text, style: 'link', mode: 'dark' %}
+    </xo-modal-trigger>
+    <xo-modal xo-portal xo-name='agree_policy' xo-animate='fade-up' class='buy-button__modal'>
+      <div class='buy-button__modal-content'>
+        <div class='buy-button__modal-header'>
+          <div class='buy-button__modal-title'>{{ modal_title }}</div>
+          <xo-modal-trigger class='buy-button__modal-close'>
+            <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+          </xo-modal-trigger>
+        </div>
+        <div class='buy-button__modal-body'>
+          {% assign policy_content = shop.policies | where: 'title', 'Terms of service' | first %}
+          {{ policy_content.body }}
+        </div>
+      </div>
+    </xo-modal>
+  </div>
+{% endif %}

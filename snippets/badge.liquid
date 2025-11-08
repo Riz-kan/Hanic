@@ -1,0 +1,32 @@
+{% comment %}
+  Renders a badge information of a product.
+
+  Accepts:
+  - product: {Object} The product object (required)
+  - type: {String} Type of badge (optional)
+
+  Usage:
+  {% render 'badge', product: product %}
+{% endcomment %}
+
+{% liquid
+  assign price_max = product.selected_or_first_available_variant.compare_at_price | times: 1.0
+  assign price_min = product.selected_or_first_available_variant.price
+  assign price_sale = price_max | minus: price_min
+  assign sale_percent = price_sale | divided_by: price_max | times: 100 | truncate: 2, '' | remove: '.'
+  assign sale_text = price_sale | money
+%}
+{% if price_sale > 0 %}
+  <div class='badge'>
+    {% case type %}
+      {% when 'percentage' %}
+        <span>SAVE</span>
+        <span>{{ sale_percent }}%</span>
+      {% when 'fixed' %}
+        <span>SAVE</span>
+        <span>{{ sale_text }}</span>
+      {% else %}
+        <span>SALE</span>
+    {% endcase %}
+  </div>
+{% endif %}

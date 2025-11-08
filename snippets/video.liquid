@@ -1,0 +1,62 @@
+{% comment %}
+  Renders a media
+
+  Accepts:
+  - video: {Object} video object (optional)
+  - video_url: {String} Url of video, only accept youtube, vimeo (optional). *Only use when exist url input settings, cant be directively import
+  - autoplay: {Boolean} Set autoplay for video.
+  - class: {String} Adds a video class to the video element (optional)
+  - enable_video_looping: {Boolean} Set looping for video. Default: false (optional)
+  - cover_image: {String} Image cover for video (optional)
+  - media_aspect_ratio: {Number} Aspect ratio of the media (optional)
+
+  Usage:
+
+  {% render 'video',
+    video: video,
+    video_url: 'section.settings.video_url',
+    class: 'video',
+    enable_video_looping: true
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign video_id = video.id | default: video_url.id
+  assign poster = video.preview_image | default: cover_image
+  assign autoplay = autoplay | default: false
+  assign controls = controls | default: true, allow_false: true
+-%}
+<div
+  class='xo-video'
+  style='aspect-ratio: {{ poster.aspect_ratio | default: video.aspect_ratio | default: 1 }};'
+>
+  {% comment %}
+    <div class='xo-video__poster'>
+      {%- if poster != null -%}
+        {% render 'image', image: poster %}
+      {%- else -%}
+        {{ 'hero-apparel-3' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+      {%- endif -%}
+    </div>
+  {% endcomment %}
+
+  {% if video == null and video_url != null %}
+    {% comment %} Video url {% endcomment %}
+    {%- liquid
+      assign loop = ''
+      if enable_video_looping
+        assign loop = '&loop=1&playlist=' | append: video_id
+      endif
+    -%}
+
+    {% if video_url.type == 'youtube' %}
+      {% render 'media', media: video_url, type: 'youtube', loop: loop, class: class, autoplay: autoplay, media_aspect_ratio: media_aspect_ratio %}
+    {% else %}
+      {% render 'media', media: video_url, type: 'vimeo', loop: loop, class: class, autoplay: autoplay, media_aspect_ratio: media_aspect_ratio %}
+    {% endif %}
+
+    {% comment %} Video {% endcomment %}
+  {% else %}
+    {% render 'media', media: video, type: 'video', loop: loop, class: class, controls: controls, media_aspect_ratio: media_aspect_ratio %}
+  {% endif %}
+</div>

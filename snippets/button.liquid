@@ -1,0 +1,152 @@
+{% comment %}
+  Renders a button
+
+  Accepts:
+  - text: {String} title of the button
+  - link: {String} link href of button
+  - type: {String} type of button
+  - style: {String} primary, secondary. Default: primary (optional)
+  - mode: {String} light, dark. Default: light (optional)
+  - size: {String} Size of the button. Default: md (optional)
+  - disabled: {Boolean} whether the button is disabled
+  - loading: {Boolean} whether the button is loading
+  - loading_type: {String} Loading type. Default: 'loader-3' (optional)
+  - icon: {String} icon name
+  - icon_position: {String} icon position. Default: right (optional)
+  - icon_size: {Number} icon size
+  - image: {Image} image in button
+  - image_position: {String} image position. Default: right (optional)
+  - background_color: {String} background color of button
+  - border_color: {String} border color of button
+  - text_color: {String} text color of button
+  - width: {Number} width of the button
+  - block: {Boolean} whether the button is a block element
+  - radius: {Number} border radius of the button
+  - padding: {Number} padding of the button
+  - class: {String} additional classes to add to the button
+  - name: {String} name of the button
+  - form_id: {String} form id to submit
+  - id: {String} id of the button
+  - aria_label: {String} aria-label of the button
+  - aria_labelledby: {String} aria-labelledby of the button
+  - attrs: {String} additional attributes to add to the button
+
+  Usage:
+  {% render 'button',
+    text: 'Button',
+    link: '/',
+    style: 'primary',
+    mode: 'dark',
+    size: 'md',
+    radius: 25,
+    padding: 3
+  %}
+
+  *** Import schema when many button:
+  ...buttonSchema({ idDefault: 'button1' })
+{% endcomment %}
+
+{% assign icon_position = icon_position | default: 'right' %}
+{% assign image_position = image_position | default: 'right' %}
+{% assign loading_type = loading_type | default: settings.buttons_loading %}
+
+{% capture general_attr %}
+  class='xo-btn xo-btn--{{ mode | default: 'light' }} xo-btn--{{ style | default: 'secondary' }}
+    {%- if class %} xo-btn--{{ class }}{% endif -%}
+    {%- if size %} xo-btn--{{ size }}{% endif -%}
+    {%- if settings.buttons_effect %} xo-btn--{{ settings.buttons_effect }}{% endif -%}
+    {%- if loading %} xo-btn--loading{% endif -%}
+    {%- if block %} xo-btn--block{% endif -%}
+    {%- if class %} {{ class }}{% endif -%}
+  '
+  {% if disabled %}
+    disabled
+  {% endif %}
+  {% if attrs %}
+    {{ attrs }}
+  {% endif %}
+  style='
+    {%- if background_color != null %}--bg-color: {{ background_color }};{% endif -%}
+    {%- if border_color != null %}--border-color: {{ border_color }};{% endif -%}
+    {%- if text_color != null %}--text-color: {{ text_color }};{% endif -%}
+    {%- if width != null %}--width: {{ width }};{% endif -%}
+    {%- if radius != null %}border-radius: {{ radius }}rem;{% endif -%}
+    {%- if padding != null and style != 'link' %}padding-left: {{ padding }}rem; padding-right: {{ padding }}rem;{% endif -%}
+  '
+{% endcapture %}
+
+{% capture content %}
+  <span
+    class="xo-btn__content"
+  >
+     {% if icon != nil %}
+      <span class="xo-btn__icon">
+        {% render 'icon', name: icon, icon_size:icon_size %}
+      </span>
+    {% endif %}
+    {% if image != nil %}
+      <span class="xo-btn__image">
+        {% render 'image', image: image %}
+      </span>
+    {% endif %}
+    {% if text != nil %}
+      <span
+        class="xo-btn__text"
+        {% if settings.buttons_effect == 'slide-up' %} data-text="{{ text }}"{% endif %}
+      >
+        {{ text | strip_html }}
+      </span>
+    {% endif %}
+    {% if number != nil %}
+      <span class="xo-btn__number">
+        {{ number }}
+      </span>
+    {% endif %}
+  </span>
+  <span class="xo-btn__loading">
+    {% liquid
+      case loading_type
+        when 'loader-1'
+          render 'loader-1', size: 20
+        when 'loader-2'
+          render 'loader-2', size: 16
+        when 'loader-3'
+          render 'loader-3', size: 8
+        else
+          render 'loader-3', size: 8
+      endcase
+    %}
+  </span>
+{% endcapture %}
+
+{% if text != '' %}
+  {% if link %}
+    <a {{ general_attr }} href='{{ link }}'>
+      {{ content }}
+    </a>
+  {% else %}
+    <button
+      {{ general_attr -}}
+      {% if type != blank %}
+        type='{{ type }}'
+      {% endif %}
+      {% if form_id != blank %}
+        form='{{ form_id }}'
+      {% endif %}
+      {% if id != blank %}
+        id='{{ id }}'
+      {% endif %}
+      {% if aria_label != blank %}
+        aria-label='{{ aria_label }}'
+      {% endif %}
+      {% if aria_labelledby != blank %}
+        aria-labelledby='{{ aria_labelledby }}'
+      {% endif %}
+      {% if name != blank %}
+        name='{{ name }}'
+      {% endif %}
+    >
+      {{ content }}
+    </button>
+  {% endif %}
+{% endif %}

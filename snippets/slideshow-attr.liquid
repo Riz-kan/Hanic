@@ -1,0 +1,32 @@
+{% comment %}
+  Renders a slideshow attribute
+
+  Accepts:
+  - block: {Object} Block Liquid object (required)
+
+  Usage:
+  {% render 'slideshow-attr', block: block %}
+{% endcomment %}
+
+{% liquid
+  assign class_name = 'xo-slideshow ' | append: class_name
+
+  if block.settings.background_color != blank
+    assign background_color = '--bg-color: ' | append: block.settings.background_color | append: ';'
+  endif
+  if block.settings.background_gradient != blank
+    assign background_gradient = '--bg-gradient: ' | append: block.settings.background_gradient | append: ';'
+  endif
+  if block.settings.background_margin != null
+    assign background_margin = '--margin: ' | append: block.settings.background_margin | append: ';'
+  endif
+  unless style
+    assign style = ''
+  endunless
+%}
+
+class="{{ class_name -}}
+{%- if block.settings.color_scheme %} color-{{ block.settings.color_scheme }}{% endif %}" style="{{ background_color -}}
+{{- background_gradient -}}
+{{- background_margin }}
+{{- style }}"

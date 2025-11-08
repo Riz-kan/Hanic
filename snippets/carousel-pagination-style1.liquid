@@ -1,0 +1,16 @@
+{% comment %}
+  Renders a carousel navigation.
+  Accepts:
+   - display_pagination_desktop: {string} Disable/enable the carousel pagination on desktop (optional)
+   - display_pagination_mobile: {string} Disable/enable the carousel pagination on mobile (optional)
+  Usage:
+  {% render 'carousel-pagination-style1',
+    display_pagination_desktop: display_pagination_desktop,
+    display_pagination_mobile: display_pagination_mobile,
+  %}
+{% endcomment %}
+
+<xo-carousel-pagination
+  class='carousel-pagination-style1__pagination'
+  style='--display-desktop: {{ display_pagination_desktop }}; --display-mobile: {{ display_pagination_mobile }}'
+></xo-carousel-pagination>

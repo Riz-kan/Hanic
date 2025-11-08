@@ -1,0 +1,23 @@
+{% comment %}
+  Renders a badge information of a product.
+
+  Accepts:
+  - position: {String} position of title. Default: above (optional)
+  - background_color: {String} background color of trustbadge. Default: transparent (optional)
+  - title: {String} title of trustbadge (optional)
+  - width: {String} width of image. Default: 100% (optional)
+  - image: {Image} image of trustbadge. (required)
+
+  Usage:
+  {% render 'badge', product: product %}
+{% endcomment %}
+
+<div
+  class='trustbadge {% if position == 'below' %} trustbadge--reverse {% endif %}'
+  style='--bg-color: {{ background_color }}'
+>
+  <div class='trustbadge__text'>{{ title }}</div>
+  <div class='trustbadge__image' style='--width: {{ width | default: '100%' }};'>
+    {% render 'image', image: image %}
+  </div>
+</div>

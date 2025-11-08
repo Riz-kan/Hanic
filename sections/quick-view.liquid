@@ -1,0 +1,31 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+<xo-modal xo-name='quick-view' style='z-index: 9999;'>
+  <xo-animate xo-cascade xo-type='zoom' style='--duration: 800'>
+    {% capture content %}
+      <xo-product-quick-view></xo-product-quick-view>
+    {% endcapture %}
+    {% render 'modal-content', content: content, width: '103rem', height: '90rem', padding: '0', width-scroll: '0', border-radius: '.8rem' %}
+  </xo-animate>
+</xo-modal>
+
+{% schema %}
+{
+  "name": "t:sections.quick_view.name",
+  "class": "section-quick-view",
+  "settings": [
+
+  ]
+}
+{% endschema %}

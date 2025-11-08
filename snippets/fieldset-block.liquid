@@ -1,0 +1,35 @@
+{% comment %}
+  Renders a filter block component.
+
+  Accepts:
+  - title: {String} Title of the filter (optional)
+  - style: {String} Modified style of fieldset-block__content class (optional)
+
+  Usage:
+  {% render 'fieldset-block',
+    title: 'Title',
+  %}
+{% endcomment %}
+
+{% assign title = filter.label | escape %}
+{% assign filter_type = filter.param_name | split: '.' | last %}
+
+<div class='fieldset-block__header'>
+  <h2 class='fieldset-block__title' id='verticalTitle'>
+    {{ title }}
+  </h2>
+</div>
+<div
+  class='
+    fieldset-block__content {% case filter_type %}
+      {% when 'product_type', 'vendor' %}
+        fieldset-block__content--column
+      {% when 'color', 'color-pattern' %}
+        fieldset-block__content--color
+    {% endcase %} {%- if style -%}
+      fieldset-block__content--{{ style }}
+    {%- endif -%}
+  '
+>
+  {% render 'fieldset-fields', filter: filter %}
+</div>

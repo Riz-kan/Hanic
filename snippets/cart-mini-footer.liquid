@@ -1,0 +1,67 @@
+{% liquid
+  assign total_price = cart.total_price | money
+  if settings.currency_code_enabled
+    assign total_price = cart.total_price | money_with_currency
+  endif
+%}
+
+<div class='xo-cart-mini-footer'>
+  <xo-animate xo-cascade class='xo-cart-mini-footer__price'>
+    <div class='xo-side-cart__price-text' xo-cascade>{{ 'sections.cart.subtotal' | t }}</div>
+    <div class='xo-side-cart__price-number'>{{ total_price }}</div>
+  </xo-animate>
+  {%- if cart.cart_level_discount_applications.size > 0 -%}
+    <ul role='list' class='xo-cart-mini-footer__discounts'>
+      {%- for discount in cart.cart_level_discount_applications -%}
+        <li class='xo-cart-mini-footer__discount'>
+          {%- render 'icon', name: 'discount' -%}
+          {{ discount.title | escape }}
+          (-{{ discount.total_allocated_amount | money }})
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <xo-animate xo-cascade>
+    <small class='xo-cart-mini-footer__taxes'>
+      {%- if cart.taxes_included and shop.shipping_policy.body != blank -%}
+        {{ 'sections.cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url }}
+      {%- elsif cart.taxes_included -%}
+        {{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}
+      {%- elsif shop.shipping_policy.body != blank -%}
+        {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url }}
+      {%- else -%}
+        {{ 'sections.cart.taxes_and_shipping_at_checkout' | t }}
+      {%- endif -%}
+    </small>
+  </xo-animate>
+
+  <div class='cart-mini-item__btn-flex'>
+    <xo-animate xo-cascade class='cart-mini-item__checkout'>
+      <noscript>
+        {% assign text = 'sections.cart.update' | t %}
+        {% capture attrs %}form='CartDrawer-Form'{% endcapture %}
+        {% render 'button', text: text, mode: 'dark', type: 'submit', attrs: attrs, block: true, size: 'md' %}
+      </noscript>
+      <form action='/checkout' method='post'>
+        {% liquid
+          assign text = 'sections.cart.checkout' | t
+          if cart == empty
+            assign disabled = true
+          else
+            assign disabled = false
+          endif
+        %}
+        {% render 'button', type: 'submit', text: text, mode: 'dark', block: true, disabled: disabled, size: 'md' %}
+      </form>
+    </xo-animate>
+    <xo-animate xo-cascade class='cart-mini-item__viewcart'>
+      {% liquid
+        assign text = 'sections.cart.view_cart' | t
+        if cart != empty
+          render 'button', text: text, style: 'primary', link: '/cart', block: true, size: 'md'
+        endif
+      %}
+    </xo-animate>
+  </div>
+</div>

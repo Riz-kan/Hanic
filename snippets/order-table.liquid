@@ -1,0 +1,152 @@
+<div class='xo-order-table'>
+  <xo-animate xo-cascade>
+    <div class='xo-order-table__title'>
+      <p class='xo-order-table__date'>{{ 'customer.order.date_html' | t: date: order_date }}</p>
+      {% assign account_return = 'customer.account.return' | t %}
+      {% render 'button', text: account_return, link: routes.account_url, style: 'link', mode: 'dark' %}
+    </div>
+    {%- if order.cancelled -%}
+      {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+      <p>{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</p>
+      <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+    {%- endif -%}
+  </xo-animate>
+  <xo-animate xo-cascade>
+    <table role='table' class='xo-table'>
+      <thead role='rowgroup'>
+        <tr role='row' class='xo-table__head-row'>
+          <th role='columnheader'>{{ 'customer.order.product' | t }}</th>
+          <th role='columnheader'>{{ 'customer.order.sku' | t }}</th>
+          <th role='columnheader'>{{ 'customer.order.price' | t }}</th>
+          <th role='columnheader'>{{ 'customer.order.quantity' | t }}</th>
+          <th role='columnheader'>{{ 'customer.order.total' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for line_item in order.line_items -%}
+          <tr role='row' class='xo-table__body-row'>
+            <td role='cell' data-th='{{ 'customer.order.product' | t }}'>
+              {%- if line_item.url != blank -%}
+                <a
+                  href='{{ line_item.url }}'
+                  class='xo-order-table__product'
+                >
+                  {{ line_item.title | escape }}
+                </a>
+              {% else %}
+                <p>{{ line_item.title | escape }}</p>
+              {%- endif -%}
+            </td>
+            <td role='cell' data-th='{{ 'customer.order.sku' | t }}'>{{ line_item.sku }}</td>
+            <td role='cell' data-th='{{ 'customer.order.price' | t }}'>
+              {%- if line_item.original_price != line_item.final_price or line_item.unit_price_measurement -%}
+                <dl>
+                  {%- if line_item.original_price != line_item.final_price -%}
+                    <dt>
+                      <span class='xo-visually-hidden'>{{ 'products.product.price.regular_price' | t }}</span>
+                    </dt>
+                    <dd class='regular-price'>
+                      <s>{{ line_item.original_price | money }}</s>
+                    </dd>
+                    <dt>
+                      <span class='xo-visually-hidden'>{{ 'products.product.price.sale_price' | t }}</span>
+                    </dt>
+                    <dd>
+                      <span>{{ line_item.final_price | money }}</span>
+                    </dd>
+                  {%- else -%}
+                    <dt>
+                      <span class='xo-visually-hidden'>{{ 'products.product.price.regular_price' | t }}</span>
+                    </dt>
+                    <dd>
+                      {{ line_item.original_price | money }}
+                    </dd>
+                  {%- endif -%}
+                  {%- if line_item.unit_price_measurement -%}
+                    <dt>
+                      <span class='xo-visually-hidden'>{{ 'products.product.price.unit_price' | t }}</span>
+                    </dt>
+                    <dd class='unit-price'>
+                      <span>
+                        {%- capture unit_price_separator -%}
+                <span aria-hidden="true">/</span><span class="visually-hidden">{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
+              {%- endcapture -%}
+                        {%- capture unit_price_base_unit -%}
+                {%- if line_item.unit_price_measurement.reference_value != 1 -%}
+                  {{- line_item.unit_price_measurement.reference_value -}}
+                {%- endif -%}
+                {{ line_item.unit_price_measurement.reference_unit }}
+              {%- endcapture -%}
+                        <span data-unit-price>{{ line_item.unit_price | money }}</span>
+                        {{- unit_price_separator -}}
+                        {{- unit_price_base_unit -}}
+                      </span>
+                    </dd>
+                  {%- endif -%}
+                </dl>
+              {%- else -%}
+                <span>{{ line_item.final_price | money }}</span>
+              {%- endif -%}
+            </td>
+            <td role='cell' data-th='{{ 'customer.order.quantity' | t }}'>
+              {{ line_item.quantity }}
+            </td>
+            <td role='cell' data-th='{{ 'customer.order.total' | t }}'>
+              {%- if line_item.original_line_price != line_item.final_line_price -%}
+                <dl>
+                  <dt>
+                    <span class='xo-visually-hidden'>{{ 'products.product.price.regular_price' | t }}</span>
+                  </dt>
+                  <dd class='regular-price'>
+                    <s>{{ line_item.original_line_price | money }}</s>
+                  </dd>
+                  <dt>
+                    <span class='xo-visually-hidden'>{{ 'products.product.price.sale_price' | t }}</span>
+                  </dt>
+                  <dd>
+                    <span>{{ line_item.final_line_price | money }}</span>
+                  </dd>
+                </dl>
+              {%- else -%}
+                {{ line_item.original_line_price | money }}
+              {%- endif -%}
+            </td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </xo-animate>
+  <div class='xo-order-table__bill'>
+    <xo-animate xo-cascade class='xo-order-table__bill-row'>
+      <div class='xo-order-table__bill-row-name'>{{ 'customer.order.subtotal' | t }}</div>
+      <div class='xo-order-table__bill-row-fee'>{{ order.line_items_subtotal_price | money }}</div>
+    </xo-animate>
+    {%- for shipping_method in order.shipping_methods -%}
+      <xo-animate xo-cascade class='xo-order-table__bill-row'>
+        <div class='xo-order-table__bill-row-name'>{{ shipping_method.title | escape }}</div>
+        <div class='xo-order-table__bill-row-fee'>{{ shipping_method.price | money }}</div>
+      </xo-animate>
+    {%- endfor -%}
+    {%- if order.total_duties -%}
+      <xo-animate xo-cascade class='xo-order-table__bill-row'>
+        <div class='xo-order-table__bill-row-name'>
+          {{ tax_line.title | escape }}
+          {{ tax_line.rate | times: 100 }}%
+        </div>
+        <div class='xo-order-table__bill-row-fee'>{{ tax_line.price | money }}</div>
+      </xo-animate>
+    {%- endif -%}
+    {%- for tax_line in order.tax_lines -%}
+      <xo-animate xo-cascade class='xo-order-table__bill-row'>
+        <div class='xo-order-table__bill-row-name'>
+          {{ 'customer.order.total_duties' | t }}
+        </div>
+        <div class='xo-order-table__bill-row-fee'>{{ order.total_duties | money }}</div>
+      </xo-animate>
+    {%- endfor -%}
+  </div>
+  <xo-animate xo-cascade class='xo-order-table__total'>
+    <div class='xo-order-table__bill-row-name'>{{ 'customer.order.total' | t }}</div>
+    <div class='xo-order-table__bill-row-fee'>{{ order.total_price | money_with_currency }}</div>
+  </xo-animate>
+</div>

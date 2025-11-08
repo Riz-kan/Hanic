@@ -1,0 +1,88 @@
+{% comment %}
+  Renders product variant modal when quick add cart
+
+  Accepts:
+  - product: {Object} Product object.
+  - variant_modal_placement: {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'default'} Render placement variant for modal add cart (optional). Default: 'center'
+
+  Usage:
+  {% render 'product-variant-modal',
+    product: product,
+    variant_modal_placement: variant_modal_placement
+  %}
+{% endcomment %}
+
+
+
+{% case variant_modal_placement %}
+  {% when 'top-left' %}
+    {% capture modal_attr %}
+  xo-placement="top-left" xo-animate="slide-right"
+{% endcapture %}
+  {% when 'top-right' %}
+    {% capture modal_attr %}
+  xo-placement="top-right" xo-animate="slide-left"
+{% endcapture %}
+  {% when 'bottom-left' %}
+    {% capture modal_attr %}
+  xo-placement="bottom-left" xo-animate="slide-right"
+{% endcapture %}
+  {% when 'bottom-right' %}
+    {% capture modal_attr %}
+  xo-placement="bottom-right" xo-animate="slide-left"
+{% endcapture %}
+  {% else %}
+    {% capture modal_attr %}
+  xo-placement="center"
+{% endcapture %}
+{% endcase %}
+
+{% capture modal_content %}
+  <div class='product-variant-modal__variant-list'>
+    {% unless product.has_only_default_variant %}
+      {% for option in product.options_with_values %}
+        {% render 'product-variant', option: option, product: product, style: 'boxed' %}
+      {% endfor %}
+    {% endunless %}
+  </div>
+  <div class='xo-product-variant-modal__quantity'>
+    {% assign form_id = 'product_variant_modal_id-' | append: section.id | append: '-' | append: product.id %}
+    {% render 'quantity-style2', form_id: form_id, width: '100%' %}
+  </div>
+  <xo-cart-add
+    {% if product.selected_or_first_available_variant.available == false %}
+      xo-disabled
+    {% endif %}
+  >
+    {%- if product.selected_or_first_available_variant.available -%}
+      {% assign button_text = 'products.product.add_to_cart' | t %}
+    {%- else -%}
+      {% assign button_text = 'products.product.sold_out' | t %}
+    {%- endif -%}
+    {% render 'button', style: 'primary', text: button_text, block: true %}
+  </xo-cart-add>
+{% endcapture %}
+
+{% if variant_modal_placement == 'default' %}
+  <xo-toggle xo-name='product-variant-modal-{{ product.id }}-{{ section.id }}' class='product-variant-modal__toggle-wrap'>
+    <div
+      class='product-variant-modal__toggle-content xo-scrollbar'
+      aria-label='{{ 'products.product.choose_product_options' | t: product_name: product.title | escape }}'
+      role='dialog'
+    >
+      <xo-toggle-trigger xo-name='product-variant-modal-{{ product.id }}-{{ section.id }}' class='product-variant-modal__close'>
+        <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '12' %}</button>
+      </xo-toggle-trigger>
+      {{ modal_content }}
+    </div>
+  </xo-toggle>
+{% else %}
+  <xo-modal xo-name='product-variant-modal-{{ product.id }}-{{ section.id }}' {{ modal_attr }}>
+    <xo-modal-trigger xo-name='product-variant-modal-{{ product.id }}-{{ section.id }}' class='product-variant-modal__close'>
+      <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '12' %}</button>
+    </xo-modal-trigger>
+    <div class='product-variant-modal__modal-content' aria-label='{{ 'products.product.choose_product_options' | t: product_name: card_product.title | escape }}' role='dialog'>
+      {{ modal_content }}
+    </div>
+  </xo-modal>
+{% endif %}

@@ -1,0 +1,429 @@
+{% liquid
+  assign media_aspect_ratio = settings.product_card_aspect_ratio
+  assign gift_card_recipient_feature_active = false
+  if product.gift_card?
+    assign gift_card_recipient_feature_active = true
+  endif
+%}
+
+<div
+  class='xo-product-info-content'
+  xo-products-count='{{ recommendations.products_count }}'
+  {%- if section.settings.media_sticky -%}
+    style='position: sticky; top: 9.3rem'
+  {%- endif -%}
+>
+  <xo-collapse-provider>
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when '@app' %}
+          <xo-animate xo-cascade>
+            {% render block %}
+          </xo-animate>
+
+        {% when 'vendor' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {{ product.vendor }}
+          </xo-animate>
+
+        {% when 'title' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            <div class='xo-product-info-content__header'>
+              <h1 class='xo-product-info-content__title' style='--fz:{{ block.settings.font_size | append: 'rem'}}' {{ block.shopify_attributes }}>
+                {{ product.title | escape }}
+              </h1>
+              {% if section.settings.wishlist %}
+                <div>
+                  {% comment %} add to wishlist {% endcomment %}
+                  <xo-products-fetcher-add xo-type='wishlist' class='xo-product-info-content__wishlist'>
+                    <xo-tooltip
+                      xo-title='{{ 'products.product.add_to_wishlist' | t }}'
+                      xo-placement='left-center'
+                      xo-animate='fade-right'
+                      xo-easing='spring'
+                      class='xo-product-info-content__icon-wishlist'
+                      xo-added
+                    >
+                      {% render 'icon', name: 'heart', icon_size: '20' %}
+                    </xo-tooltip>
+                  </xo-products-fetcher-add>
+                  {% comment %} remove wishlist {% endcomment %}
+                  <xo-products-fetcher-add xo-type='wishlist' class='xo-product-info-content__wishlist'>
+                    <xo-tooltip
+                      xo-title='{{ 'products.product.remove_from_wishlist' | t }}'
+                      xo-placement='left-center'
+                      xo-animate='fade-right'
+                      xo-easing='spring'
+                      class='xo-product-info-content__icon-wishlist'
+                      xo-removed
+                    >
+                      {% render 'icon', name: 'heart', icon_size: '20' %}
+                    </xo-tooltip>
+                  </xo-products-fetcher-add>
+                </div>
+              {% endif %}
+            </div>
+          </xo-animate>
+
+        {% when 'price' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            <xo-product-will-change xo-unique-id='product-price-{{ product.id }}' class='xo-product-info-content__price'>
+              {% render 'price', product: product, use_variant: true, style: 'larger' %}
+              {% if cart.taxes_included == true %}
+                <span>{{ 'products.product.price.include_tax' | t }}</span>
+              {% endif %}
+              {% if block.settings.saving %}
+                {% render 'badge', product: product, type: block.settings.type %}
+              {% endif %}
+            </xo-product-will-change>
+          </xo-animate>
+
+        {% when 'countdown_time' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'countdown-time', title: block.settings.countdown_title, time: block.settings.time %}
+          </xo-animate>
+
+        {% when 'variants' %}
+          {% if product.options_with_values.size > 0 and product.options_with_values[0].name != 'Title' %}
+            <div
+              class='xo-product-info-content__variants'
+              {{ block.shopify_attributes }}
+              style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+            >
+              {%- for option in product.options_with_values -%}
+                {% if option.name == 'Size' %}
+                  <xo-animate xo-cascade {{ block.shopify_attributes }}>
+                    {% render 'product-info-variant', option: option, style: block.settings.variants_style %}
+                  </xo-animate>
+                {% elsif option.name == 'Color' %}
+                  <xo-animate xo-cascade {{ block.shopify_attributes }}>
+                    {% render 'product-info-variant', option: option, style: block.settings.variants_color_style, media_aspect_ratio: media_aspect_ratio %}
+                  </xo-animate>
+                {% else %}
+                  {% render 'product-info-variant', option: option, style: 'boxed2' %}
+                {% endif %}
+              {%- endfor -%}
+            </div>
+          {% endif %}
+
+        {% when 'description' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            <p class='xo-product-info-content__description'>
+              {{ product.description | strip_html | truncate: 230 }}
+            </p>
+          </xo-animate>
+
+        {% when 'visitor' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'visitor', max: block.settings.visitor_max, min: block.settings.visitor_min, change: block.settings.visitor_change, text: block.settings.visitor_text %}
+          </xo-animate>
+
+        {% when 'offer' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'offer',
+              title: block.settings.offer_title,
+              content1: block.settings.offer_content1,
+              content2: block.settings.offer_content2,
+              content3: block.settings.offer_content3,
+              color: block.settings.offer_color
+            %}
+          </xo-animate>
+
+        {% when 'countdown_stock' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'countdown-stock', product: product, block: block %}
+          </xo-animate>
+
+        {% when 'buy_button' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'buy-button',
+              show_gift_card_recipient: block.settings.show_gift_card_recipient,
+              show_dynamic_checkout: block.settings.show_dynamic_checkout,
+              show_checkbox: block.settings.show_checkbox
+            %}
+          </xo-animate>
+
+        {% when 'buy_othersite' %}
+          <xo-animate
+            class='xo-product-info-content__buy-othersite'
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            <a href='{{ block.settings.link }}'>
+              <span>{{ block.settings.buy_othersite_title }}</span>
+              {% if block.settings.image != blank %}
+                <div class='xo-product-info-content__buy-logo' style='--width:{{ block.settings.image_width | append: 'px' }}'>
+                  {% render 'image', image: block.settings.image %}
+                </div>
+              {% endif %}
+            </a>
+          </xo-animate>
+
+        {% when 'trustbadge' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'trustbadge',
+              position: block.settings.trustbadge_position,
+              background_color: block.settings.trustbadge_background,
+              title: block.settings.trustbadge_heading,
+              width: block.settings.trustbadge_width,
+              image: block.settings.trustbadge_image
+            %}
+          </xo-animate>
+
+        {% when 'pickup' %}
+          {% if gift_card_recipient_feature_active == false %}
+            {% assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities | where: 'pick_up_enabled', true %}
+            {% assign featured_media = product.selected_or_first_available_variant.featured_media %}
+            <xo-animate
+              xo-cascade
+              {{ block.shopify_attributes }}
+              style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+            >
+              {% render 'pickup-availability-item', pick_up_availabilities: pick_up_availabilities %}
+            </xo-animate>
+            <xo-modal
+              style='z-index: 9999;'
+              xo-portal
+              xo-name='pickup-availability'
+              xo-animate='slide-left'
+              xo-placement='top-right'
+            >
+              {% capture pickup_availability_list %}
+              {% render 'pickup-availability-list', pick_up_availabilities: pick_up_availabilities %}
+            {% endcapture %}
+              {% capture image %}
+              <xo-product-will-change xo-unique-id='product-info-media-{{ product.id }}' class='xo-product-info-content__pickup-image'>
+                {% if featured_media != null %}
+                  {% render 'media', type: 'image', media: featured_media.preview_image, media_aspect_ratio: media_aspect_ratio %}
+                {% else %}
+                  {% render 'media', type: 'image', media: product.featured_media.preview_image, media_aspect_ratio: media_aspect_ratio %}
+                {% endif %}
+              </xo-product-will-change>  
+            {% endcapture %}
+              {% capture variant %}
+              {% if product.options_with_values.size > 0 and product.options_with_values[0].name != 'Title' %}
+              <div class='xo-product-info-content__variants xo-product-info-content__variants--header'>
+                {%- for option in product.options_with_values -%}
+                  <div class='xo-product-info-content__header-variant'>
+                    <span style='font-weight:500'>{{ option.name | escape }}: </span>
+                    <xo-product-will-change xo-unique-id='product-variant-{{ option.name }}-{{ product.id }}' class='xo-product-info-variant__name'>
+                      {{ option.selected_value }}
+                    </xo-product-will-change>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {% endif %}
+            {% endcapture %}
+              {% capture price %}
+            <xo-product-will-change xo-unique-id='product-price-{{ product.id }}'>
+              {% render 'price', product: product, use_variant: true, style:'small' %}
+              {% if cart.taxes_included == true %}
+                <span>{{ 'products.product.price.include_tax' | t }}</span>
+              {% endif %}
+            </xo-product-will-change>
+          {% endcapture %}
+              {% assign title = product.title | escape %}
+              {% render 'modal-pickup',
+                title: title,
+                image: image,
+                price: price,
+                variant: variant,
+                content: pickup_availability_list,
+                width: '42.5rem',
+                full_height: true,
+                title_size: '2rem',
+                title_class: 'xo-line-2',
+                header_separator: true,
+                animate: true
+              %}
+            </xo-modal>
+          {% endif %}
+
+        {% when 'shipping' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'shipping',
+              show_delivery: block.settings.show_delivery,
+              delivery: block.settings.delivery,
+              show_return: block.settings.show_return,
+              return: block.settings.return
+            %}
+          </xo-animate>
+
+        {% when 'text' %}
+          {% case block.settings.text_style %}
+            {% when 'capitalize' %}
+              {% assign text_style = 'capitalize' %}
+            {% when 'uppercase' %}
+              {% assign text_style = 'uppercase' %}
+            {% else %}
+              {% assign text_style = 'unset' %}
+          {% endcase %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            <p style='text-transform:{{ text_style }}'>{{ block.settings.text }}</p>
+          </xo-animate>
+
+        {% when 'richtext' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {{ block.settings.richtext }}
+          </xo-animate>
+
+        {% when 'collapse' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'collapse-style2', title: block.settings.heading, content: block.settings.content, content_liquid: block.settings.content_liquid %}
+          </xo-animate>
+
+        {% when 'image' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            <a
+              href='
+                {%- if block.settings.link != blank -%}
+                  {{ block.settings.link }} {%- else -%}
+                  https://shopify.pxf.io/9gPaY0
+                {%- endif -%}
+              '
+              class='xo-product-info-content__image'
+            >
+              {%- if block.settings.image != blank -%}
+                {% render 'image', image: block.settings.image %}
+              {%- else -%}
+                <img src='https://landing.shopilaunch.com/starter/productdetail_banner.jpg' width='1200' height='628' alt='affiliate' is='xo-lazyload' loading='lazy'>
+              {%- endif -%}
+            </a>
+          </xo-animate>
+
+        {% when 'product_random_text' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'product-random-text', number1: block.settings.number1, number2: block.settings.number2 %}
+          </xo-animate>
+
+        {% when 'addon_buttons' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'addon-buttons', block: block %}
+          </xo-animate>
+
+        {% when 'product_meta_info' %}
+          <xo-animate
+            xo-cascade
+            {{ block.shopify_attributes }}
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% render 'product-meta-info', disable1: block.settings.disable1, disable2: block.settings.disable2 %}
+          </xo-animate>
+
+        {% when 'liquid' %}
+          <div {{ block.shopify_attributes }} style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'>
+            {% if block.settings.liquid contains 'name="properties[' or block.settings.liquid contains "name='properties[" %}
+              <xo-product-property>{{ block.settings.liquid }}</xo-product-property>
+            {% else %}
+              {{ block.settings.liquid }}
+            {% endif %}
+          </div>
+
+        {% when 'complementary' %}
+          <xo-animate
+            xo-cascade
+            class='xo-product-info-content__complementary'
+            {{ block.shopify_attributes }}
+            aria-label='{{ 'accessibility.complementary_products' | t }}'
+            style='padding-top:{{ block.settings.padding_top | append: 'px' }}; padding-bottom:{{ block.settings.padding_bottom | append: 'px'}}'
+          >
+            {% if block.settings.distinct_color_scheme == true %}
+              {% assign color_scheme_chosen = block.settings.product_card_color_scheme %}
+            {% else %}
+              {% assign color_scheme_chosen = settings.card_color_scheme %}
+            {% endif %}
+            {% capture complementary_content %}
+              {% render 'product-recommendations',
+                intent: 'complementary',
+                layout: block.settings.layout,
+                collapse_style: block.settings.collapse_style,
+                products_to_show: block.settings.products_to_show,
+                columns_desktop: '2',
+                columns_mobile: '2',
+                show_navigation: true,
+                show_navigation_mobile: true,
+                show_pagination: block.settings.show_pagination,
+                show_pagination_mobile: block.settings.show_pagination_mobile,
+                color_scheme_chosen: color_scheme_chosen
+              %}
+            {% endcapture %}
+            {% if block.settings.collapse_style %}
+              {% render 'collapse-style2', title: block.settings.complementary_title, content: complementary_content %}
+            {% else %}
+              <h3 class='xo-product-info-content__complementary-title'>{{ block.settings.complementary_title }}</h3>
+              {{ complementary_content }}
+            {% endif %}
+          </xo-animate>
+      {% endcase %}
+    {% endfor %}
+  </xo-collapse-provider>
+</div>

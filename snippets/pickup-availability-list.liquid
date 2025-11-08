@@ -1,0 +1,37 @@
+<xo-product-pickup-availability-list class='xo-pickup-availability-list' aria-labelledby='PickupAvailabilityHeading'>
+  {%- for availability in pick_up_availabilities -%}
+    <xo-animate xo-cascade class='xo-pickup-availability-list__item'>
+      <h3 class='xo-pickup-availability-list__title' id='PickupAvailabilityHeading'>{{ availability.location.name | escape }}</h3>
+      {%- if availability.available -%}
+        <div class='xo-pickup-availability-list__available'>
+          <div class='xo-pickup-availability-list__icon'>{% render 'icon', name: 'check2', size: '2rem' %}</div>
+          <p>{{ 'products.product.pickup_availability.pick_up_available' | t }}, {{ availability.pick_up_time | downcase }}</p>
+        </div>
+      {%- endif -%}
+      {%- assign address = availability.location.address -%}
+      <address class='xo-pickup-availability-list__address'>
+        <ul role='list'>
+          {%- if address.address1.size > 0 -%}
+            <li>Address: {{ address.address1 }}</li>
+          {%- endif -%}
+          {%- if address.city.size > 0 -%}
+            <li>City: {{ address.city }}</li>
+          {%- endif -%}
+          {%- if address.country.name.size > 0 -%}
+            <li>Country/region: {{ address.country.name }}</li>
+          {%- endif -%}
+          {%- if address.phone.size > 0 -%}
+            <li>Phone: {{ address.phone }}</li>
+          {%- endif -%}
+        </ul>
+      </address>
+      {%- assign location_available = availability.location -%}
+      {% if location_available.metafields.custom.url_map != blank %}
+        <div class='xo-pickup-availability-list__map'>
+          {% render 'icon', name: 'location', icon_size: '18' %}
+          {% render 'button', text: 'Show on google map', style: 'link', mode: 'dark', link: location_available.metafields.custom.url_map %}
+        </div>
+      {% endif %}
+    </xo-animate>
+  {%- endfor -%}
+</xo-product-pickup-availability-list>

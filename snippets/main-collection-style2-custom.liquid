@@ -1,0 +1,259 @@
+{% comment %}
+  Renders a main-collection-style2-custom with exactly product card style.
+
+  Accepts:
+  * product_card_style_layout: {String} Product card style (required)
+  * product_card_media_type: {String} Product media type (required)
+  * variant_modal_placement: {String} Variant modal placement (required)
+
+  Usage:
+  {% render 'main-collection-style2-custom' %}
+{% endcomment %}
+
+<div class='main-collection-style2'>
+  {%- case section.settings.filter_style -%}
+    {%- when 'toggleSidebar' -%}
+      <div
+        class='main-collection-style2__header'
+        {% if section.settings.enable_filtering == false %}
+          style='justify-content:flex-end'
+        {% endif %}
+      >
+        {% if section.settings.enable_filtering %}
+          <div class='main-collection-style2__trigger' id='main-collection-style2__trigger-toggle'>
+            {% render 'icon', name: 'filter2', icon_size: '20' %}
+            <div class='main-collection-style2__trigger-text'>Filter</div>
+          </div>
+          {% render 'main-collection-mobile' %}
+        {% endif %}
+        {% render 'facets', results: collection, enable_sorting: section.settings.enable_sorting, columns_desktop: section.settings.columns_desktop %}
+      </div>
+      <div class='main-collection-style2__grid' id='main-collection-style2__toggle'>
+        <div class='main-collection-style2__sidebar' aria-labelledby='verticalTitle'>
+          {% if section.settings.enable_filtering %}
+            {% for filter in collection.filters %}
+              {% render 'filters-fieldset', type: 'block', filter: filter %}
+            {% endfor %}
+            {% if section.settings.show_banner %}
+              <div class='main-collection__banner'>
+                <a
+                  href='
+                    {%- if section.settings.banner_link != blank -%}
+                      {{section.settings.banner_link}} {%- else -%}
+                      https://shopify.pxf.io/9gPaY0
+                    {%- endif -%}
+                  '
+                >
+                  {%- if section.settings.banner_image != blank -%}
+                    {% render 'image', image: section.settings.banner_image %}
+                  {%- else -%}
+                    <img src='https://landing.shopilaunch.com/starter/sidebar_banner.jpg' width='800' height='1200' alt='affiliate' is='xo-lazyload' loading='lazy'>
+                  {%- endif -%}
+                </a>
+              </div>
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class='main-collection-style2__content-wrap'>
+          {% if section.settings.show_banner_modern %}
+            <div class='main-collection__banner-modern'>
+              <a
+                href='
+                  {%- if section.settings.banner_modern_link != blank -%}
+                    {{section.settings.banner_modern_link}} {%- else -%}
+                    https://shopify.pxf.io/9gPaY0
+                  {%- endif -%}
+                '
+              >
+                {%- if section.settings.banner_modern_image != blank -%}
+                  {% render 'image', image: section.settings.banner_modern_image %}
+                {%- else -%}
+                  <img src='https://landing.shopilaunch.com/starter/collection_modernbanner.jpg' width='1050' height='420' alt='affiliate' is='xo-lazyload' loading='lazy'>
+                {%- endif -%}
+              </a>
+            </div>
+          {% endif %}
+          {% if section.settings.show_bestsell %}
+            {% render 'collection-bestsell-custom',
+              product_card_style_layout: product_card_style_layout,
+              product_card_media_type: product_card_media_type,
+              variant_modal_placement: variant_modal_placement,
+              title: section.settings.bestsell_title,
+              columns: section.settings.columns_bestsell,
+              collection: section.settings.bestsell_collection,
+              show_pagination: section.settings.show_pagination,
+              show_pagination_mobile: section.settings.show_pagination_mobile,
+              products_limit: section.settings.products_bestsell_limit
+            %}
+          {% endif %}
+          {% render 'filters-content-custom',
+            product_card_style_layout: product_card_style_layout,
+            product_card_media_type: product_card_media_type,
+            variant_modal_placement: variant_modal_placement,
+            products_per_page: section.settings.products_per_page,
+            product_loadtype: section.settings.product_loadtype,
+            product_layout: section.settings.product_layout,
+            columns_mobile: section.settings.columns_mobile,
+            columns_desktop: section.settings.columns_desktop
+          %}
+        </div>
+      </div>
+    {%- when 'drawer' -%}
+      <div
+        class='main-collection-style2__header'
+        {% if section.settings.enable_filtering == false %}
+          style='justify-content:flex-end'
+        {% endif %}
+      >
+        {% if section.settings.enable_filtering %}
+          <xo-modal-trigger xo-name='collection-modal' class='main-collection-style2__trigger'>
+            {% render 'icon', name: 'filter2', icon_size: '20' %}
+            <div class='main-collection-style2__trigger-text'>Filter</div>
+          </xo-modal-trigger>
+          <xo-modal xo-portal xo-name='collection-modal' xo-animate='slide-right' xo-placement='top-left' style='z-index:999'>
+            <div class='main-collection-style2__modal-wrap'>
+              <xo-modal-trigger class='main-collection-style2__modal-close'>
+                <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+              </xo-modal-trigger>
+              <div class='main-collection-style2__modal'>
+                {% if section.settings.enable_filtering %}
+                  {% for filter in collection.filters %}
+                    {% render 'filters-fieldset', type: 'block', filter: filter %}
+                  {% endfor %}
+                {% endif %}
+                {% if section.settings.show_banner %}
+                  <div class='main-collection__banner'>
+                    <a
+                      href='
+                        {%- if section.settings.banner_link != blank -%}
+                          {{section.settings.banner_link}} {%- else -%}
+                          https://shopify.pxf.io/9gPaY0
+                        {%- endif -%}
+                      '
+                    >
+                      {%- if section.settings.banner_image != blank -%}
+                        {% render 'image', image: section.settings.banner_image %}
+                      {%- else -%}
+                        <img src='https://landing.shopilaunch.com/starter/sidebar_banner.jpg' width='1200' height='800' alt='affiliate' is='xo-lazyload' loading='lazy'>
+                      {%- endif -%}
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </xo-modal>
+          {% render 'main-collection-mobile' %}
+        {% endif %}
+        {% render 'facets', results: collection, enable_sorting: section.settings.enable_sorting, columns_desktop: section.settings.columns_desktop %}
+      </div>
+      {% if section.settings.show_banner_modern %}
+        <div class='main-collection__banner-modern'>
+          <a
+            href='
+              {%- if section.settings.banner_modern_link != blank -%}
+                {{section.settings.banner_modern_link}} {%- else -%}
+                https://shopify.pxf.io/9gPaY0
+              {%- endif -%}
+            '
+          >
+            {%- if section.settings.banner_modern_image != blank -%}
+              {% render 'image', image: section.settings.banner_modern_image %}
+            {%- else -%}
+              <img src='https://landing.shopilaunch.com/starter/collection_modernbanner.jpg' width='1050' height='420' alt='affiliate' is='xo-lazyload' loading='lazy'>
+            {%- endif -%}
+          </a>
+        </div>
+      {% endif %}
+      {% if section.settings.show_bestsell %}
+        {% render 'collection-bestsell-custom',
+          product_card_style_layout: product_card_style_layout,
+          product_card_media_type: product_card_media_type,
+          variant_modal_placement: variant_modal_placement,
+          title: section.settings.bestsell_title,
+          columns: section.settings.columns_bestsell,
+          collection: section.settings.bestsell_collection,
+          show_pagination: section.settings.show_pagination,
+          show_pagination_mobile: section.settings.show_pagination_mobile,
+          products_limit: section.settings.products_bestsell_limit
+        %}
+      {% endif %}
+      {% render 'filters-content-custom',
+        product_card_style_layout: product_card_style_layout,
+        product_card_media_type: product_card_media_type,
+        variant_modal_placement: variant_modal_placement,
+        products_per_page: section.settings.products_per_page,
+        product_loadtype: section.settings.product_loadtype,
+        product_layout: section.settings.product_layout,
+        columns_mobile: section.settings.columns_mobile,
+        columns_desktop: section.settings.columns_desktop
+      %}
+    {%- when 'dropdown' -%}
+      <div
+        class='main-collection-style2__header'
+        {% if section.settings.enable_filtering == false %}
+          style='justify-content:flex-end'
+        {% endif %}
+      >
+        {% if section.settings.enable_filtering %}
+          <xo-collapse-trigger xo-name='collection-collapse' class='main-collection-style2__trigger'>
+            {% render 'icon', name: 'filter2', icon_size: '20' %}
+            <div class='main-collection-style2__trigger-text'>Filter</div>
+          </xo-collapse-trigger>
+          {% render 'main-collection-mobile' %}
+        {% endif %}
+        {% render 'facets', results: collection, enable_sorting: section.settings.enable_sorting, columns_desktop: section.settings.columns_desktop %}
+      </div>
+      {% if section.settings.enable_filtering %}
+        <xo-collapse xo-name='collection-collapse'>
+          <xo-grid style='--xs: 2; --lg: 3' class='main-collection-style2__collapse-wrap'>
+            {% for filter in collection.filters %}
+              <div class='main-collection-style2__collapse'>
+                {% render 'filters-fieldset', type: 'block', filter: filter, style: 'scroll' %}
+              </div>
+            {% endfor %}
+          </xo-grid>
+        </xo-collapse>
+      {% endif %}
+      {% if section.settings.show_banner_modern %}
+        <div class='main-collection__banner-modern'>
+          <a
+            href='
+              {%- if section.settings.banner_modern_link != blank -%}
+                {{section.settings.banner_modern_link}} {%- else -%}
+                https://shopify.pxf.io/9gPaY0
+              {%- endif -%}
+            '
+          >
+            {%- if section.settings.banner_modern_image != blank -%}
+              {% render 'image', image: section.settings.banner_modern_image %}
+            {%- else -%}
+              <img src='https://landing.shopilaunch.com/starter/collection_modernbanner.jpg' width='1050' height='420' alt='affiliate' is='xo-lazyload' loading='lazy'>
+            {%- endif -%}
+          </a>
+        </div>
+      {% endif %}
+      {% if section.settings.show_bestsell %}
+        {% render 'collection-bestsell-custom',
+          product_card_style_layout: product_card_style_layout,
+          product_card_media_type: product_card_media_type,
+          variant_modal_placement: variant_modal_placement,
+          title: section.settings.bestsell_title,
+          columns: section.settings.columns_bestsell,
+          collection: section.settings.bestsell_collection,
+          show_pagination: section.settings.show_pagination,
+          show_pagination_mobile: section.settings.show_pagination_mobile,
+          products_limit: section.settings.products_bestsell_limit
+        %}
+      {% endif %}
+      {% render 'filters-content-custom',
+        product_card_style_layout: product_card_style_layout,
+        product_card_media_type: product_card_media_type,
+        variant_modal_placement: variant_modal_placement,
+        products_per_page: section.settings.products_per_page,
+        product_loadtype: section.settings.product_loadtype,
+        product_layout: section.settings.product_layout,
+        columns_mobile: section.settings.columns_mobile,
+        columns_desktop: section.settings.columns_desktop
+      %}
+  {%- endcase -%}
+</div>

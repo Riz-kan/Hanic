@@ -1,0 +1,10 @@
+<link rel='preconnect' href='https://cdn.shopify.com' crossorigin>
+
+{% if settings.font_heading_selection == 'shopify_fonts' or settings.font_body_selection == 'shopify_fonts' or settings.font_custom_selection == 'shopify_fonts' %}
+  <link rel='preconnect' href='https://fonts.shopifycdn.com' crossorigin>
+{% endif %}
+
+{% if settings.font_heading_selection != 'shopify_fonts' or settings.font_body_selection != 'shopify_fonts' or settings.font_custom_selection != 'shopify_fonts' %}
+  <link rel='preconnect' href='https://fonts.googleapis.com'>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+{% endif %}

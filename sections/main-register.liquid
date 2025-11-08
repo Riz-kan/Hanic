@@ -1,0 +1,112 @@
+
+
+<div {% render 'section-attr' %}>
+  <xo-container>
+    <div class='xo-register'>
+      {%- form 'create_customer', novalidate: 'novalidate', class: 'xo-sign-up__content' -%}
+        {% render 'form-error', form: form %}
+        <xo-grid>
+          <xo-animate xo-cascade style='--xs: 12; --lg: 6' class='xo-register__input'>
+            {% assign firstName = 'customer.register.first_name' | t %}
+            {% render 'field-input', type: 'text', name: 'customer[first_name]', label: firstName, value: form.first_name %}
+          </xo-animate>
+          <xo-animate xo-cascade style='--xs: 12; --lg: 6' class='xo-register__input'>
+            {% assign lastName = 'customer.register.last_name' | t %}
+            {% render 'field-input', type: 'text', name: 'customer[last_name]', label: lastName, value: form.last_name %}
+          </xo-animate>
+          <xo-animate xo-cascade style='--xs: 12' class='xo-register__input'>
+            {% assign email = 'customer.register.email' | t %}
+            {% render 'field-input', type: 'email', name: 'customer[email]', label: email, value: form.email %}
+          </xo-animate>
+          <xo-animate xo-cascade style='--xs: 12' class='xo-register__input'>
+            {% assign password = 'customer.register.password' | t %}
+            {% render 'field-input', type: 'password', name: 'customer[password]', label: password %}
+          </xo-animate>
+        </xo-grid>
+        {% render 'space', value: '3rem' %}
+        <xo-animate xo-cascade>
+          {% assign btn_sign_in_text = 'customer.register.submit' | t %}
+          {% render 'button', text: btn_sign_in_text, size: 'md', block: true, mode: 'dark', effect: 'slide-up' %}
+        </xo-animate>
+        {% render 'space', value: '2rem' %}
+        <xo-animate xo-cascade class='flex jc-center ai-center gap-10'>
+          <div>{{ 'customer.register.already' | t }}</div>
+          {% assign signin = 'customer.register.signin' | t %}
+          {% render 'button', text: signin, link: routes.account_login_url, style: 'link', mode: 'dark', effect: 'fade' %}
+        </xo-animate>
+      {%- endform -%}
+    </div>
+  </xo-container>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main_register.name",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ]
+}
+{% endschema %}

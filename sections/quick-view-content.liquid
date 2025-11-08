@@ -1,0 +1,36 @@
+<xo-product xo-product-information xo-product-id='{{ product.id }}' xo-section-id='{{ section.id }}'>
+  <xo-container>
+    <xo-grid class='xo-main-product-quickview'>
+      <div style='--xs: 12; --lg: 7' class='xo-main-product-quickview__media'>
+        {% render 'product-info-media-style12',
+          hover_zoom_enabled: settings.image_zoom_hover,
+          click_zoom_enabled: settings.image_zoom_click,
+          autoplay: settings.video_autoplay,
+          video_modal: settings.video_modal,
+          product_360: settings.product_360
+        %}
+      </div>
+      <div style='--xs: 12; --lg: 5' class='xo-main-product-quickview__content'>
+        {% render 'product-info-content-quickview' %}
+      </div>
+    </xo-grid>
+  </xo-container>
+  {% render 'product-data', product: product %}
+  {% render 'main-product-ld-json', product: product %}
+</xo-product>
+
+{% schema %}
+{
+  "name": "t:sections.quick_view_content.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+
+  ],
+  "presets": [
+    {
+      "name": "t:sections.quick_view_content.presets.name"
+    }
+  ]
+}
+{% endschema %}

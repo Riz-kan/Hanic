@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "collection-title": {
+      "type": "collection-title",
+      "settings": {
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "main-page-heading": {
+      "type": "main-page-heading",
+      "settings": {
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "main": {
+      "type": "main-addresses",
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "collection-title",
+    "main-page-heading",
+    "main"
+  ]
+}

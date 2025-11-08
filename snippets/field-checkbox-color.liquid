@@ -1,0 +1,46 @@
+{% comment %}
+  Renders a checkbox button (type color)
+
+  Accepts:
+  - name: {string} Name of the checkbox button
+  - value: {string} Value of the checkbox button
+  - label: {string} Label of the checkbox button (optional)
+  - checked: {Boolean} If the radio button is checked (optional)
+
+  Usage:
+  {% render 'field-checkbox-color',
+    name: 'checkbox',
+    value: 'checkbox',
+    label: 'Checkbox',
+    filter_type: 'filter_type',
+  %}
+{% endcomment %}
+
+{% if filter_type == 'color-pattern' %}
+  {% assign color = value.swatch.color %}
+{% else %}
+  {% assign color = value.value | downcase %}
+{% endif %}
+
+<label class='field-checkbox-color'>
+  <input
+    class='field-checkbox-color__input'
+    type='checkbox'
+    name='{{ name }}'
+    value='{{ value.value | escape }}'
+    xo-label='{{ label | escape }}'
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+  <div class='field-checkbox-color__item'>
+    <span
+      class='field-checkbox-color__content'
+      style='
+        --color:{{ color }}; {%- if value.swatch.image -%}
+          --image-src: url("{{ value.swatch.image | image_url: width: 30 }}")
+        {%- endif -%}
+      '
+    ></span>
+  </div>
+</label>

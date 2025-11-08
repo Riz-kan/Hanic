@@ -1,0 +1,92 @@
+{% comment %}
+  Renders a collection card
+
+  Accepts:
+  - collection_item: {Object} Collection Liquid object (optional)
+
+  * Or
+  - image: {Image} Image Liquid object (optional)
+  - title: {String} Title of the collection (optional)
+  - description: {String} Description of the collection (optional)
+  - link: {String} Link to the collection (optional)
+
+  * General
+  - show_description: {Boolean} Show descrition card. (optional)
+  - show_product_count: {Boolean} Show product count. (optional)
+  - media_aspect_ratio: {String} Size of the product image card
+  - placeholder_image: {String} Placeholder image (optional)
+  - color_scheme: {String} The color scheme to use (optional)
+  - animate_enabled: {Boolean} Enable animation. Default: true (optional)
+  - custom_image: {Image} Custom image replace feartured image (optional)
+
+  Usage:
+  {% render 'collection-card' %}
+{% endcomment %}
+
+{%- liquid
+  assign default_title = 'onboarding.collection_title' | t
+  assign title = title | default: default_title
+
+  if collection_item and collection_item != empty
+    if custom_image != blank
+      assign image = custom_image
+    else
+      assign image = collection_item.featured_image
+    endif
+    assign description = collection_item.description | strip_html | truncatewords: 12
+    assign products_count = collection_item.products_count
+    assign title = collection_item.title | escape
+    assign link = collection_item.url
+  endif
+
+  if animate_enabled == null
+    assign animate_enabled = true
+  endif
+  assign tag_name = 'div'
+  if animate_enabled
+    assign tag_name = 'xo-animate'
+  endif
+-%}
+
+<{{ tag_name }}
+  xo-cascade
+  class='xo-collection-card{% if settings.collection_card_style %} xo-collection-card--{{ settings.collection_card_style }}{% endif %}'
+>
+  <a
+    {% if link == blank %}
+      role='link' aria-disabled='true'
+    {% else %}
+      href='{{ link }}'
+    {% endif %}
+    class='xo-collection-card__link'
+  >
+    <div class='xo-collection-card__image'>
+      {% if image == blank %}
+        {% if placeholder_image %}
+          {{ placeholder | default: placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+        {% else %}
+          {{ placeholder | default: 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      {% else %}
+        {% render 'image', image: image, media_aspect_ratio: media_aspect_ratio | default: '3/4' %}
+      {% endif %}
+    </div>
+    <div
+      class='xo-collection-card__content {% if color_scheme %} color-{{ color_scheme }}{% endif %}'
+      {% if settings.collection_card_style == 'boxed' and settings.collection_card_content_padding == 0 %}
+        style='--collection-card-content-padding: initial; text-align:center'
+      {% endif %}
+    >
+      <h3 class='xo-collection-card__title'>{{ title }}</h3>
+      {% if show_description and description %}
+        <div class='xo-collection-card__description'>
+          {{- description -}}
+        </div>
+      {% endif %}
+      {% if show_product_count %}
+        {%- assign count_label = 'templates.search.products' | t -%}
+        <div class='xo-collection-card__count'>({{ products_count | append: ' ' | append: count_label }})</div>
+      {% endif %}
+    </div>
+  </a>
+</{{ tag_name }}>

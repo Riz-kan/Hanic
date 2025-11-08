@@ -1,0 +1,28 @@
+{% comment %}
+  Renders a class of image hover style
+
+  Usage:
+  <div class='{% render 'hover-style' %}'></div>
+{% endcomment %}
+
+{%- liquid
+  case section.settings.hover
+    when 'rotate'
+      assign style_name = 'rotate'
+    when 'slide_up'
+      assign style_name = 'slide-up'
+    when 'ripple'
+      assign style_name = 'ripple'
+    when 'black_white'
+      assign style_name = 'black-white'
+    when 'shake'
+      assign style_name = 'shake'
+    when 'scale_down'
+      assign style_name = 'scale-down'
+    else
+      assign style_name = 'scale-up'
+  endcase
+  assign class_name = 'hover-style--' | append: style_name
+-%}
+
+{{- class_name -}}

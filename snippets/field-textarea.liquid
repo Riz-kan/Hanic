@@ -1,0 +1,40 @@
+{% comment %}
+  Renders a textarea
+
+  Accepts:
+  - type: {String} Type of the textarea
+  - name: {String} Name of the textarea
+  - value: {String} Value of the textarea
+  - label: {String} Label of the textarea (optional)
+  - autocomplete: {String} Autocomplete of the textarea (optional)
+  - autocapitalize: {String} Autocapitalize of the textarea (optional)
+  - attrs: {String} Attributes of the textarea. Default: '' (optional)
+
+  Usage:
+  {% render 'field-textarea',
+    name: 'textarea',
+    value: 'textarea',
+    label: 'textarea',
+    size: '1.6rem'
+  %}
+{% endcomment %}
+
+<label class='xo-field-textarea'>
+  <textarea
+    class='xo-field-textarea__textarea'
+    name='{{ name }}'
+    placeholder='{{ placeholder }}'
+    {% if autocomplete %}
+      autocomplete='{{ autocomplete -}}'
+    {% endif %}
+    {% if autocapitalize %}
+      autocapitalize='{{ autocapitalize -}}'
+    {% endif %}
+    {% if attr %}
+      {{ attr -}}
+    {% endif %}
+  >{{ value }}</textarea>
+  {% if label != blank %}
+    <span class='xo-field-textarea__placeholder'>{{ label | default: 'textarea' }}</span>
+  {% endif %}
+</label>

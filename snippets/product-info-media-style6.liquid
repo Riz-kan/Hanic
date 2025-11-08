@@ -1,0 +1,177 @@
+{% comment %}
+  Renders a product media carousel with thumbnails.
+
+  Accepts:
+  - hover_zoom_enabled: {Boolean} Whether to enable hover zoom on the main image (optional)
+   - hover_zoom_enabled: {Boolean} Whether to enable click zoom on the main image (optional)
+   - autoplay: {Boolean} Whether to enable video autoplay (optional)
+   - video_modal: {Boolean} Whether to enable video style modal (optional)
+   - media_sticky: {Boolean} Enable position sticky (optional)
+
+  Usage:
+  {% render 'product-info-media-style6' %}
+{% endcomment %}
+
+
+
+{% assign featured_media = product.selected_or_first_available_variant.featured_media %}
+{% assign media_aspect_ratio = settings.product_card_aspect_ratio %}
+
+<div
+  class='xo-product-info-media-style6'
+  {%- if media_sticky -%}
+    style='position: sticky;'
+  {%- endif -%}
+>
+  {% if video_modal and product.metafields.custom.video_embed != blank %}
+    <div class='xo-product-info-media-style6__popup-wrap'>
+      {% render 'popup-video', name: 'style6' %}
+    </div>
+  {% endif %}
+  {% if product_360 and product.metafields.custom.product_360 != blank %}
+    <div class='xo-product-info-media-style6__360-wrap'>
+      {% render 'product-360', name: 'style6' %}
+    </div>
+  {% endif %}
+  <xo-gallery xo-sync='false' xo-portal-class='main-product__portal' aria-label='{{ 'products.product.media.gallery_viewer' | t }}'>
+    <div class='xo-product-info-media-style6__gallery'>
+      {% if featured_media != null %}
+        {% case featured_media.media_type %}
+          {% when 'image' %}
+            {% if hover_zoom_enabled and click_zoom_enabled == false %}
+              <xo-animate xo-cascade data-media-id='{{ featured_media.id }}' class='xo-product-info-media-style6__image-item'>
+                <xo-image-zoom xo-zoom='3' xo-use-wheel='false' xo-zoom-src='{{ featured_media.src | image_url: width: 1200 }}'>
+                  <div class='xo-product-info-media-style6__image'>
+                    {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: featured_media %}
+                  </div>
+                </xo-image-zoom>
+              </xo-animate>
+            {% elsif hover_zoom_enabled == false and click_zoom_enabled %}
+              <xo-animate xo-cascade data-media-id='{{ featured_media.id }}' class='xo-product-info-media-style6__image-item'>
+                <xo-gallery-item xo-src='{{ featured_media.src | image_url: width: 1200 }}'>
+                  <div class='xo-product-info-media-style6__image'>
+                    {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: featured_media %}
+                  </div>
+                </xo-gallery-item>
+              </xo-animate>
+            {% elsif hover_zoom_enabled and click_zoom_enabled %}
+              <xo-animate xo-cascade data-media-id='{{ featured_media.id }}' class='xo-product-info-media-style6__image-item'>
+                <xo-image-zoom xo-zoom='3' xo-use-wheel='false' xo-zoom-src='{{ featured_media.src | image_url: width: 1200 }}'>
+                  <xo-gallery-item xo-src='{{ featured_media.src | image_url: width: 1200 }}'>
+                    <div class='xo-product-info-media-style6__image'>
+                      {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: featured_media %}
+                    </div>
+                  </xo-gallery-item>
+                </xo-image-zoom>
+              </xo-animate>
+            {% elsif hover_zoom_enabled == false and click_zoom_enabled == false %}
+              <xo-animate xo-cascade data-media-id='{{ featured_media.id }}' class='xo-product-info-media-style6__image-item'>
+                {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: featured_media %}
+              </xo-animate>
+            {% endif %}
+          {% when 'model' %}
+            <xo-animate xo-cascade data-media-id='{{ featured_media.id }}' class='xo-product-info-media-style6__image-item'>
+              <xo-product-model>
+                <button class='xb-product-model__poster' type='button'>
+                  <span class='xb-product-model__poster-button'>
+                    {% render 'icon', name: '3d-model', icon_size: '20' %}
+                  </span>
+                  <div class='xb-product-model__poster-image' style='--media-aspect-ratio: {{ media_aspect_ratio }}'>
+                    <img
+                      is='xo-lazyload'
+                      loading='lazy'
+                      width='{{ featured_media.preview_image.width }}'
+                      height='{{ featured_media.preview_image.height }}'
+                      src='{{ featured_media | image_url: width: featured_media.preview_image.width, height: featured_media.preview_image.height }}'
+                      alt='{{ featured_media.preview_image.alt | escape | default: '3d-model' }}'
+                    >
+                    <div class='xo-lazyload-overlay'></div>
+                  </div>
+                </button>
+                <template>{% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'model', media: featured_media %}</template>
+              </xo-product-model>
+            </xo-animate>
+          {% else %}
+            {% if video_modal == false and product_360 == false %}
+              <xo-animate xo-cascade data-media-id='{{ featured_media.id }}' class='xo-product-info-media-style6__image-item'>
+                {% render 'media', media_aspect_ratio: media_aspect_ratio, type: featured_media.media_type, media: featured_media, autoplay: autoplay %}
+              </xo-animate>
+            {% endif %}
+        {% endcase %}
+      {% endif %}
+      {% for media in product.media %}
+        {% unless media.id == featured_media.id %}
+          {% case media.media_type %}
+            {% when 'image' %}
+              {% if hover_zoom_enabled and click_zoom_enabled == false %}
+                <xo-animate xo-cascade data-media-id='{{ media.id }}' class='xo-product-info-media-style6__image-item'>
+                  <xo-image-zoom xo-zoom='3' xo-use-wheel='false' xo-zoom-src='{{ media.src | image_url: width: 1200 }}'>
+                    <div class='xo-product-info-media-style6__image'>
+                      {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: media %}
+                    </div>
+                  </xo-image-zoom>
+                </xo-animate>
+              {% elsif hover_zoom_enabled == false and click_zoom_enabled %}
+                <xo-animate xo-cascade data-media-id='{{ media.id }}' class='xo-product-info-media-style6__image-item'>
+                  <xo-gallery-item xo-src='{{ media.src | image_url: width: 1200 }}'>
+                    <div class='xo-product-info-media-style6__image'>
+                      {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: media %}
+                    </div>
+                  </xo-gallery-item>
+                </xo-animate>
+              {% elsif hover_zoom_enabled and click_zoom_enabled %}
+                <xo-animate xo-cascade data-media-id='{{ media.id }}' class='xo-product-info-media-style6__image-item'>
+                  <xo-image-zoom xo-zoom='3' xo-use-wheel='false' xo-zoom-src='{{ media.src | image_url: width: 1200 }}'>
+                    <xo-gallery-item xo-src='{{ media.src | image_url: width: 1200 }}'>
+                      <div class='xo-product-info-media-style6__image'>
+                        {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: media %}
+                      </div>
+                    </xo-gallery-item>
+                  </xo-image-zoom>
+                </xo-animate>
+              {% elsif hover_zoom_enabled == false and click_zoom_enabled == false %}
+                <xo-animate xo-cascade data-media-id='{{ media.id }}' class='xo-product-info-media-style6__image-item'>
+                  {% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'image', media: media %}
+                </xo-animate>
+              {% endif %}
+            {% when 'model' %}
+              <xo-animate xo-cascade data-media-id='{{ media.id }}' class='xo-product-info-media-style6__image-item'>
+                <xo-product-model>
+                  <button class='xb-product-model__poster' type='button'>
+                    <span class='xb-product-model__poster-button'>
+                      {% render 'icon', name: '3d-model', icon_size: '20' %}
+                    </span>
+                    <div class='xb-product-model__poster-image' style='--media-aspect-ratio: {{ media_aspect_ratio }}'>
+                      <img
+                        is='xo-lazyload'
+                        loading='lazy'
+                        width='{{ media.preview_image.width }}'
+                        height='{{ media.preview_image.height }}'
+                        src='{{ media | image_url: width: media.preview_image.width, height: media.preview_image.height }}'
+                        alt='{{ media.preview_image.alt | escape | default: '3d-model' }}'
+                      >
+                      <div class='xo-lazyload-overlay'></div>
+                    </div>
+                  </button>
+                  <template>{% render 'media', media_aspect_ratio: media_aspect_ratio, type: 'model', media: media %}</template>
+                </xo-product-model>
+              </xo-animate>
+            {% else %}
+              {% if video_modal == false and product_360 == false %}
+                <xo-animate xo-cascade data-media-id='{{ media.id }}' class='xo-product-info-media-style6__image-item'>
+                  {% render 'media', media_aspect_ratio: media_aspect_ratio, type: media.media_type, media: media, autoplay: autoplay %}
+                </xo-animate>
+              {% endif %}
+          {% endcase %}
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </xo-gallery>
+</div>
+{% render 'product-info-media-mobile',
+  hover_zoom_enabled: section.settings.image_zoom_hover,
+  click_zoom_enabled: section.settings.image_zoom_click,
+  autoplay: section.settings.video_autoplay,
+  video_modal: section.settings.video_modal,
+  product_360: section.settings.product_360
+%}

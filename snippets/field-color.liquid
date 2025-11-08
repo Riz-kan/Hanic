@@ -1,0 +1,58 @@
+{% comment %}
+  Renders a color button
+
+  Accepts:
+  - name: {string} Name of the color button
+  - value: {string} Value of the color button
+  - label: {string} Label of the color button (optional)
+  - size: {string} Size of the color button. Default: 16px (optional)
+  - count_id: {string} Unique ID for the count element (optional, support filters)
+  - count_value: {string} Value of the count element (optional, support filters)
+  - checked: {Boolean} If the radio button is checked (optional)
+  - image: {Image} Image of the color button (optional)
+  - use_image: {Boolean} If the image should be used (optional)
+
+  Usage:
+  {% render 'field-color',
+    name: 'color',
+    value: 'color',
+    label: 'Color',
+    size: '10px'
+  %}
+{% endcomment %}
+
+<label
+  class='xo-field-color'
+  style='--size: {{ size | default: '2.4rem' }}; --color: {{ value.swatch.color }}; {%- if value.swatch.image -%} --image-src: url("{{ value.swatch.image | image_url: width: 14 }}") {%- endif -%}'
+>
+  <input
+    class='xo-field-color__input'
+    type='radio'
+    name='{{ name }}'
+    value='{{ value }}'
+    xo-label='{{ label }}'
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+  {% if image != blank and use_image %}
+    <div class='xo-field-color__image'>
+      {% render 'image', image: image %}
+    </div>
+  {% else %}
+    <span class='xo-field-color__item'>
+      <span class='xo-field-color__icon'>
+        {%- render 'icon', name: 'check', size: '1.6rem', color: '#fff' -%}
+      </span>
+    </span>
+  {% endif %}
+
+  {% if label != null and settings.variant_color_show_label %}
+    <span class='xo-field-color__label'>
+      <span>{{ label }}</span>
+      {% if count_value %}
+        <xo-filters-count xo-unique-id='{{ count_id }}'> ({{ count_value }}) </xo-filters-count>
+      {% endif %}
+    </span>
+  {% endif %}
+</label>

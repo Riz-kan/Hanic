@@ -1,0 +1,595 @@
+
+
+
+
+
+{%- capture sidebar_content -%}
+  {% for article in section.settings.post.articles limit: section.settings.post_limit %}
+    {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+    {%- assign placeholder_image = 'product-apparel-' | append: placeholder_image_index -%}
+    {% render 'article-card-style3', article: article, media_aspect_ratio: '1/1', show_image: true, show_date: true, placeholder_image: placeholder_image %}
+  {% endfor %}
+{%- endcapture -%}
+
+<div {% render 'section-attr' %}>
+  {% render 'section-bg-image' %}
+  <xo-container {% render 'section-layout' %}>
+    {% case section.settings.article_layout %}
+      {% when 'left_sidebar' %}
+        {% assign sidebar_style = '--order-lg: -1' %}
+        {% assign article_columns = '9' %}
+      {% when 'right_sidebar' %}
+        {% assign sidebar_style = '--order-lg: 0' %}
+        {% assign article_columns = '9' %}
+      {% else %}
+        {% assign sidebar_style = 'display: none' %}
+        {% assign article_columns = '12' %}
+    {% endcase %}
+    <xo-grid>
+      <div style='--xs: 12; --md: 12; --lg: {{ article_columns }}'>
+        <article aria-labelledby='Article-{{ article.id }}'>
+          <div class='main-article__image-wrap'>
+            {%- if article.image -%}
+              <xo-animate
+                xo-cascade
+                class='main-article__image'
+              >
+                {% render 'image', image: article.image %}
+              </xo-animate>
+            {%- endif -%}
+            <header class='main-article__header'>
+              <xo-animate xo-cascade>
+                <h1 class='main-article__title' itemprop='headline'>{{ article.title | escape }}</h1>
+              </xo-animate>
+              <xo-animate xo-cascade class='main-article__information'>
+                {%- if section.settings.show_author -%}
+                  <span class='main-article__information-item' itemprop='author' itemscope itemtype='http://schema.org/Person'>
+                    {% render 'icon', name: 'author', color: 'rgba(var(--color-background))', icon_size: '12' %}
+                    <span itemprop='name'>{{ article.author }}</span>
+                  </span>
+                {%- endif -%}
+                {%- if section.settings.show_date -%}
+                  <span class='main-article__information-item' itemprop='dateCreated pubdate datePublished'>
+                    {% render 'icon', name: 'clock', color: 'rgba(var(--color-background))', icon_size: '12' %}
+                    {{- article.published_at | time_tag: format: 'date' -}}
+                  </span>
+                {%- endif -%}
+                {%- if section.settings.show_comment -%}
+                  <span class='main-article__information-item'>
+                    {% render 'icon', name: 'comment', color: 'rgba(var(--color-background))', icon_size: '12' %}
+                    {%- if article.comments_count > 1 -%}
+                      {{ 'blogs.article.comments.other' | t: count: article.comments_count }}
+                    {%- else -%}
+                      {{ 'blogs.article.comments.one' | t: count: article.comments_count }}
+                    {%- endif -%}
+                  </span>
+                {%- endif -%}
+              </xo-animate>
+            </header>
+          </div>
+          <xo-animate xo-cascade class='main-article__content xo-content'>
+            {{ article.content }}
+          </xo-animate>
+          <xo-animate xo-cascade class='main-article__footer'>
+            {%- if section.settings.show_tag -%}
+              <div class='main-article__tags'>
+                <span>{{ 'blogs.article.tags' | t }} : </span>
+                <ul role='list' class='main-article__tag-list'>
+                  {% for tag in article.tags %}
+                    <li class='main-article__tag-item'>{{ tag | link_to_tag: tag }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {%- endif -%}
+            {%- if section.settings.show_share -%}
+              <div class='main-article__share'>
+                {% assign url_full = request.origin | append: article.url %}
+                {% assign article_title = article.title | escape %}
+                <span>{{ 'blogs.article.share' | t }} : </span>
+                {% render 'share', copy_title: article_title, url: url_full, list: 'copy, facebook, twitter, pinterest' %}
+              </div>
+            {%- endif -%}
+          </xo-animate>
+          <xo-animate xo-cascade class='main-article__navigation'>
+            <a
+              href='{{ blog.previous_article.url }}'
+              class='
+                main-article__navigation-item {% if blog.previous_article == nil %}
+                  main-article__navigation-item--disable
+                {% endif %}
+              '
+            >
+              <div class='main-article__navigation-arrow main-article__navigation-arrow--left'>
+                {% render 'icon', name: 'arrow-left', icon_size: '15' %}
+                <span>{{ 'blogs.article.previous' | t }}</span>
+              </div>
+              <h3 class='main-article__navigation-title'>{{ blog.previous_article.title | escape }}</h3>
+            </a>
+            <a
+              href='{{ blog.next_article.url }}'
+              class='
+                main-article__navigation-item main-article__navigation-item--right {% if blog.next_article == nil %}
+                  main-article__navigation-item--disable
+                {% endif %}
+              '
+            >
+              <div class='main-article__navigation-arrow main-article__navigation-arrow--right'>
+                {% render 'icon', name: 'arrow-right', icon_size: '15' %}
+                <span>{{ 'blogs.article.next' | t }}</span>
+              </div>
+              <h3 class='main-article__navigation-title main-article__navigation-title--right'>{{ blog.next_article.title | escape }}</h3>
+            </a>
+          </xo-animate>
+          {% render 'main-article-ld-json' %}
+        </article>
+        {%- if blog.comments_enabled? -%}
+          {% render 'article-comments' %}
+          {% render 'article-comments-form' %}
+        {%- endif -%}
+      </div>
+      <div style='--xs: 12; --md: 12; --lg: 3; {{ sidebar_style }}'>
+        <div class='main-article__sidebar-wrap'>
+          {% if section.settings.enable_category %}
+            <div class='main-article__sidebar-category'>
+              <xo-animate xo-cascade>
+                <h2 class='main-article__sidebar-title'>{{ section.settings.category_title }}</h2>
+              </xo-animate>
+              <ul role='list' class='main-article__sidebar-category-list'>
+                {% for link in section.settings.category.links %}
+                  <xo-animate xo-cascade>
+                    <li class='main-article__sidebar-category-item'>{{ link.title | escape | link_to: link.url }}</li>
+                  </xo-animate>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+          {% if section.settings.enable_post %}
+            <div class='main-article__sidebar-post'>
+              <xo-animate xo-cascade>
+                <h2 class='main-article__sidebar-title'>{{ section.settings.post_title }}</h2>
+              </xo-animate>
+              {{ sidebar_content }}
+            </div>
+          {% endif %}
+          {% if section.settings.enable_tag %}
+            {% assign unique_tag = blog.all_tags | uniq %}
+            <div class='main-article__sidebar-tag'>
+              <xo-animate xo-cascade>
+                <h2 class='main-article__sidebar-title'>{{ section.settings.tag_title }}</h2>
+              </xo-animate>
+              <ul role='list' class='main-article__sidebar-tag-list'>
+                {% for tag in unique_tag %}
+                  <xo-animate xo-cascade>
+                    <li class='main-article__sidebar-tag-item'>{{ tag | link_to_tag: tag }}</li>
+                  </xo-animate>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+          {% if section.settings.enable_banner %}
+            <xo-animate xo-cascade class='main-article__sidebar-banner'>
+              <a
+                href='
+                  {%- if section.settings.banner_link != blank -%}
+                    {{section.settings.banner_link}} {%- else -%}
+                    https://shopify.pxf.io/9gPaY0
+                  {%- endif -%}
+                '
+              >
+                {%- if section.settings.banner_image != blank -%}
+                  {% render 'image', image: section.settings.banner_image %}
+                {%- else -%}
+                  <img src='https://landing.shopilaunch.com/starter/sidebar_banner.jpg' width='1200' height='800' alt='affiliate' is='xo-lazyload' loading='lazy'>
+                {%- endif -%}
+              </a>
+            </xo-animate>
+          {% endif %}
+        </div>
+      </div>
+    </xo-grid>
+  </xo-container>
+</div>
+
+{% render 'main-article-ld-json' %}
+
+{% schema %}
+{
+  "name": "t:sections.main_article.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:sections.main_article.settings.width.label",
+      "options": [
+        {
+          "value": "box",
+          "label": "t:sections.main_article.settings.width.option_1.label"
+        },
+        {
+          "value": "wide",
+          "label": "t:sections.main_article.settings.width.option_2.label"
+        }
+      ],
+      "default": "box"
+    },
+    {
+      "type": "select",
+      "id": "article_layout",
+      "label": "t:sections.main_article.settings.article_layout.label",
+      "options": [
+        {
+          "value": "left_sidebar",
+          "label": "t:sections.main_article.settings.article_layout.option_1.label"
+        },
+        {
+          "value": "right_sidebar",
+          "label": "t:sections.main_article.settings.article_layout.option_2.label"
+        },
+        {
+          "value": "without_sidebar",
+          "label": "t:sections.main_article.settings.article_layout.option_3.label"
+        }
+      ],
+      "default": "left_sidebar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "t:sections.main_article.settings.show_author.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "t:sections.main_article.settings.show_date.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comment",
+      "label": "t:sections.main_article.settings.show_comment.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tag",
+      "label": "t:sections.main_article.settings.show_tag.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "t:sections.main_article.settings.show_share.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_article.settings.sidebar_heading.content"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_article.settings.category_heading.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_category",
+      "label": "t:sections.main_article.settings.enable_category.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "category_title",
+      "label": "t:sections.main_article.settings.category_title.label",
+      "default": "CATEGORIES"
+    },
+    {
+      "type": "link_list",
+      "id": "category",
+      "label": "t:sections.main_article.settings.category.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_article.settings.post_heading.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_post",
+      "label": "t:sections.main_article.settings.enable_post.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "post_title",
+      "label": "t:sections.main_article.settings.post_title.label",
+      "default": "RECENT POSTS"
+    },
+    {
+      "type": "blog",
+      "id": "post",
+      "label": "t:sections.main_article.settings.post.label"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "label": "t:sections.main_article.settings.post_limit.label",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_article.settings.tag_heading.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_tag",
+      "label": "t:sections.main_article.settings.enable_tag.label",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tag_title",
+      "label": "t:sections.main_article.settings.tag_title.label",
+      "default": "TAGS"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_article.settings.banner_heading.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_banner",
+      "label": "t:sections.main_article.settings.enable_banner.label",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:sections.main_article.settings.banner_image.label",
+      "info": "t:sections.main_article.settings.banner_image.content"
+    },
+    {
+      "type": "url",
+      "id": "banner_link",
+      "label": "t:sections.main_article.settings.banner_link.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_desktop",
+      "label": "t:sections.all.background_image_desktop.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "t:sections.all.background_image_mobile.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_parallax",
+      "label": "t:sections.all.use_parallax.label",
+      "default": true,
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_image_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "textarea",
+      "id": "background_video_url",
+      "label": "t:sections.all.background_video_url.label",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_video_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "color",
+      "id": "background_overlay",
+      "label": "t:sections.all.background_overlay.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'image' or section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ]
+}
+{% endschema %}

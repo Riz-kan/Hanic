@@ -1,0 +1,108 @@
+{% comment %}
+  Renders a search input with predictive search results
+
+  Accepts:
+  - value: {String} The value of the search input
+  - label: {String} The label for the search input
+
+  Usage:
+  {% render 'predictive-search', value: '' %}
+{% endcomment %}
+
+{% liquid
+  unless value
+    assign value = ''
+  endunless
+  assign pages = 'templates.search.pages' | t
+  assign collections = 'templates.search.collections' | t
+  assign products = 'templates.search.products' | t
+  assign articles = 'templates.search.articles' | t
+%}
+
+<div
+  class='xo-predictive-search'
+  data-locales='
+    {
+      pages: "{{ pages }}",
+      collections: "{{ collections }}",
+      products: "{{ products }}",
+      articles: "{{ articles }}"
+    }
+  '
+>
+  <xo-animate xo-cascade class='xo-predictive-search__input'>
+    <xo-grid class='xo-predictive-search__box'>
+      <div style='--lg:3' class='xo-predictive-search__left'>
+        <a href='/'>
+          {%- if logo != blank -%}
+            {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+            {%- assign logo_height = logo_width | divided_by: logo.aspect_ratio %}
+            <img
+              src='{{ logo | image_url }}'
+              alt='{{ logo_alt }}'
+              style='width: {{ logo_width }}px; height: {{ logo_height }}px'
+              height='auto'
+              width='auto'
+            >
+          {%- else -%}
+            <span class='xo-predictive-search__search-logo'>{{ shop.name | escape }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+      <div style='--xs:12 ; --lg: 6' class='xo-predictive-search__center'>
+        {% render 'field-input', value: value, name: 'q', label: label, attr: "id='predictive-search' data-predictive-search-input='header'", block: true %}
+        <div class='xo-predictive-search__clear' data-predictive-search-reset='header' aria-label='{{ 'accessibility.close' | t }}'>
+          {% render 'icon', name: 'close', icon_size: '13' %}
+        </div>
+      </div>
+      <div style='--lg:3' class='xo-predictive-search__right'>
+        <xo-tooltip
+          xo-title='{%- if customer -%}{{ 'customer.account.title' | t }}{%- else -%}{{ 'customer.login_page.title' | t }}{%- endif -%}'
+          xo-placement='bottom-center'
+          class='xo-predictive-search__icon-wrap'
+        >
+          <a href='{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}' class='xo-predictive-search__search-icon'>
+            {% render 'icon', name: 'account1', icon_size: '24', color: 'rgba(var(--color-foreground))' %}
+          </a>
+        </xo-tooltip>
+        <xo-tooltip xo-title='{{ 'general.wishlist.wishlist' | t }}' xo-placement='bottom-center' class='xo-predictive-search__icon-wrap'>
+          <a href='/pages/wishlist' aria-label='Wishlist' title='Wishlist' class='xo-predictive-search__search-icon'>
+            {% render 'icon', name: 'heart', icon_size: '24', color: 'rgba(var(--color-foreground))' %}
+            <xo-products-fetcher-size xo-type='wishlist' class='xo-predictive-search__wishlist-count'></xo-products-fetcher-size>
+          </a>
+        </xo-tooltip>
+        <xo-tooltip xo-title='{{ 'general.cart.cart' | t }}' xo-placement='bottom-center' class='xo-predictive-search__icon-wrap'>
+          {% if settings.cart_type == 'page' %}
+            <a class='xo-predictive-search__search-icon' href='{{ routes.cart_url }}'>
+              {% render 'icon', name: 'cart', icon_size: '24', color: 'rgba(var(--color-foreground))' %}
+              <div class='xo-predictive-search__cart-count'>
+                <xo-cart-size>{{ cart.item_count }}</xo-cart-size>
+              </div>
+            </a>
+          {% else %}
+            <xo-modal-trigger
+              class='xo-predictive-search__search-icon'
+              xo-name='cart'
+            >
+              {% render 'icon', name: 'cart', icon_size: '24', color: 'rgba(var(--color-foreground))' %}
+              <div class='xo-predictive-search__cart-count'>
+                <xo-cart-size>{{ cart.item_count }}</xo-cart-size>
+              </div>
+            </xo-modal-trigger>
+          {% endif %}
+        </xo-tooltip>
+      </div>
+    </xo-grid>
+  </xo-animate>
+  {%- if settings.predictive_search_enabled -%}
+    <div class='xo-predictive-search__result xo-scrollbar' data-predictive-search-result='header'></div>
+  {%- endif -%}
+</div>
+
+<script>
+  var show_currency_code = {{ settings.currency_code_enabled | json }};
+  var show_vendor = {{ settings.predictive_search_show_vendor | json }};
+  var show_price = {{ settings.predictive_search_show_price | json }};
+  var currency_symbol = {{ cart.currency.symbol | json }}
+  var currency_code = {{ cart.currency.iso_code | json }}
+</script>

@@ -1,0 +1,221 @@
+{% comment %}
+  Renders a product card style choosen
+
+  Accepts:
+  - product_card_style: { style1 | ... | style9 } The product card style to use. Default: 'style9' (required)
+  - product: {Object} Product Liquid object (required)
+  - media_aspect_ratio:  {String} The setting changes the aspect ratio of the article image, if shown (optional)
+  - show_image: {Boolean} The setting either show the article image or not. If it's not included it will show the image by default (optional)
+  - product_card_media_type: {String} The product media type show when hover(optional)
+  - variant_modal_placement: {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'default'} Render placement variant for modal add cart. Default: 'center' (optional)
+  - show_vendor: {Boolean} Show the product vendor. Default: false (optional)
+  - product_card_media_type: {String} The product media type show when hover (optional)
+  - show_quick_add: {Boolean} Show the quick add button. Default: true (optional)
+  - show_quick_view: {Boolean} Show the quick view button. Default: true (optional)
+  - show_wishlist: {Boolean} Show the wishlist button. Default: true (optional)
+  - show_price: {Boolean} Show the product price. Default: true (optional)
+  - show_badge: {Boolean} Show the product badge. Default: true (optional)
+  - placeholder_image: {String} The placeholder image to use when no product exists. Default: 'product-apparel-1' (optional)
+  - color_scheme: {String} The color scheme to use (optional)
+  - animate_enabled: {Boolean} Enable animation. Default: true (optional)
+
+  Usage:
+  {% render 'product-card-styles', product_card_style: product_card_style %}
+{% endcomment %}
+
+{% liquid
+  assign product_card_style = product_card_style | default: 'style9'
+  assign animate_enabled = animate_enabled | default: true, allow_false: true
+%}
+
+{% case product_card_style %}
+  {% when 'style10' %}
+    {% render 'product-card-style10',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style9' %}
+    {% render 'product-card-style9',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style8' %}
+    {% render 'product-card-style8',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style7' %}
+    {% render 'product-card-style7',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style6' %}
+    {% render 'product-card-style6',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style5' %}
+    {% render 'product-card-style5',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style4' %}
+    {% render 'product-card-style4',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style3' %}
+    {% render 'product-card-style3',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style2' %}
+    {% render 'product-card-style2',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+
+  {% when 'style1' %}
+    {% render 'product-card-style1',
+      product: product,
+      variant_modal_placement: variant_modal_placement,
+      animate_enabled: animate_enabled,
+      show_image: show_image,
+      product_card_media_type: product_card_media_type,
+      show_vendor: show_vendor,
+      show_description: show_description,
+      show_quick_add: show_quick_add,
+      show_quick_view: show_quick_view,
+      show_wishlist: show_wishlist,
+      show_price: show_price,
+      show_badge: show_badge,
+      media_aspect_ratio: media_aspect_ratio,
+      color_scheme: color_scheme,
+      placeholder_image: placeholder_image
+    %}
+{% endcase %}

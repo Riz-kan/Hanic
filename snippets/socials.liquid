@@ -1,0 +1,157 @@
+{% comment %}
+  Renders a list of social links based on the social links set in the theme settings.
+
+  Accepts:
+  - list: {String} A list of social media sites to include
+  - tooltip_placement: {String} The placement of the tooltip
+
+  Usage:
+  {% render 'socials' %}
+{% endcomment %}
+
+{% liquid
+  if list == null
+    assign list = 'facebook, twitter, pinterest, instagram, tiktok, tumblr, snapchat, youtube, vimeo'
+  endif
+  if tooltip_placement == null
+    assign tooltip_placement = 'top-center'
+  endif
+  assign items = list | split: ','
+%}
+
+<div class='xo-socials'>
+  {% for item in items %}
+    {% assign temp = item | strip %}
+
+    {% case temp %}
+      {% when 'twitter' %}
+        {%- if settings.social_twitter_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.twitter' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_twitter_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.twitter' | t }}'
+            >
+              {% render 'icon', name: 'twitter2', icon_size: '17' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'facebook' %}
+        {%- if settings.social_facebook_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.facebook' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_facebook_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.facebook' | t }}'
+            >
+              {% render 'icon', name: 'facebook2' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'pinterest' %}
+        {%- if settings.social_pinterest_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.pinterest' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_pinterest_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.pinterest' | t }}'
+            >
+              {% render 'icon', name: 'pinterest2' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'instagram' %}
+        {%- if settings.social_instagram_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.instagram' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_instagram_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.instagram' | t }}'
+            >
+              {% render 'icon', name: 'instagram', icon_size: '17' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'tiktok' %}
+        {%- if settings.social_tiktok_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.tiktok' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_tiktok_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.tiktok' | t }}'
+            >
+              {% render 'icon', name: 'tiktok', icon_size: '15' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'tumblr' %}
+        {%- if settings.social_tumblr_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.tumblr' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_tumblr_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.tumblr' | t }}'
+            >
+              {% render 'icon', name: 'tumblr' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'snapchat' %}
+        {%- if settings.social_snapchat_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.snapchat' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_snapchat_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.snapchat' | t }}'
+            >
+              {% render 'icon', name: 'snapchat' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'youtube' %}
+        {%- if settings.social_youtube_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.youtube' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_youtube_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.youtube' | t }}'
+            >
+              {% render 'icon', name: 'youtube' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% when 'vimeo' %}
+        {%- if settings.social_vimeo_link != blank -%}
+          <xo-tooltip xo-title='{{ 'general.social.links.vimeo' | t }}' xo-placement='{{ tooltip_placement }}'>
+            <a
+              href='{{ settings.social_vimeo_link }}'
+              target='_blank'
+              class='xo-socials__link'
+              aria-label='{{ 'general.social.links.vimeo' | t }}'
+            >
+              {% render 'icon', name: 'vimeo' %}
+            </a>
+          </xo-tooltip>
+        {%- endif -%}
+
+      {% else %}
+        <div class='xo-error'>List support: {{ list }}</div>
+    {% endcase %}
+  {% endfor %}
+</div>

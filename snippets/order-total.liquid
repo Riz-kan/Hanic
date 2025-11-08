@@ -1,0 +1,20 @@
+<div>
+  {%- if item.original_line_price != item.final_line_price -%}
+    <dl>
+      <dt>
+        <span class='visually-hidden'>{{ 'products.product.price.regular_price' | t }}</span>
+      </dt>
+      <dd class='regular-price'>
+        <s>{{ item.original_line_price | money }}</s>
+      </dd>
+      <dt>
+        <span class='visually-hidden'>{{ 'products.product.price.sale_price' | t }}</span>
+      </dt>
+      <dd>
+        <span>{{ item.final_line_price | money }}</span>
+      </dd>
+    </dl>
+  {%- else -%}
+    {{ item.original_line_price | money }}
+  {%- endif -%}
+</div>

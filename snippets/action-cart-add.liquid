@@ -1,0 +1,121 @@
+{% comment %}
+  Renders add to cart action wrapper
+
+  Accepts:
+  - product: {Object} Product object.
+  - variant_modal_placement: {'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'default'} Render placement variant for modal add cart (optional). Default: 'center'
+  - style: { style3 | style5 | style8 | style10 } The special button style of the product card style (optional)
+
+  Usage:
+  {% render 'action-cart-add',
+    product: product,
+    variant_modal_placement: variant_modal_placement
+  %}
+{% endcomment %}
+
+{% liquid
+  if variant_modal_placement != 'default'
+    assign tag_name = 'xo-modal-trigger'
+  else
+    assign tag_name = 'xo-toggle-trigger'
+  endif
+
+  if product.variants.size > 1
+    assign button_text = 'products.product.select_options' | t
+  else
+    assign button_text = 'products.product.add_to_cart' | t
+  endif
+
+  case settings.product_card_text_alignment
+    when 'left'
+      assign justify_button = 'flex-start'
+    when 'center'
+      assign justify_button = 'center'
+    else
+      assign justify_button = 'right'
+  endcase
+
+  assign product_form_id = 'quick-add-' | append: section.id | append: product.id
+  assign button_id = product_form_id | append: '-submit'
+  assign aria_labelledby = product_form_id | append: '-submit title-{{ section.id }}-{{ product.id }}'
+%}
+
+{% comment %} handle special button of product card {% endcomment %}
+{% case style %}
+  {% when 'style3' %}
+    {% capture quick_add_button %}
+      {% render 'button', class: 'noborder', style: 'secondary', mode: 'light', icon: 'more', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+    {% capture add_cart_button %}
+      {% render 'button', class: 'noborder', style: 'secondary', mode: 'light', icon: 'cart', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+  {% when 'style5' %}
+    {% capture quick_add_button %}
+      {% render 'button', text: button_text, size: 'xs', style: 'link', mode: 'dark', class: 'style5', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+    {% capture add_cart_button %}
+      {% render 'button', text: button_text, size: 'xs', style: 'link', mode: 'dark', class: 'style5', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+  {% when 'style8' %}
+    {% capture quick_add_button %}
+      {% render 'button', text: button_text, size: 'sm', class: 'style8', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+    {% capture add_cart_button %}
+      {% render 'button', text: button_text, size: 'sm', class: 'style8', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+  {% when 'style10' %}
+    {% capture quick_add_button %}
+      {% render 'button', class:'circle2', style: 'primary', mode: 'accent', icon: 'more', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+    {% capture add_cart_button %}
+      {% render 'button', class:'circle2', style: 'primary', mode: 'accent', icon: 'cart', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+  {% when 'list' %}
+    {% capture quick_add_button %}
+      {% render 'button', class: 'square', style: 'primary', mode: 'light', icon: 'more', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+    {% capture add_cart_button %}
+      {% render 'button', class: 'square', style: 'primary', mode: 'light', icon: 'cart', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+  {% else %}
+    {% capture quick_add_button %}
+      {% render 'button', class:'circle', style: 'primary', mode: 'light', icon: 'more', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+    {% capture add_cart_button %}
+      {% render 'button', class:'circle', style: 'primary', mode: 'light', icon: 'cart', size: 'sm', type: 'submit', id: button_id, aria_labelledby: aria_labelledby %}
+    {% endcapture %}
+{% endcase %}
+
+{% if product.variants.size > 1 %}
+  <xo-tooltip
+    xo-title='{{ 'products.product.select_options' | t }}'
+    {% if style != 'style5' %}
+      class='xo-product-card__icon {% if style %}xo-product-card__icon--{{ style }}{% endif %}'
+    {% else %}
+      class='xo-product-card__add-style5'
+      style='--justify_button: {{ justify_button }}'
+    {% endif %}
+  >
+    <{{ tag_name }} xo-name='product-variant-modal-{{ product.id }}-{{ section.id }}'>
+      {{ quick_add_button }}
+    </{{ tag_name }}>
+  </xo-tooltip>
+{% else %}
+  <xo-tooltip
+    xo-title='{{ 'products.product.add_to_cart' | t }}'
+    {% if style != 'style5' %}
+      class='xo-product-card__icon {% if style %}xo-product-card__icon--{{ style }}{% endif %}'
+    {% else %}
+      class='xo-product-card__add-style5'
+      style='--justify_button: {{ justify_button }}'
+    {% endif %}
+  >
+    <xo-cart-add
+      {% if product.selected_or_first_available_variant.available == false %}
+        xo-disabled
+      {% endif %}
+    >
+      {{ add_cart_button }}
+    </xo-cart-add>
+  </xo-tooltip>
+{% endif %}

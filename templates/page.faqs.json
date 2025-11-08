@@ -1,0 +1,136 @@
+{
+  "sections": {
+    "breadcrumb-v2":{
+      "type":"breadcrumb-v2",
+      "settings": {
+        "color_scheme": "inverse",
+        "background_image_desktop": "shopify:\/\/shop_images\/breadcrumb.jpg",
+        "background_image_mobile": "shopify:\/\/shop_images\/breadcrumb.jpg",
+        "use_parallax": false,
+        "background_color": "#f3f3f3",
+        "padding_top": 110,
+        "padding_bottom": 110
+      }
+    },
+    "faq-v1": {
+      "type":"faq-v1",
+      "settings": {
+        "padding_bottom": 140
+      },
+      "blocks": {
+        "question_FFxdEC": {
+          "type": "question",
+          "settings": {
+            "question": "How long does it take for home delivery?",
+            "answer": "<p>We use Royal mail and DHL to send most of our UK orders.Euro Car Parts reserves the right to use discretion in any circumstance where it makes more sense to use an alternative delivery method.<\/p>"
+          }
+        },
+        "question_GU4bL7": {
+          "type": "question",
+          "settings": {
+            "question": "What courier do you use for deliveries?",
+            "answer": "<p>We use Royal mail and DHL to send most of our UK orders.Euro Car Parts reserves the right to use discretion in any circumstance where it makes more sense to use an alternative delivery method.<\/p>"
+          }
+        },
+        "question_mVxUXb": {
+          "type": "question",
+          "settings": {
+            "question": "Why am I being charged for delivery on my order when it states standard delivery is free?",
+            "answer": "<p>All our delivery charges are pre-set by our courier company. We sell some oversized items which require a specialist courier company to fulfil the delivery, there is an additional charge for these. Also, our courier company consider some surcharge postcodes ‘Out of area’. There is an additional charge for these also. You can find a list of all [oversized items here] You can find a list of all<\/p>"
+          }
+        },
+        "question_Jm6jFM": {
+          "type": "question",
+          "settings": {
+            "question": "I haven’t received a dispatch email\/email confirmation?",
+            "answer": "<p>Please be aware an automated email is sent to you to the given email address when your order is dispatched. Please check all folders including you junk as it will come from a noreply email address. To ensure emails reach you, add the domain eurocarparts.com to your safe senders list.<\/p>"
+          }
+        },
+        "question_rBhP3d": {
+          "type": "question",
+          "settings": {
+            "question": "Why does it not tell us on the website that the parts will be delivered by the branch?",
+            "answer": "<p>Due to the delicacy of some parts we take extra care in the delivery of the item. These could include body panels and large bulky items. These are either available for collection from our branches or will be delivered to you through our branch network vehicles.<\/p>"
+          }
+        },
+        "question_w4UbEz": {
+          "type": "question",
+          "settings": {
+            "question": "Can I collect from a local store?",
+            "answer": "<p>We offer a reserve and collect service. This is available on the checkout page. Please be aware, if the product is not available in a local store, you are unable to reserve it.<\/p>"
+          }
+        },
+        "question_Ezc6yJ": {
+          "type": "question",
+          "settings": {
+            "question": "Do you deliver on Weekend?",
+            "answer": "<p>No, our courier company do not offer the service to deliver on weekends currently.<\/p>"
+          }
+        },
+        "question_bCxBMH": {
+          "type": "question",
+          "settings": {
+            "question": "Can you confirm you have received my return?",
+            "answer": "<p>We aim to process returns within 5-7 working days of receiving them. You will be notified by email once the return is complete.We suggest you make a note of the shipping reference given when you sent the item back. This will allow you to track your parcel at every stage of delivery, including when we receive it.Should you have any queries about your return, please feel free to contact our Customer Service team via email<\/p>"
+          }
+        },
+        "question_RetCzy": {
+          "type": "question",
+          "settings": {
+            "question": "How long will it be before I get a refund?",
+            "answer": "<p>Once we receive your item(s) back, our returns department will inspect and restock the goods. Once our returns department have done this, an automated refund is generated on our system. Your outstanding refund is then processed by our accounts department back to your original payment method. This process typically takes 5-7 working days. When returning your products please remember to include your original invoice, without this it may delay your refund.<\/p>"
+          }
+        },
+        "question_Mirr8M": {
+          "type": "question",
+          "settings": {
+            "question": "Who pays for return postage?",
+            "answer": "<p>If you are returning an unsuitable item for a refund we will refund the cost of the item only and not the original delivery cost.Should you be returning a faulty item for a refund we will refund both the original shipping costs and the return delivery costs.<\/p>"
+          }
+        },
+        "question_kECGKC": {
+          "type": "question",
+          "settings": {
+            "question": "Why have you not refunded the original delivery charge?",
+            "answer": "<p>If you are returning an unsuitable item for a refund we will refund the cost of the item only and not the original delivery cost. Should you be returning a faulty item for a refund we will refund both the original shipping costs and the return delivery costs.<\/p>"
+          }
+        },
+        "question_7BMc9F": {
+          "type": "question",
+          "settings": {
+            "question": "Do you offer a VAT discount to non EU customers?",
+            "answer": "<p>Customer’s ordering from outside the European Union can contact us via telephone, live chat, or e-mail and quote the order reference number. Our customer services team will go through the process to remove the VAT off of their order.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_FFxdEC",
+        "question_GU4bL7",
+        "question_mVxUXb",
+        "question_Jm6jFM",
+        "question_rBhP3d",
+        "question_w4UbEz",
+        "question_Ezc6yJ",
+        "question_bCxBMH",
+        "question_RetCzy",
+        "question_Mirr8M",
+        "question_kECGKC",
+        "question_7BMc9F"
+      ]
+    },
+    "newsletter-v2": {
+      "type":"newsletter-v2",
+      "settings": {
+        "title": "Never miss our updates about new arrivals and special offers",
+        "subtitle": "Get the latest news & updates",
+        "padding_top": 110,
+        "padding_bottom": 100
+      }
+    }
+  },
+  "order": [
+    "breadcrumb-v2",
+    "faq-v1",
+    "newsletter-v2"
+  ]
+}

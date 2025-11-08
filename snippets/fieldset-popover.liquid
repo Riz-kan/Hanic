@@ -1,0 +1,41 @@
+{%- assign max_price_amount = filter.range_max | money | strip_html | escape -%}
+{% assign reset_label = 'products.facets.reset' | t %}
+
+<div class='xo-fieldset-popover'>
+  <xo-popover-trigger
+    class='xo-fieldset-popover__trigger'
+    xo-name='{{ filter.param_name }}'
+  >
+    <div class='xo-fieldset-popover__label'>{{ filter.label | escape }}</div>
+    {% render 'icon', name: 'chevron-down', color: 'rgba(var(--color-foreground), 0.6)', size: '1.2rem' %}
+  </xo-popover-trigger>
+  <xo-popover
+    class='xo-fieldset-popover__popover'
+    xo-name='{{ filter.param_name }}'
+    xo-portal
+    xo-placement='bottom-left'
+  >
+    <div class='xo-fieldset-popover__heading'>
+      {% if filter.type == 'price_range' %}
+        <div class='xo-fieldset-popover__caption'>
+          {{ 'products.facets.max_price' | t: price: max_price_amount }}
+        </div>
+        <xo-filters-clear xo-name="['{{ filter.min_value.param_name }}', '{{ filter.max_value.param_name }}']">
+          {% render 'button', text: reset_label, style: 'link', mode: 'dark' %}
+        </xo-filters-clear>
+      {% else %}
+        <div class='xo-fieldset-popover__caption'>
+          <xo-filters-active-size xo-unique-id='{{ filter.param_name }}-horizontal'>
+            {{- 'products.facets.filters_selected' | t: count: filter.active_values.size -}}
+          </xo-filters-active-size>
+        </div>
+        <xo-filters-clear xo-name='{{ filter.param_name }}'>
+          {% render 'button', text: reset_label, style: 'link', mode: 'dark' %}
+        </xo-filters-clear>
+      {% endif %}
+    </div>
+    <div class='xo-fieldset-popover__content'>
+      {% render 'fieldset-fields', filter: filter %}
+    </div>
+  </xo-popover>
+</div>

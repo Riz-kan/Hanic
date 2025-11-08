@@ -1,0 +1,44 @@
+{% comment %}
+  Renders a checkbox button (type block)
+
+  Accepts:
+  - name: {string} Name of the checkbox button
+  - value: {string} Value of the checkbox button
+  - label: {string} Label of the checkbox button (optional)
+  - filter_type: {string} Type of filter (optional)
+  - checked: {Boolean} If the radio button is checked (optional)
+
+  Usage:
+  {% render 'field-checkbox-block',
+    name: 'checkbox',
+    value: 'checkbox',
+    label: 'Checkbox',
+  %}
+{% endcomment %}
+
+<label class='field-checkbox-block'>
+  <input
+    class='field-checkbox-block__input'
+    type='checkbox'
+    name='{{ name }}'
+    value='{{ value | escape }}'
+    xo-label='{{ label | escape }}'
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+  <div
+    class='
+      field-checkbox-block__item {% case filter_type %}
+        {% when 'size' %}
+          field-checkbox-block__item--size
+        {% when 'tag' %}
+          field-checkbox-block__item--tag
+      {% endcase %}
+    '
+  >
+    {% if label != null %}
+      <span class='field-checkbox-block__content'>{{ label | escape }}</span>
+    {% endif %}
+  </div>
+</label>

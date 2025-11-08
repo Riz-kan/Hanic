@@ -1,0 +1,24 @@
+{% comment %}
+  Renders a list of cart discounts.
+
+  Usage:
+  {% render 'cart-discount-list' %}
+{% endcomment %}
+
+<xo-cart-will-change xo-unique-id='xo-discount-list-{{ section.id }}' class='xo-discount-list'>
+  {% if cart != empty and cart.cart_level_discount_applications.size > 0 %}
+    <ul role='list' class='discounts' aria-label='{{ 'customer.order.discount' | t }}'>
+      {%- for discount in cart.cart_level_discount_applications -%}
+        <li class='discounts__discount discounts__discount--position'>
+          {%- render 'icon', name: 'discount' -%}
+          {{ discount.title | escape }}
+          {% if settings.currency_code_enabled %}
+            (-{{ discount.total_allocated_amount | money_with_currency }})
+          {% else %}
+            (-{{ discount.total_allocated_amount | money }})
+          {% endif %}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</xo-cart-will-change>

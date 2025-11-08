@@ -1,0 +1,62 @@
+{% liquid
+  assign aspect_ratio = settings.product_card_aspect_ratio
+%}
+
+<div class='product-info-content-quickview xo-scrollbar'>
+  <xo-collapse-provider>
+    <div class='product-info-content-quickview__header'>
+      <h1 class='product-info-content-quickview__title' {{ block.shopify_attributes }}>
+        {{ product.title | escape }}
+      </h1>
+    </div>
+    {%- comment -%} check when install app judge.me {%- endcomment -%}
+    {% if settings.show_rating %}
+      <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
+    {% endif %}
+    <xo-product-will-change xo-unique-id='product-price-{{ product.id }}' class='product-info-content-quickview__price'>
+      {% render 'price', product: product, use_variant: true, class: 'larger' %}
+      {% if cart.taxes_included == true %}
+        <span>{{ 'products.product.price.include_tax' | t }}</span>
+      {% endif %}
+      {% if settings.saving %}
+        {% render 'badge', product: product, type: settings.type_saving %}
+      {% endif %}
+    </xo-product-will-change>
+
+    {% if product.options_with_values.size > 0 and product.options_with_values[0].name != 'Title' %}
+      <div
+        class='product-info-content-quickview__variants'
+        {{ block.shopify_attributes }}
+      >
+        {%- for option in product.options_with_values -%}
+          {% if option.name == 'Size' %}
+            <div>
+              {% render 'product-info-variant', option: option, style: settings.variants_style %}
+            </div>
+          {% elsif option.name == 'Color' %}
+            <div>
+              {% render 'product-info-variant', option: option, style: settings.variants_color_style, aspect_ratio: aspect_ratio %}
+            </div>
+          {% else %}
+            {% render 'product-info-variant', option: option, style: 'boxed2' %}
+          {% endif %}
+        {%- endfor -%}
+      </div>
+    {% endif %}
+    {% if settings.show_description %}
+      <p class='product-info-content-quickview__description'>
+        {{ product.description | strip_html | truncate: 230 }}
+      </p>
+    {% endif %}
+    <div class='product-info-content-quickview__countdown-stock'>
+      {% render 'countdown-stock', product: product, block: block %}
+    </div>
+    <div class='product-info-content-quickview__buy-button'>
+      {% render 'buy-button',
+        show_gift_card_recipient: settings.show_gift_card_recipient,
+        show_dynamic_checkout: settings.show_dynamic_checkout,
+        show_checkbox: settings.show_checkbox
+      %}
+    </div>
+  </xo-collapse-provider>
+</div>

@@ -1,0 +1,63 @@
+{% comment %}
+  Renders the cart table.
+
+  Usage:
+  {% render 'cart-table' %}
+{% endcomment %}
+
+<div class='xo-cart-table'>
+  <form action='{{ routes.cart_url }}' method='post' id='cart'>
+    <table role='table' class='xo-table'>
+      <thead role='rowgroup'>
+        <tr role='row' class='xo-table__head-row'>
+          <th role='columnheader'>{{ 'sections.cart.headings.product' | t }}</th>
+          <th role='columnheader'>{{ 'sections.cart.headings.quantity' | t }}</th>
+          <th role='columnheader'>{{ 'sections.cart.headings.total' | t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for item in cart.items -%}
+          {% liquid
+            assign original_line_price = item.original_line_price | money
+            if settings.currency_code_enabled
+              assign original_line_price = item.original_line_price | money_with_currency
+            endif
+            assign final_line_price = item.final_line_price | money
+            if settings.currency_code_enabled
+              assign final_line_price = item.final_line_price | money_with_currency
+            endif
+          %}
+          <tr role='row' class='xo-table__body-row'>
+            <td role='cell' data-th='Product'>
+              <xo-product xo-section-id='{{ section.id }}' xo-product-id='{{ item.id }}' xo-line='{{ forloop.index }}'>
+                {% render 'cart-item', item: item %}
+              </xo-product>
+            </td>
+            <td role='cell' data-th='Quantity'>
+              <xo-product xo-section-id='{{ section.id }}' xo-product-id='{{ item.id }}' xo-line='{{ forloop.index }}'>
+                <div class='xo-cart-table__quantity'>
+                  {% assign aria_label = 'products.product.quantity.input_label' | t: product: item.product.title | escape %}
+                  {% render 'quantity-style2', value: item.quantity, aria_label: aria_label %}
+                </div>
+              </xo-product>
+            </td>
+            <td role='cell' data-th='Total'>
+              <div class='xo-cart-table__price'>
+                {%- if item.original_line_price != item.final_line_price -%}
+                  <dl class='cart-item__discounted-prices'>
+                    <s class='cart-item__old-price price price--end h4'>
+                      {{ original_line_price }}
+                    </s>
+                    {{ final_line_price }}
+                  </dl>
+                {%- else -%}
+                  {{ original_line_price }}
+                {%- endif -%}
+              </div>
+            </td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  </form>
+</div>

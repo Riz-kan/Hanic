@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main-page-heading": {
+      "type": "main-page-heading",
+      "settings": {
+        "padding_top": 50,
+        "padding_bottom": 20
+      }
+    },
+    "main": {
+      "type": "main-account",
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 50
+      }
+    }
+  },
+  "order": [
+    "main-page-heading",
+    "main"
+  ]
+}

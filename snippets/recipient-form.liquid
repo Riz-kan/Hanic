@@ -1,0 +1,70 @@
+{% comment %}
+  Renders gift card recipient form.
+
+  Accepts:
+  - product: {Object} product object.
+  - form: {Object} the product form object.
+  - section: {Object} section to which this snippet belongs.
+
+  Usage:
+  {% render 'recipient-form', product: product, form: form, section: section %}
+{% endcomment %}
+
+<xo-product-recipient-form class='xo-recipient'>
+  {%- assign gift_card_recipient_control_flag = 'properties[__shopify_send_gift_card_to_recipient]' -%}
+  {%- assign checkbox_label = 'products.product.recipient.checkbox_label' | t -%}
+  {% render 'field-checkbox', name: gift_card_recipient_control_flag, label: checkbox_label, disabled: true %}
+
+  <div class='xo-recipient__fields'>
+    <div class='xo-recipient__error'>
+      {% render 'form-error', form: form, with_recipient_form: true %}
+    </div>
+    <p
+      id='Recipient-fields-live-region-{{ section.id }}'
+      class='xo-visually-hidden'
+      role='status'
+    ></p>
+    {% render 'space', value: '1rem' %}
+    <div>
+      {% assign email_label = 'products.product.recipient.email_label' | t %}
+      {% capture email_label_modify %}
+        {{ email_label }}<span>*</span>
+      {% endcapture %}
+      {% render 'field-input', type: 'email', name: 'properties[Recipient email]', value: form.email, label: email_label_modify %}
+    </div>
+    <div>
+      {% assign name_label = 'products.product.recipient.name_label' | t %}
+      {% render 'field-input', type: 'text', name: 'properties[Recipient name]', value: form.name, label: name_label %}
+    </div>
+    <div>
+      {%- assign max_chars_message = 200 -%}
+      {%- assign max_chars_message_rendered = 'products.product.recipient.max_characters' | t: max_chars: max_chars_message -%}
+      {%- assign message_label_rendered = 'products.product.recipient.message_label' | t -%}
+      {% capture message_attrs %}
+        maxlength='{{ max_chars_message }}'
+        aria-label='{{ message_label_rendered }} {{ max_chars_message_rendered }}'
+      {% endcapture %}
+      {% render 'field-textarea', name: 'properties[Message]', value: form.body, label: max_chars_message_rendered, attrs: message_attrs %}
+    </div>
+    <div>
+      {% assign send_on_label = 'products.product.recipient.send_on_label' | t %}
+      {% capture send_on_attrs %}
+        pattern='\d{4}-\d{2}-\d{2}'
+      {% endcapture %}
+      {% render 'field-input', type: 'date', name: 'properties[Send on]', value: form.send_on, label: send_on_label, autocomplete: 'send_on', attrs: send_on_attrs %}
+    </div>
+  </div>
+  <input
+    type='hidden'
+    name='{{ gift_card_recipient_control_flag }}'
+    value='if_present'
+    id='Recipient-control-{{ section.id }}'
+  >
+  <input
+    type='hidden'
+    name='properties[__shopify_offset]'
+    value=''
+    id='Recipient-timezone-offset-{{ section.id }}'
+    disabled
+  >
+</xo-product-recipient-form>

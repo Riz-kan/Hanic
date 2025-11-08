@@ -1,0 +1,58 @@
+
+
+{% comment %}
+  Renders a hamburger menu style horizontal
+
+  Accepts:
+  - menu: {Object} Menu object (required)
+
+  Usage:
+  {% render 'menu-hamburger-horizontal',
+    menu: menu,
+  %}
+{% endcomment %}
+
+<xo-modal
+  class='menu-hamburger-horizontal'
+  xo-name='xo-menu-hamburger'
+  xo-animate='fade-up'
+  xo-placement='top-left'
+  xo-duration='600'
+  xo-portal='false'
+  xo-backdrop-color='rgba(0, 0, 0, 0.8)'
+>
+  <xo-modal-trigger class='xo-menu-hamburger__trigger xo-menu-hamburger__trigger--close2' xo-name='xo-menu-hamburger'>
+    <div class='xo-menu-hamburger__icon' aria-label='{{ 'accessibility.close' | t }}'></div>
+  </xo-modal-trigger>
+  <ul role='list' class='list-unstyled menu-hamburger-horizontal__list'>
+    {% for link in menu.links %}
+      <li>
+        {% if link.title contains '[' %}
+          <a
+            class='menu-hamburger-horizontal__link'
+            href='{{ link.url }}'
+            title='{{link.title | escape | split: '[' | first }}'
+            {% if link.current %}
+              aria-current='page'
+            {% endif %}
+          >
+            {{ link.title | escape | split: '[' | first }}
+          </a>
+        {% elsif link.title contains '(' %}
+          {% comment %} skip {% endcomment %}
+        {% else %}
+          <a
+            class='menu-hamburger-horizontal__link'
+            href='{{ link.url }}'
+            title='{{ link.title | escape }}'
+            {% if link.current %}
+              aria-current='page'
+            {% endif %}
+          >
+            {{ link.title | escape }}
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</xo-modal>

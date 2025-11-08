@@ -1,0 +1,504 @@
+
+
+{% capture breakpoints %}
+  {% if section.settings.columns_limit >= 2 %}
+    xo-breakpoints='
+    {
+      768: {
+        perView: 2,
+      },
+      576: {
+        perView: 1,
+      },
+    }
+    '
+  {% else %}
+    xo-breakpoints='
+    {
+      576: {
+        perView: 1,
+      },
+    }
+    '
+  {% endif %}
+{% endcapture %}
+
+<section {% render 'section-attr' %}>
+  {% render 'section-bg-image' %}
+  <xo-container {% render 'section-layout' %}>
+    <xo-grid class='our-team-v3'>
+      <div style='--xs: 12; --lg: 5' class='our-team-v3__content'>
+        <xo-animate xo-cascade>
+          <h2 class='our-team-v3__title'>
+            {{ section.settings.title }}
+          </h2>
+        </xo-animate>
+        <xo-animate xo-cascade class='our-team-v3__description'>
+          {{ section.settings.description }}
+        </xo-animate>
+      </div>
+      <div
+        style='
+          --xs: 12; --lg: 7; {% if section.settings.reverse %}
+            --order-lg: -1
+          {% endif %}
+        '
+      >
+        <xo-carousel
+          xo-per-view='{{ section.settings.columns_limit }}'
+          xo-gap='{{ section.settings.gap }}'
+          xo-speed='400'
+          {% if section.settings.auto_play %}
+            xo-autoplay='5000'
+          {% endif %}
+          {{ breakpoints }}
+        >
+          <xo-carousel-inner>
+            <xo-carousel-list role='list' aria-label='{{ 'general.slider.name' | t }}'>
+              {%- for block in section.blocks -%}
+                <xo-carousel-slide aria-roledescription='{{ 'sections.slideshow.slide' | t }}' aria-label='{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}'>
+                  <xo-animate xo-cascade>
+                    <div class='our-team-v3__image'>
+                      {% render 'image', image: block.settings.image, media_aspect_ratio: '433/475' %}
+                      <ul role='list' class='our-team-v3__social list-unstyled'>
+                        {% if block.settings.social_icon1 != blank %}
+                          <li>
+                            <a href='{{ block.settings.social_link1 }}' class='our-team-v3__icon'>
+                              {{ block.settings.social_icon1 }}
+                            </a>
+                          </li>
+                        {% endif %}
+                        {% if block.settings.social_icon2 != blank %}
+                          <li>
+                            <a href='{{ block.settings.social_link2 }}' class='our-team-v3__icon'>
+                              {{ block.settings.social_icon2 }}
+                            </a>
+                          </li>
+                        {% endif %}
+                        {% if block.settings.social_icon3 != blank %}
+                          <li>
+                            <a href='{{ block.settings.social_link3 }}' class='our-team-v3__icon'>
+                              {{ block.settings.social_icon3 }}
+                            </a>
+                          </li>
+                        {% endif %}
+                        {% if block.settings.social_icon4 != blank %}
+                          <li>
+                            <a href='{{ block.settings.social_link4 }}' class='our-team-v3__icon'>
+                              {{ block.settings.social_icon4 }}
+                            </a>
+                          </li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                    <div class='our-team-v3__information'>
+                      <div class='our-team-v3__name'>
+                        {{ block.settings.name }}
+                      </div>
+                      <div class='our-team-v3__position'>
+                        {{ block.settings.position }}
+                      </div>
+                    </div>
+                  </xo-animate>
+                </xo-carousel-slide>
+              {%- endfor -%}
+            </xo-carousel-list>
+          </xo-carousel-inner>
+        </xo-carousel>
+      </div>
+    </xo-grid>
+  </xo-container>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.our_team_v3.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "width",
+      "label": "t:sections.all.width.label",
+      "default": "box",
+      "options": [
+        {
+          "value": "box",
+          "label": "t:sections.all.width.options__1.label"
+        },
+        {
+          "value": "wide",
+          "label": "t:sections.all.width.options__2.label"
+        },
+        {
+          "value": "fullwidth",
+          "label": "t:sections.all.width.options__3.label"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "id": "fullwidth_margin",
+      "label": "t:sections.all.fullwidth_margin.label",
+      "default": 0,
+      "visible_if": "{{ section.settings.width == 'fullwidth' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse",
+      "label": "t:sections.our_team_v3.settings.reverse.label",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.our_team_v3.settings.title.label",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "t:sections.our_team_v3.settings.description.label",
+      "default": "Donec sed odio dui. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo. condimentum nibh."
+    },
+    {
+      "type": "range",
+      "id": "columns_limit",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "t:sections.our_team_v3.settings.columns_limit.label",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "unit": "px",
+      "label": "t:sections.our_team_v3.settings.gap.label",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_play",
+      "label": "t:sections.our_team_v3.settings.auto_play.label",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.color_scheme.label"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "t:sections.all.background_type.label",
+      "options": [
+        {
+          "value": "color",
+          "label": "t:sections.all.background_type.option__1.label"
+        },
+        {
+          "value": "gradient",
+          "label": "t:sections.all.background_type.option__2.label"
+        },
+        {
+          "value": "image",
+          "label": "t:sections.all.background_type.option__3.label"
+        },
+        {
+          "value": "video",
+          "label": "t:sections.all.background_type.option__4.label"
+        }
+      ],
+      "default": "color"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:sections.all.background_color.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'color' }}"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "t:sections.all.background_gradient.label",
+      "visible_if": "{{ section.settings.background_type == 'gradient' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_desktop",
+      "label": "t:sections.all.background_image_desktop.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image_mobile",
+      "label": "t:sections.all.background_image_mobile.label",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_parallax",
+      "label": "t:sections.all.use_parallax.label",
+      "default": true,
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_image_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'image' }}"
+    },
+    {
+      "type": "textarea",
+      "id": "background_video_url",
+      "label": "t:sections.all.background_video_url.label",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "select",
+      "id": "background_video_animation",
+      "label": "t:sections.all.animation.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.all.animation.option__0.label"
+        },
+        {
+          "value": "fade",
+          "label": "t:sections.all.animation.option__1.label"
+        },
+        {
+          "value": "fade-up",
+          "label": "t:sections.all.animation.option__2.label"
+        },
+        {
+          "value": "fade-down",
+          "label": "t:sections.all.animation.option__3.label"
+        },
+        {
+          "value": "fade-left",
+          "label": "t:sections.all.animation.option__4.label"
+        },
+        {
+          "value": "fade-right",
+          "label": "t:sections.all.animation.option__5.label"
+        },
+        {
+          "value": "zoom-in",
+          "label": "t:sections.all.animation.option__6.label"
+        },
+        {
+          "value": "zoom-out",
+          "label": "t:sections.all.animation.option__7.label"
+        },
+        {
+          "value": "rotate-left-up",
+          "label": "t:sections.all.animation.option__8.label"
+        },
+        {
+          "value": "rotate-right-up",
+          "label": "t:sections.all.animation.option__9.label"
+        },
+        {
+          "value": "snake-up",
+          "label": "t:sections.all.animation.option__10.label"
+        },
+        {
+          "value": "snake-down",
+          "label": "t:sections.all.animation.option__11.label"
+        },
+        {
+          "value": "snake-left",
+          "label": "t:sections.all.animation.option__12.label"
+        },
+        {
+          "value": "snake-right",
+          "label": "t:sections.all.animation.option__13.label"
+        },
+        {
+          "value": "3d-up",
+          "label": "t:sections.all.animation.option__14.label"
+        }
+      ],
+      "default": "none",
+      "visible_if": "{{ section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "color",
+      "id": "background_overlay",
+      "label": "t:sections.all.background_overlay.label",
+      "alpha": true,
+      "visible_if": "{{ section.settings.background_type == 'image' or section.settings.background_type == 'video' }}"
+    },
+    {
+      "type": "number",
+      "id": "background_margin",
+      "label": "t:sections.all.background_margin.label",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "t:sections.all.padding_top.label",
+      "default": 50
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "t:sections.all.padding_bottom.label",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:sections.our_team_v3.blocks.name",
+      "type": "member",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.our_team_v3.blocks.settings.image.label"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "t:sections.our_team_v3.blocks.settings.name.label"
+        },
+        {
+          "type": "text",
+          "id": "position",
+          "label": "t:sections.our_team_v3.blocks.settings.position.label"
+        },
+        {
+          "type": "html",
+          "id": "social_icon1",
+          "label": "t:sections.our_team_v3.blocks.settings.social_icon1.label"
+        },
+        {
+          "type": "url",
+          "id": "social_link1",
+          "label": "t:sections.our_team_v3.blocks.settings.social_link1.label"
+        },
+        {
+          "type": "html",
+          "id": "social_icon2",
+          "label": "t:sections.our_team_v3.blocks.settings.social_icon2.label"
+        },
+        {
+          "type": "url",
+          "id": "social_link2",
+          "label": "t:sections.our_team_v3.blocks.settings.social_link2.label"
+        },
+        {
+          "type": "html",
+          "id": "social_icon3",
+          "label": "t:sections.our_team_v3.blocks.settings.social_icon3.label"
+        },
+        {
+          "type": "url",
+          "id": "social_link3",
+          "label": "t:sections.our_team_v3.blocks.settings.social_link3.label"
+        },
+        {
+          "type": "html",
+          "id": "social_icon4",
+          "label": "t:sections.our_team_v3.blocks.settings.social_icon4.label"
+        },
+        {
+          "type": "url",
+          "id": "social_link4",
+          "label": "t:sections.our_team_v3.blocks.settings.social_link4.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.our_team_v3.presets.name",
+      "blocks": [
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        },
+        {
+          "type": "member"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

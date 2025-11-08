@@ -1,0 +1,25 @@
+{% comment %}
+  Renders a main-search style on mobile.
+
+  Usage:
+  {% render 'main-search-mobile' %}
+{% endcomment %}
+
+{% if section.settings.enable_filtering %}
+  <xo-modal-trigger xo-name='search-modal-mobile' class='main-search-mobile__trigger'>
+    {% render 'icon', name: 'filter2', icon_size: '18' %}
+    <div class='main-search-mobile__trigger-text'>Filter</div>
+  </xo-modal-trigger>
+  <xo-modal xo-portal xo-name='search-modal-mobile' xo-animate='slide-right' xo-placement='top-left' style='z-index:999'>
+    <div class='main-search-mobile__modal-wrap'>
+      <xo-modal-trigger class='main-search-style2__modal-close'>
+        <button aria-label='{{ 'accessibility.close' | t }}'>{% render 'icon', name: 'close2', icon_size: '15' %}</button>
+      </xo-modal-trigger>
+      <div class='main-search-mobile__modal'>
+        {% for filter in search.filters %}
+          {% render 'filters-fieldset', type: 'block', filter: filter %}
+        {% endfor %}
+      </div>
+    </div>
+  </xo-modal>
+{% endif %}

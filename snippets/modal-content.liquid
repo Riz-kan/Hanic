@@ -1,0 +1,93 @@
+{% comment %}
+  Renders a modal.
+
+  Accepts:
+  - title: {String} Title of the modal (optional)
+  - content: {String} Content of the modal (optional)
+  - footer: {String} Footer of the modal (optional)
+  - width: {String} Width of the modal. Default: '50rem' (optional)
+  - height: {String} Height of the modal. Default: '80vh' (optional)
+  - full_height: {Boolean} Whether to make the modal full height. Default: false (optional)
+  - full_width: {Boolean} Whether to make the modal full width. Default: false (optional)
+  - close_size: {String} Size of the close icon. Default: '2rem' (optional)
+  - header_class: {String} Class name for the header (optional)
+  - title_class: {String} Class name for the title (optional)
+  - title_size: {String} Size of the title (optional)
+  - content_class: {String} Class name for the content (optional)
+  - footer_class: {String} Class name for the footer (optional)
+  - close_class: {String} Class name for the close (optional)
+  - animate: {Boolean} Whether to animate the modal (optional)
+  - header_height: {String} Height of the header (optional)
+  - scroll_disabled: {Boolean} Whether to disable scrolling on the modal (optional)
+  - content_tag_name: {String} Tag name for the content (optional)
+  - header_separator: {Boolean} Whether to add a separator between the header and the content (optional)
+  - footer_separator: {Boolean} Whether to add a separator between the content and the footer (optional)
+  - aria_labelledby: {String} The id for the title (optional)
+
+  Usage:
+  {% render 'modal-content',
+    title: 'Modal',
+    content: 'This is a modal.',
+    footer: 'This is the footer.',
+  %}
+{% endcomment %}
+
+{% liquid
+  assign width = width | default: '50rem'
+  assign height = height | default: '80vh'
+  assign header_height = header_height | default: '7rem'
+  assign footer_height = footer_height | default: '7rem'
+  assign close_size = close_size | default: '2rem'
+  assign content_tag_name = content_tag_name | default: 'div'
+%}
+
+{% capture header %}
+  {% if title != blank %}
+    <div class='xo-modal-content__header {% if header_class %}
+      {{ header_class }}
+    {% endif %}'>
+      <h2 class='xo-modal-content__title{% if title_class %} {{ title_class }}{% endif %}'{% if title_size %} style="--title-size: {{ title_size }}"{% endif %} {% if aria_labelledby %} id="{{ aria_labelledby }}"{% endif %}>{{ title }}</h2>
+      <xo-modal-trigger class='xo-modal-content__close{% if close_class %} {{ close_class }}{% endif %}' aria-label='{{ 'accessibility.close' | t }}'>
+        {% render 'icon', name: 'close2', icon_size: '15' %}
+      </xo-modal-trigger>
+    </div>
+  {% else %}
+    <xo-modal-trigger class='xo-modal-content__close xo-modal-content__close--abs{% if close_class %} {{ close_class }}{% endif %}' aria-label='{{ 'accessibility.close' | t }}'>
+      {% render 'icon', name: 'close2', icon_size: '15' %}
+    </xo-modal-trigger>
+  {% endif %}
+{% endcapture %}
+
+<div
+  class='xo-modal-content'
+  style='--width: {{ width }}; --height: {{ height }}; --header-height: {{ header_height }}; --footer-height: {{ footer_height }}'
+>
+  <div class='xo-modal-content__inner{% if full_height %} xo-modal-content__inner--full-height{% endif %}{% if full_width %} xo-modal-content__inner--full-width{% endif %}'>
+    {% if animate %}
+      <xo-animate xo-cascade>
+        {{ header }}
+        {% if header_separator %}
+          <div class='xo-modal-content__separator'></div>
+        {% endif %}
+      </xo-animate>
+    {% else %}
+      {{ header }}
+    {% endif %}
+    <{{ content_tag_name }}
+      class='xo-modal-content__body{% unless scroll_disabled %} xo-scrollbar{% endunless %}'
+      style='--width: {{width-scroll}}; --scrollbar-thumb-padding: 0rem; border-radius: {{border-radius-}}'
+    >
+      <div class='xo-modal-content__content{% if content_class %} {{ content_class }}{% endif %}' style='padding: {{ padding }}'>
+        {{ content }}
+      </div>
+    </{{ content_tag_name }}>
+    {% if footer %}
+      {% if footer_separator %}
+        <div class='xo-modal-content__separator'></div>
+      {% endif %}
+      <div class='xo-modal-content__footer{% if footer_class %} {{ footer_class }}{% endif %}'>
+        {{ footer }}
+      </div>
+    {% endif %}
+  </div>
+</div>

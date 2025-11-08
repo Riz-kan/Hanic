@@ -1,0 +1,29 @@
+{% comment %}
+  Renders a newsletter message when submit form
+
+  Accepts:
+  - form: {Object} Form object.
+
+  Usage:
+  {% render 'newsletter-form-message', form: form %}
+{% endcomment %}
+
+{%- if form.errors -%}
+  <small id='ContactFooter-error' class='newsletter-form-message newsletter-form-message--error' role='alert'>
+    {%- render 'icon', name: 'error' -%}
+    {{- form.errors.translated_fields.email | capitalize }}
+    {{ form.errors.messages.email -}}
+  </small>
+{%- endif -%}
+{%- if form.posted_successfully? -%}
+  <div
+    class='newsletter-form-message newsletter-form-message--success'
+    id='ContactFooter-success'
+    tabindex='-1'
+    autofocus
+    role='status'
+  >
+    {% render 'icon', name: 'success' -%}
+    {{- 'newsletter.success' | t }}
+  </div>
+{%- endif -%}

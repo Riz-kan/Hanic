@@ -1,0 +1,38 @@
+
+
+{%- assign show = settings.popup_promotion_show_on -%}
+{%- assign cooldown = settings.popup_promotion_cooldown -%}
+{%- assign width = '100rem' -%}
+
+<xo-modal
+  id='popup-promotion__modal'
+  data-show='{{show}}'
+  xo-name='popup-promotion'
+  xo-backdrop-color='#2d2d32cc'
+  style='z-index: 100000000000000;'
+>
+  <div
+    slot='popup-promotion-inner'
+    class='popup-promotion__container {% if settings.popup_promotion_color_scheme %} color-{{ settings.popup_promotion_color_scheme }}{% endif %}'
+    style='width: {{ width }}'
+  >
+    <div class='popup-promotion-data' style='display: none !important;'>
+      <div id='popup-promotion-data__cooldown'>{{ cooldown }}</div>
+    </div>
+    {% render 'popup-promotion-v1' %}
+  </div>
+</xo-modal>
+
+{% schema %}
+{
+  "name": "t:sections.popup_promotion.name",
+  "enabled_on": {
+    "groups": [
+      "custom.popups"
+    ]
+  },
+  "settings": [
+
+  ]
+}
+{% endschema %}

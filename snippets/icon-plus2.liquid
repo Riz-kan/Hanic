@@ -1,0 +1,21 @@
+{% comment %}
+    --using trigger collapse:
+
+    .trigger[xo-active] .plus-icon {
+    #path-2 {
+      transform: scale(1, 0);
+    }
+  }
+
+  .plus-icon {
+    path {
+      transition: all 0.3s ease-in-out;
+      transform-origin: center;
+    }
+  }
+{% endcomment %}
+
+<svg width='{{size}}' height='{{size}}' viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'>
+  <path id="path-1" d="M32 128C32 123.582 35.5817 120 40 120L216 120C220.418 120 224 123.582 224 128V128C224 132.418 220.418 136 216 136H128H40C35.5817 136 32 132.418 32 128V128Z" fill="{{ color }}"/>
+  <path id="path-2" d="M128 224C123.582 224 120 220.418 120 216V40C120 35.5817 123.582 32 128 32V32C132.418 32 136 35.5817 136 40V128V216C136 220.418 132.418 224 128 224V224Z" fill="{{ color }}"/>
+</svg>

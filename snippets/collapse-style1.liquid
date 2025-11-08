@@ -1,0 +1,45 @@
+{% comment %}
+  Renders a collapse component.
+
+  Accepts:
+  - title: {String} Title of the collapse (optional)
+  - content: {String} Content of the collapse (optional)
+  - name: {String} Name of the collapse (optional)
+  - icon: {String} Name of the icon to use. Default: 'chevron-down' (optional)
+  - icon_size: {Number} Size of the icon. Default: '20' (optional)
+
+  Usage:
+  {% render 'collapse'',
+    title: 'Title',
+    content: 'Content',
+    icon: 'chevron-down'
+  %}
+{% endcomment %}
+
+{% assign icon = icon | default: 'chevron-down' %}
+
+<div class='collapse-style1'>
+  <xo-collapse-trigger
+    class='collapse-style1__trigger'
+    {% if name %}
+      xo-name='{{ name }}'
+    {% endif %}
+  >
+    <div class='collapse-style1__trigger-option'>
+      {{ title }}
+    </div>
+    <div class='collapse-style1__trigger-icon'>
+      {% render 'icon', name: icon, icon_size: icon_size %}
+    </div>
+  </xo-collapse-trigger>
+  <xo-collapse
+    class='collapse-style1__body'
+    {% if name %}
+      xo-name='{{ name }}'
+    {% endif %}
+  >
+    <div class='collapse-style1__content xo-content'>
+      {{ content }}
+    </div>
+  </xo-collapse>
+</div>
